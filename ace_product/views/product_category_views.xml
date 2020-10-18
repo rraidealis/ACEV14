@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_category_form_view" model="ir.ui.view">
+        <field name="name">product.category.form.view.inherited.fields.visibility</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="inside">
+                <field name="is_mandrel"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Fields Visibility">
+                        <group col="8">
+                            <field name="show_family_code"/>
+                            <field name="show_technical_description"/>
+                            <field name="show_formula_code"/>
+                            <field name="show_color_code"/>
+                            <field name="show_commercial_name"/>
+                            <field name="show_packing_norm"/>
+                            <field name="show_pallet_type"/>
+                            <field name="show_mandrel"/>
+                            <field name="show_is_sublot_jj"/>
+                            <field name="show_is_package_stored"/>
+                            <field name="show_is_surface_treatment"/>
+                            <field name="show_coil_position"/>
+                            <field name="show_embossing_pattern"/>
+                            <field name="show_substrate_position"/>
+                            <field name="show_coil_by_pallet"/>
+                            <field name="show_coil_by_layer"/>
+                            <field name="show_layer_number"/>
+                            <field name="show_thickness"/>
+                            <field name="show_grammage"/>
+                            <field name="show_ace_film_grammage"/>
+                            <field name="show_length"/>
+                            <field name="show_width"/>
+                            <field name="show_surface"/>
+                            <field name="show_diameter"/>
+                            <field name="show_net_coil_weight"/>
+                            <field name="show_gross_coil_weight"/>
+                            <field name="show_density"/>
+                            <field name="show_mandrel_diameter"/>
+                            <field name="show_mandrel_width"/>
+                            <field name="show_glue_grammage"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

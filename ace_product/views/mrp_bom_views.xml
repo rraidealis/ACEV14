@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.form.view.inherited.machine.parameters</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="machine_parameters" string="Machine Parameters">
+                    <group>
+                        <group>
+                            <label for="total_production_width"/>
+                            <div class="o_row">
+                                <field name="total_production_width"/>
+                                <field name="total_production_width_uom_name"/>
+                            </div>
+                            <label for="machine_time_number"/>
+                            <div class="o_row">
+                                <field name="machine_time_number"/>
+                                <field name="machine_time_number_uom_name"/>
+                            </div>
+                            <label for="machine_speed"/>
+                            <div class="o_row">
+                                <field name="machine_speed"/>
+                                <field name="machine_speed_uom_name"/>
+                            </div>
+                            <field name="carrot_type"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+
+

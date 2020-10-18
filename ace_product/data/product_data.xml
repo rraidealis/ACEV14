@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--
+             Precisions
+        -->
+        <record forcecreate="True" id="decimal_single_precision" model="decimal.precision">
+            <field name="name">Product Single Precision</field>
+            <field name="digits">1</field>
+        </record>
+        <record forcecreate="True" id="decimal_double_precision" model="decimal.precision">
+            <field name="name">Product Double Precision</field>
+            <field name="digits">2</field>
+        </record>
+        <record forcecreate="True" id="decimal_triple_precision" model="decimal.precision">
+            <field name="name">Product Triple Precision</field>
+            <field name="digits">3</field>
+        </record>
+    </data>
+
+</odoo>

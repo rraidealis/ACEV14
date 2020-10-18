@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form views -->
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit.description.fields</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']/group" position="inside">
+                <group string="Description"
+                       attrs="{'invisible': [('show_family_code', '=', False),
+                       ('show_technical_description', '=', False), ('show_formula_code', '=', False),
+                       ('show_color_code', '=', False), ('show_commercial_name', '=', False)]}">
+
+                    <field name="show_family_code" invisible="1"/>
+                    <field name="show_technical_description" invisible="1"/>
+                    <field name="show_formula_code" invisible="1"/>
+                    <field name="show_color_code" invisible="1"/>
+                    <field name="show_commercial_name" invisible="1"/>
+
+                    <label for="family_code_id" attrs="{'invisible': [('show_family_code', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_family_code', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="family_code_so_visibility"/>
+                        <field name="family_code_id" options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+
+                    <label for="technical_description_id" attrs="{'invisible': [('show_technical_description', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_technical_description', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="technical_description_so_visibility"/>
+                        <field name="technical_description_id" options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+
+                    <label for="formula_code_id" attrs="{'invisible': [('show_formula_code', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_formula_code', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="formula_code_so_visibility"/>
+                        <field name="formula_code_id" options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+
+                    <label for="color_code_id" attrs="{'invisible': [('show_color_code', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_color_code', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="color_code_so_visibility"/>
+                        <field name="color_code_id" options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+
+                    <label for="commercial_name_id" attrs="{'invisible': [('show_commercial_name', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_commercial_name', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="commercial_name_so_visibility"/>
+                        <field name="commercial_name_id" options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+                </group>
+
+                <group string="Dimensions"
+                       attrs="{'invisible': [('show_thickness', '=', False),
+                       ('show_grammage', '=', False), ('show_ace_film_grammage', '=', False),
+                       ('show_length', '=', False), ('show_width', '=', False), ('show_surface', '=', False),
+                       ('show_diameter', '=', False), ('show_net_coil_weight', '=', False),
+                       ('show_gross_coil_weight', '=', False), ('show_density', '=', False)]}">
+
+                    <field name="show_thickness" invisible="1"/>
+                    <field name="show_grammage" invisible="1"/>
+                    <field name="show_ace_film_grammage" invisible="1"/>
+                    <field name="show_length" invisible="1"/>
+                    <field name="show_width" invisible="1"/>
+                    <field name="show_surface" invisible="1"/>
+                    <field name="show_diameter" invisible="1"/>
+                    <field name="show_net_coil_weight" invisible="1"/>
+                    <field name="show_gross_coil_weight" invisible="1"/>
+                    <field name="show_density" invisible="1"/>
+
+                    <label for="thickness" attrs="{'invisible': [('show_thickness', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_thickness', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="thickness_so_visibility"/>
+                        <field name="thickness"/>
+                        <field name="thickness_uom_name"/>
+                    </div>
+
+                    <label for="grammage" attrs="{'invisible': [('show_grammage', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_grammage', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="grammage_so_visibility"/>
+                        <field name="grammage" attrs="{'invisible': [('is_grammage_user_defined', '=', True)]}"/>
+                        <field name="manual_grammage" attrs="{'invisible': [('is_grammage_user_defined', '=', False)]}"/>
+                        <field name="grammage_uom_name"/>
+                        <field name="is_grammage_user_defined"/><span>User Defined</span>
+                    </div>
+
+                    <label for="ace_film_grammage" attrs="{'invisible': [('show_ace_film_grammage', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_ace_film_grammage', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="ace_film_grammage_so_visibility"/>
+                        <field name="ace_film_grammage" attrs="{'invisible': [('is_ace_film_grammage_user_defined', '=', True)]}"/>
+                        <field name="manual_ace_film_grammage" attrs="{'invisible': [('is_ace_film_grammage_user_defined', '=', False)]}"/>
+                        <field name="ace_film_grammage_uom_name"/>
+                        <field name="is_ace_film_grammage_user_defined"/><span>User Defined</span>
+                    </div>
+
+                    <label for="length" attrs="{'invisible': [('show_length', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_length', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="length_so_visibility"/>
+                        <field name="length"/>
+                        <field name="length_uom_name"/>
+                    </div>
+
+                    <label for="width" attrs="{'invisible': [('show_width', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_width', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="width_so_visibility"/>
+                        <field name="width"/>
+                        <field name="width_uom_name"/>
+                    </div>
+
+                    <label for="surface" attrs="{'invisible': [('show_surface', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_surface', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="surface_so_visibility"/>
+                        <field name="surface"/>
+                        <field name="surface_uom_name"/>
+                    </div>
+
+                    <label for="diameter" attrs="{'invisible': [('show_diameter', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_diameter', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="diameter_so_visibility"/>
+                        <field name="diameter"/>
+                        <field name="diameter_uom_name"/>
+                    </div>
+
+                    <label for="net_coil_weight" attrs="{'invisible': [('show_net_coil_weight', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_net_coil_weight', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="net_coil_weight_so_visibility"/>
+                        <field name="net_coil_weight"/>
+                        <field name="net_coil_weight_uom_name"/>
+                    </div>
+
+                    <label for="gross_coil_weight" attrs="{'invisible': [('show_gross_coil_weight', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_gross_coil_weight', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="gross_coil_weight_so_visibility"/>
+                        <field name="gross_coil_weight"/>
+                        <field name="gross_coil_weight_uom_name"/>
+                    </div>
+
+                    <label for="density" attrs="{'invisible': [('show_density', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_density', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="density_so_visibility"/>
+                        <field name="density"/>
+                        <field name="density_uom_name"/>
+                    </div>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='inventory']" position="after">
+                <page string="Packaging" name="packaging_information"
+                      attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_diameter', '=', False),
+                      ('show_packing_norm', '=', False), ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False),
+                      ('show_mandrel_width', '=', False), ('show_coil_by_layer', '=', False), ('show_layer_number', '=', False),
+                      ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
+                    <group>
+
+                        <field name="show_mandrel" invisible="1"/>
+                        <field name="show_mandrel_diameter" invisible="1"/>
+                        <field name="show_mandrel_width" invisible="1"/>
+                        <field name="show_packing_norm" invisible="1"/>
+                        <field name="show_coil_by_pallet" invisible="1"/>
+                        <field name="show_coil_position" invisible="1"/>
+                        <field name="show_coil_by_layer" invisible="1"/>
+                        <field name="show_layer_number" invisible="1"/>
+                        <field name="show_is_package_stored" invisible="1"/>
+                        <field name="show_pallet_type" invisible="1"/>
+
+                        <group string="Mandrel" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
+                            <field name="mandrel_id" attrs="{'invisible': [('show_mandrel', '=', False)]}"/>
+                            <label for="mandrel_diameter" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}">
+                                <field name="mandrel_diameter"/>
+                                <field name="mandrel_diameter_uom_name"/>
+                            </div>
+                            <label for="mandrel_width" attrs="{'invisible': [('show_mandrel_width', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_mandrel_width', '=', False)]}">
+                                <field name="mandrel_width"/>
+                                <field name="mandrel_width_uom_name"/>
+                            </div>
+                        </group>
+
+                        <group string="Packaging" attrs="{'invisible': [('show_packing_norm', '=', False),
+                        ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False), ('show_coil_by_layer', '=', False),
+                        ('show_layer_number', '=', False), ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
+                            <field name="packing_norm_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
+                            <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
+                                <field name="coil_by_pallet" attrs="{'invisible': [('is_coil_by_pallet_user_defined', '=', True)]}"/>
+                                <field name="manual_coil_by_pallet" attrs="{'invisible': [('is_coil_by_pallet_user_defined', '=', False)]}"/>
+                                <field name="coil_by_pallet_uom_name"/>
+                                <field name="is_coil_by_pallet_user_defined"/><span>User Defined</span>
+                            </div>
+                            <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
+                            <field name="pallet_type_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_pallet_type', '=', False)]}"/>
+                            <label for="coil_by_layer" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}">
+                                <field name="coil_by_layer"/>
+                                <field name="coil_by_layer_uom_name"/>
+                            </div>
+                            <label for="layer_number" attrs="{'invisible': [('show_layer_number', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_layer_number', '=', False)]}">
+                                <field name="layer_number"/>
+                                <field name="layer_number_uom_name"/>
+                            </div>
+                            <field name="is_package_stored" attrs="{'invisible': [('show_is_package_stored', '=', False)]}"/>
+                        </group>
+
+                    </group>
+                </page>
+                <page string="Production" name="production_information"
+                      attrs="{'invisible': [('show_substrate_position', '=', False), ('show_is_surface_treatment', '=', False),
+                      ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
+                      ('show_is_sublot_jj', '=', False)]}">
+                    <group>
+
+                        <field name="show_substrate_position" invisible="1"/>
+                        <field name="show_is_surface_treatment" invisible="1"/>
+                        <field name="show_embossing_pattern" invisible="1"/>
+                        <field name="show_perforation_grid" invisible="1"/>
+                        <field name="show_glue_grammage" invisible="1"/>
+                        <field name="show_is_sublot_jj" invisible="1"/>
+
+                        <group string="Product Parameters"
+                               attrs="{'invisible': [('show_substrate_position', '=', False), ('show_is_surface_treatment', '=', False),
+                                ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
+                                ('show_is_sublot_jj', '=', False)]}">
+                            <field name="substrate_position" attrs="{'invisible': [('show_substrate_position', '=', False)]}"/>
+                            <field name="is_surface_treatment" attrs="{'invisible': [('show_is_surface_treatment', '=', False)]}"/>
+                            <field name="embossing_pattern" attrs="{'invisible': [('show_embossing_pattern', '=', False)]}"/>
+                            <field name="perforation_grid" attrs="{'invisible': [('show_perforation_grid', '=', False)]}"/>
+                            <label for="glue_grammage" attrs="{'invisible': [('show_glue_grammage', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_glue_grammage', '=', False)]}">
+                                <field name="glue_grammage"/>
+                                <field name="glue_grammage_uom_name"/>
+                            </div>
+                            <field name="is_sublot_jj" attrs="{'invisible': [('show_is_sublot_jj', '=', False)]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree views -->
+
+    <record id="product_family_code_view_tree" model="ir.ui.view">
+        <field name="name">product_family_code_view_tree</field>
+        <field name="model">product.family.code</field>
+        <field name="arch" type="xml">
+            <tree string="Family Code" editable="bottom">
+                <field name="code" string="Code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_color_code_view_tree" model="ir.ui.view">
+        <field name="name">product_color_code_view_tree</field>
+        <field name="model">product.color.code</field>
+        <field name="arch" type="xml">
+            <tree string="Color Code" editable="bottom">
+                <field name="code" string="Code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_commercial_name_view_tree" model="ir.ui.view">
+        <field name="name">product_commercial_name_view_tree</field>
+        <field name="model">product.commercial.name</field>
+        <field name="arch" type="xml">
+            <tree string="Commercial Name" editable="bottom">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_formula_code_view_tree" model="ir.ui.view">
+        <field name="name">product_formula_code_view_tree</field>
+        <field name="model">product.formula.code</field>
+        <field name="arch" type="xml">
+            <tree string="Formula Code" editable="bottom">
+                <field name="code" string="Code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_packing_norm_view_tree" model="ir.ui.view">
+        <field name="name">product_packing_norm_view_tree</field>
+        <field name="model">product.packing.norm</field>
+        <field name="arch" type="xml">
+            <tree string="Packing Norm" editable="bottom">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_pallet_type_view_tree" model="ir.ui.view">
+        <field name="name">product_pallet_type_view_tree</field>
+        <field name="model">product.pallet.type</field>
+        <field name="arch" type="xml">
+            <tree string="Pallet Type" editable="bottom">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_technical_description_view_tree" model="ir.ui.view">
+        <field name="name">product_technical_description_view_tree</field>
+        <field name="model">product.technical.description</field>
+        <field name="arch" type="xml">
+            <tree string="Technical Description" editable="bottom">
+                <field name="desc" string="Description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions -->
+
+    <record id="product_family_code_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Family Code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.family.code</field>
+        <field name="view_id" ref="product_family_code_view_tree"/>
+    </record>
+
+    <record id="product_color_code_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Color Code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.color.code</field>
+        <field name="view_id" ref="product_color_code_view_tree"/>
+    </record>
+
+    <record id="product_commercial_name_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Commercial Name</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.commercial.name</field>
+        <field name="view_id" ref="product_commercial_name_view_tree"/>
+    </record>
+
+    <record id="product_formula_code_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Formula Code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.formula.code</field>
+        <field name="view_id" ref="product_formula_code_view_tree"/>
+    </record>
+
+    <record id="product_packing_norm_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Packing Norm</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.packing.norm</field>
+        <field name="view_id" ref="product_packing_norm_view_tree"/>
+    </record>
+
+    <record id="product_pallet_type_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Pallet Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.pallet.type</field>
+        <field name="view_id" ref="product_pallet_type_view_tree"/>
+    </record>
+
+    <record id="product_technical_description_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Technical Description</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.technical.description</field>
+        <field name="view_id" ref="product_technical_description_view_tree"/>
+    </record>
+
+</odoo>

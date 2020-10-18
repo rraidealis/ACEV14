@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+all_access_product_family_code,All access Product Family Code,model_product_family_code,base.group_user,1,1,1,1
+all_access_product_technical_description,All access Product Technical Description,model_product_technical_description,base.group_user,1,1,1,1
+all_access_product_formula_code,All access Product Formula Code,model_product_formula_code,base.group_user,1,1,1,1
+all_access_product_color_code,All access Product Color Code,model_product_color_code,base.group_user,1,1,1,1
+all_access_product_commercial_name,All access Product Commercial Name,model_product_commercial_name,base.group_user,1,1,1,1
+all_access_product_packing_norm,All access Product Packing Norm,model_product_packing_norm,base.group_user,1,1,1,1
+all_access_product_pallet_type,All access Product Pallet Type,model_product_pallet_type,base.group_user,1,1,1,1
+
+
