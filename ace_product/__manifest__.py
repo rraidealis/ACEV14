@@ -10,11 +10,11 @@
     'data': [
         'data/product_data.xml',
         'data/uom_data.xml',
-		# 'security/ir.model.access.csv',
-        # 'views/product_menu_views.xml',
-        # 'views/product_views.xml',
-        # 'views/mrp_bom_views.xml',
-        # 'views/product_category_views.xml'
+		'security/ir.model.access.csv',
+        'views/product_menu_views.xml',
+        'views/product_views.xml',
+        'views/mrp_bom_views.xml',
+        'views/product_category_views.xml'
 	],
     'auto_install': False,
     'installable': True,
