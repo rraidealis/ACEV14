@@ -1,0 +1,1231 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ace_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-18 23:46+0000\n"
+"PO-Revision-Date: 2020-10-19 02:11+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "<span class=\"oe_edit_only\">SO</span>"
+msgstr "<span class=\"oe_edit_only\">BdC</span>"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "<span>User Defined</span>"
+msgstr "<span>Défini par l'utilisateur</span>"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage
+msgid "Ace Film Grammage"
+msgstr "Grammage film ACE"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage_so_visibility
+msgid "Ace Film Grammage So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage_uom_id
+msgid "Ace Film Grammage UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage_uom_name
+msgid "Ace Film Grammage UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__ace_film_grammage_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__ace_film_grammage_so_visibility
+msgid "Ace Film grammage visibility in sale orders"
+msgstr "Visibilité du champs Grammage film Ace sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Nomenclature"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__current_bom_line_ids
+#: model:ir.model.fields,field_description:ace_product.field_product_template__current_bom_line_ids
+msgid "BoM Lines"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__carrot_type
+msgid "Carrot Type"
+msgstr "Type de carotte"
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_category__is_mandrel
+msgid "Check this box if this is a specific category for mandrels"
+msgstr ""
+"Cocher cette case s'il s'agit d'une catégorie spécifique aux mandrins"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_color_code_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_family_code_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_formula_code_view_tree
+msgid "Code"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_position
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_position
+msgid "Coil Position"
+msgstr "Position bobine"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_layer
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_layer
+msgid "Coil by Layer"
+msgstr "Bobines par couche"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_layer_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_layer_uom_id
+msgid "Coil by Layer UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_layer_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_layer_uom_name
+msgid "Coil by Layer UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_pallet
+msgid "Coil by Pallet"
+msgstr "Bobines par palette"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_pallet_uom_id
+msgid "Coil by Pallet UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_pallet_uom_name
+msgid "Coil by Pallet UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_color_code_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_product__color_code_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__color_code_id
+#: model:ir.ui.menu,name:ace_product.product_menu_color_code
+#: model_terms:ir.ui.view,arch_db:ace_product.product_color_code_view_tree
+msgid "Color Code"
+msgstr "Code couleur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__color_code_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__color_code_so_visibility
+msgid "Color Code So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__color_code_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__color_code_so_visibility
+msgid "Color code visibility in sale orders"
+msgstr "Visibilité du code couleur sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_commercial_name_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__commercial_name_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__commercial_name_id
+#: model:ir.ui.menu,name:ace_product.product_menu_commercial_name
+#: model_terms:ir.ui.view,arch_db:ace_product.product_commercial_name_view_tree
+msgid "Commercial Name"
+msgstr "Nom commercial"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__commercial_name_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__commercial_name_so_visibility
+msgid "Commercial Name So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__commercial_name_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__commercial_name_so_visibility
+msgid "Commercial name visibility in sale orders"
+msgstr "Visibilité du nom commercial sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__density
+msgid "Default Density"
+msgstr "Densité par défaut"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__grammage
+msgid "Default Grammage"
+msgstr "Grammage par défaut"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__small_length
+msgid "Default Small Length"
+msgstr "Petite longueur par défaut"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__speed
+msgid "Default Speed"
+msgstr "Vitesse par défaut"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__surface
+msgid "Default Surface"
+msgstr "Surface par défaut"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__density
+#: model:ir.model.fields,field_description:ace_product.field_product_template__density
+#: model:uom.category,name:ace_product.product_uom_categ_density
+msgid "Density"
+msgstr "Densité"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__density_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__density_so_visibility
+msgid "Density So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__density_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__density_uom_id
+msgid "Density UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__density_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__density_uom_name
+msgid "Density UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__density_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__density_so_visibility
+msgid "Density visibility in sale orders"
+msgstr "Visibilité de la densité sur les bons de commande"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_technical_description_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Description"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_template__diameter
+msgid "Diameter"
+msgstr "Diamètre"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__diameter_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__diameter_so_visibility
+msgid "Diameter So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__diameter_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__diameter_uom_id
+msgid "Diameter UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__diameter_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__diameter_uom_name
+msgid "Diameter UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__diameter_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__diameter_so_visibility
+msgid "Diameter visibility in sale orders"
+msgstr "Visibilité du diamètre sur les bons de commande"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Dimensions"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__embossing_pattern
+#: model:ir.model.fields,field_description:ace_product.field_product_template__embossing_pattern
+msgid "Embossing Pattern"
+msgstr "Motif d'embossage"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_family_code_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__code
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__code
+#: model:ir.model.fields,field_description:ace_product.field_product_product__family_code_id
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__desc
+#: model:ir.model.fields,field_description:ace_product.field_product_template__family_code_id
+#: model:ir.ui.menu,name:ace_product.product_menu_family_code
+#: model_terms:ir.ui.view,arch_db:ace_product.product_family_code_view_tree
+msgid "Family Code"
+msgstr "Code famille de produit"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__family_code_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__family_code_so_visibility
+msgid "Family Code So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__family_code_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__family_code_so_visibility
+msgid "Family code visibility in sale orders"
+msgstr "Visibilité du code famille sur les bons de commande"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_category_form_view
+msgid "Fields Visibility"
+msgstr "Visibilité des champs"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_formula_code_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__code
+#: model:ir.model.fields,field_description:ace_product.field_product_product__formula_code_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__formula_code_id
+#: model:ir.ui.menu,name:ace_product.product_menu_formula_code
+#: model_terms:ir.ui.view,arch_db:ace_product.product_formula_code_view_tree
+msgid "Formula Code"
+msgstr "Code formule"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__formula_code_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__formula_code_so_visibility
+msgid "Formula Code So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__formula_code_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__formula_code_so_visibility
+msgid "Formula code visibility in sale orders"
+msgstr "Visibilité du code formule sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__product_template__substrate_position__full
+msgid "Full Coverage"
+msgstr "Couverture complète"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__glue_grammage
+msgid "Glue Grammage"
+msgstr "Grammage colle"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__glue_grammage_uom_id
+msgid "Glue Grammage UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__glue_grammage_uom_name
+msgid "Glue Grammage UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__grammage
+#: model:uom.category,name:ace_product.product_uom_categ_grammage
+msgid "Grammage"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__grammage_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__grammage_so_visibility
+msgid "Grammage So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__grammage_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__grammage_uom_id
+msgid "Grammage UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__grammage_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__grammage_uom_name
+msgid "Grammage UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__grammage_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__grammage_so_visibility
+msgid "Grammage visibility in sale orders"
+msgstr "Visibilité du grammage sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight
+msgid "Gross Coil Weight"
+msgstr "Poids bobine brut"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight_so_visibility
+msgid "Gross Coil Weight So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight_uom_id
+msgid "Gross Coil Weight UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight_uom_name
+msgid "Gross Coil Weight UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__gross_coil_weight_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__gross_coil_weight_so_visibility
+msgid "Gross coil weight visibility in sale orders"
+msgstr "Visibilité du poids de la bobine brut sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__product_template__coil_position__horizontal
+msgid "Horizontal"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__id
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__id
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__id
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__id
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__id
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__id
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__id
+msgid "ID"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise-à-jour par"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_family_code__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise-à-jour le"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__length
+#: model:ir.model.fields,field_description:ace_product.field_product_template__length
+msgid "Length"
+msgstr "Longueur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__length_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__length_so_visibility
+msgid "Length So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__length_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__length_uom_id
+msgid "Length UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__length_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__length_uom_name
+msgid "Length UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__length_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__length_so_visibility
+msgid "Length visibility in sale orders"
+msgstr "Visibilité de la longueur sur les bons de commande"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.mrp_bom_form_view
+msgid "Machine Parameters"
+msgstr "Paramètres de la machine"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_speed_uom_id
+msgid "Machine Speed UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_speed_uom_name
+msgid "Machine Speed UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_id
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Mandrel"
+msgstr "Mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__is_mandrel
+msgid "Mandrel Category"
+msgstr "Catégorie spécifique aux mandrins"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_diameter
+msgid "Mandrel Diameter"
+msgstr "Diamètre du mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_diameter_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_diameter_uom_id
+msgid "Mandrel Diameter UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_diameter_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_diameter_uom_name
+msgid "Mandrel Diameter UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width
+msgid "Mandrel Width"
+msgstr "Largeur du mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width_uom_id
+msgid "Mandrel Width UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width_uom_name
+msgid "Mandrel Width UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__manual_ace_film_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__manual_ace_film_grammage
+msgid "Manual Ace Film Grammage"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__manual_coil_by_pallet
+#: model:ir.model.fields,field_description:ace_product.field_product_template__manual_coil_by_pallet
+msgid "Manual Coil By Pallet"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__manual_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__manual_grammage
+msgid "Manual Grammage"
+msgstr ""
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_commercial_name_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_packing_norm_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_pallet_type_view_tree
+msgid "Name"
+msgstr "Nom"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight
+msgid "Net Coil Weight"
+msgstr "Poids bobine net"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight_so_visibility
+msgid "Net Coil Weight So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight_uom_id
+msgid "Net Coil Weight UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight_uom_name
+msgid "Net Coil Weight UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__net_coil_weight_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__net_coil_weight_so_visibility
+msgid "Net coil weight visibility in sale orders"
+msgstr "Visibilité du poids de la bobine net sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__layer_number
+#: model:ir.model.fields,field_description:ace_product.field_product_template__layer_number
+msgid "Number of Layers"
+msgstr "Nombre de couche"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__layer_number_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__layer_number_uom_id
+msgid "Number of Layers UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__layer_number_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__layer_number_uom_name
+msgid "Number of Layers UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number
+msgid "Number of Times"
+msgstr "Nombre de fois"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number_uom_id
+msgid "Number of Times UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number_uom_name
+msgid "Number of Times UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Packaging"
+msgstr "Packaging"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_packing_norm_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__packing_norm_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__packing_norm_id
+#: model:ir.ui.menu,name:ace_product.product_menu_packing_norm
+#: model_terms:ir.ui.view,arch_db:ace_product.product_packing_norm_view_tree
+msgid "Packing Norm"
+msgstr "Norme d'emballage"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_pallet_type_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__pallet_type_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__pallet_type_id
+#: model:ir.ui.menu,name:ace_product.product_menu_pallet_type
+#: model_terms:ir.ui.view,arch_db:ace_product.product_pallet_type_view_tree
+msgid "Pallet Type"
+msgstr "Type de palette"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__perforation_grid
+#: model:ir.model.fields,field_description:ace_product.field_product_template__perforation_grid
+msgid "Perforation Grid"
+msgstr "Grille de perforation"
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_category
+msgid "Product Category"
+msgstr "Catégorie d'article"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Product Parameters"
+msgstr "Paramètres du produit"
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_template
+msgid "Product Template"
+msgstr "Modèle d'article"
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_uom_category
+msgid "Product UoM Categories"
+msgstr "Catégorie d'UdM"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
+msgid "Production"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__total_production_width_uom_id
+msgid "Production Width UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__total_production_width_uom_name
+msgid "Production Width UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__mandrel_id
+#: model:ir.model.fields,help:ace_product.field_product_template__mandrel_id
+msgid ""
+"Provided by BoM lines if there is at least one BoM line with a mandrel "
+"product"
+msgstr ""
+"Fourni par les lignes de nomenclature s'il existe au moins une ligne "
+"avec un produit de type mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_ace_film_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_ace_film_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_ace_film_grammage
+msgid "Show Ace Film Grammage"
+msgstr "Afficher grammage film ace"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_coil_position
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_coil_position
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_coil_position
+msgid "Show Coil Position"
+msgstr "Afficher position bobine"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_coil_by_layer
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_coil_by_layer
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_coil_by_layer
+msgid "Show Coil by Layer"
+msgstr "Affiche bobines par couche"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_coil_by_pallet
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_coil_by_pallet
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_coil_by_pallet
+msgid "Show Coil by Pallet"
+msgstr "Affiche bobines par palette"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_color_code
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_color_code
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_color_code
+msgid "Show Color Code"
+msgstr "Afficher code couleur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_commercial_name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_commercial_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_commercial_name
+msgid "Show Commercial Name"
+msgstr "Afficher nom commercial"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_density
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_density
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_density
+msgid "Show Density"
+msgstr "Afficher densité"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_diameter
+msgid "Show Diameter"
+msgstr "Afficher diamètre"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_embossing_pattern
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_embossing_pattern
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_embossing_pattern
+msgid "Show Embossing Pattern"
+msgstr "Affiche motif d'embossage"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_family_code
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_family_code
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_family_code
+msgid "Show Family Code"
+msgstr "Afficher code family de produit"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_formula_code
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_formula_code
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_formula_code
+msgid "Show Formula Code"
+msgstr "Afficher code formule"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_glue_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_glue_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_glue_grammage
+msgid "Show Glue Grammage"
+msgstr "Afficher grammage colle"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_grammage
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_grammage
+msgid "Show Grammage"
+msgstr "Afficher grammage"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_gross_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_gross_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_gross_coil_weight
+msgid "Show Gross Coil Weight"
+msgstr "Afficher poids bobine brut"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_length
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_length
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_length
+msgid "Show Length"
+msgstr "Afficher longueur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_mandrel
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_mandrel
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_mandrel
+msgid "Show Mandrel"
+msgstr "Afficher mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_mandrel_diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_mandrel_diameter
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_mandrel_diameter
+msgid "Show Mandrel Diameter"
+msgstr "Afficher diamètre du mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_mandrel_width
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_mandrel_width
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_mandrel_width
+msgid "Show Mandrel Width"
+msgstr "Afficher largeur du mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_net_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_net_coil_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_net_coil_weight
+msgid "Show Net Coil Weight"
+msgstr "Afficher poids bobine net"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_layer_number
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_layer_number
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_layer_number
+msgid "Show Number of Layers"
+msgstr "Afficher nombre de couche"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_packing_norm
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_packing_norm
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_packing_norm
+msgid "Show Packing Norm"
+msgstr "Afficher norme d'emballage"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_pallet_type
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_pallet_type
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_pallet_type
+msgid "Show Pallet Type"
+msgstr "Afficher type de palette"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_perforation_grid
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_perforation_grid
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_perforation_grid
+msgid "Show Perforation Grid"
+msgstr "Afficher grille de perforation"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_is_package_stored
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_is_package_stored
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_is_package_stored
+msgid "Show Storage by Package"
+msgstr "Afficher stockage par colis"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_is_sublot_jj
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_is_sublot_jj
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_is_sublot_jj
+msgid "Show Sublot JJ"
+msgstr "Afficher sous-lot type JJ"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_substrate_position
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_substrate_position
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_substrate_position
+msgid "Show Substrate Position"
+msgstr "Afficher position substrat"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_surface
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_surface
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_surface
+msgid "Show Surface"
+msgstr "Afficher surface"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_is_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_is_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_is_surface_treatment
+msgid "Show Surface Treatment"
+msgstr "Afficher traitement de surface"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_technical_description
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_technical_description
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_technical_description
+msgid "Show Technical Description"
+msgstr "Afficher description technique"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_thickness
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_thickness
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_thickness
+msgid "Show Thickness"
+msgstr "Afficher épaisseur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_width
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_width
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_width
+msgid "Show Width"
+msgstr "Afficher largeur"
+
+#. module: ace_product
+#: model:uom.category,name:ace_product.product_uom_categ_small_length
+msgid "Small Length"
+msgstr "Petite longueur"
+
+#. module: ace_product
+#: model:uom.category,name:ace_product.product_uom_categ_speed
+msgid "Speed"
+msgstr "Vitesse"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_speed
+msgid "Standard Machine Speed"
+msgstr "Vitesse machine standard"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_package_stored
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_package_stored
+msgid "Storage by Package"
+msgstr "Stockage par colis"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_sublot_jj
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_sublot_jj
+msgid "Sublot JJ"
+msgstr "Sous-lot type JJ"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__substrate_position
+#: model:ir.model.fields,field_description:ace_product.field_product_template__substrate_position
+msgid "Substrate Position"
+msgstr "Position substrat"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__surface
+#: model:ir.model.fields,field_description:ace_product.field_product_template__surface
+#: model:uom.category,name:ace_product.product_uom_categ_surface
+msgid "Surface"
+msgstr "Surface"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__surface_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__surface_so_visibility
+msgid "Surface So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_surface_treatment
+msgid "Surface Treatment"
+msgstr "Traitement de surface"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__surface_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__surface_uom_id
+msgid "Surface UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__surface_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__surface_uom_name
+msgid "Surface Uom Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__surface_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__surface_so_visibility
+msgid "Surface visibility in sale orders"
+msgstr "Visibilité du champs surface sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_technical_description_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_product__technical_description_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__technical_description_id
+#: model:ir.ui.menu,name:ace_product.product_menu_technical_description
+#: model_terms:ir.ui.view,arch_db:ace_product.product_technical_description_view_tree
+msgid "Technical Description"
+msgstr "Description technique"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__technical_description_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__technical_description_so_visibility
+msgid "Technical Description So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__technical_description_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__technical_description_so_visibility
+msgid "Technical description visibility in sale orders"
+msgstr "Visibilité de la description technique sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__thickness
+#: model:ir.model.fields,field_description:ace_product.field_product_template__thickness
+msgid "Thickness"
+msgstr "Épaisseur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__thickness_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__thickness_so_visibility
+msgid "Thickness So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__thickness_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__thickness_uom_id
+msgid "Thickness UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__thickness_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__thickness_uom_name
+msgid "Thickness UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__thickness_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__thickness_so_visibility
+msgid "Thickness visibility in sale orders"
+msgstr "Visibilité du champs épaisseur sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__total_production_width
+msgid "Total Production Width"
+msgstr "Largeur totale de production"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_uom_category__measure_type
+msgid "Type of Measure"
+msgstr "Type de Mesure"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_ace_film_grammage_user_defined
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_ace_film_grammage_user_defined
+msgid "User Defined Ace Film Grammage"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_coil_by_pallet_user_defined
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_coil_by_pallet_user_defined
+msgid "User Defined Coil By Pallet"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_grammage_user_defined
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_grammage_user_defined
+msgid "User Defined Grammage"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__current_bom_line_ids
+#: model:ir.model.fields,help:ace_product.field_product_template__current_bom_line_ids
+msgid "Utility field"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__product_template__coil_position__vertical
+msgid "Vertical"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__width
+#: model:ir.model.fields,field_description:ace_product.field_product_template__width
+msgid "Width"
+msgstr "Largeur"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__width_so_visibility
+#: model:ir.model.fields,field_description:ace_product.field_product_template__width_so_visibility
+msgid "Width So Visibility"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__width_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__width_uom_id
+msgid "Width UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__width_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__width_uom_name
+msgid "Width UoM Label"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,help:ace_product.field_product_product__width_so_visibility
+#: model:ir.model.fields,help:ace_product.field_product_template__width_so_visibility
+msgid "Width visibility in sale orders"
+msgstr "Visibilité de la largeur sur les bons de commande"
+
+#. module: ace_product
+#: model:ir.model.fields.selection,name:ace_product.selection__product_template__embossing_pattern__xyx
+msgid "XYX"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_density
+msgid "g/cm³"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_grammage
+msgid "g/m²"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_km_per_hour
+msgid "km/h"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_meter_per_minute
+msgid "m/min"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_millimeter
+msgid "mm"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_square_meter
+msgid "m²"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_color_code
+msgid "product.color.code"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_commercial_name
+msgid "product.commercial.name"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_family_code
+msgid "product.family.code"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_formula_code
+msgid "product.formula.code"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_packing_norm
+msgid "product.packing.norm"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_pallet_type
+msgid "product.pallet.type"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_technical_description
+msgid "product.technical.description"
+msgstr ""
+
+#. module: ace_product
+#: model:uom.uom,name:ace_product.product_uom_micrometer
+msgid "μm"
+msgstr ""
