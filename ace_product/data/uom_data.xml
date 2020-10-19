@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <!--
         Resource: uom.category
         -->
         <record id="product_uom_categ_small_length" model="uom.category">
             <field name="name">Small Length</field>
-            <field name="measure_type">small_length</field>
+            <!-- unecessary in V14 -->
+<!--            <field name="measure_type">small_length</field>-->
         </record>
         <record id="product_uom_categ_surface" model="uom.category">
             <field name="name">Surface</field>
-            <field name="measure_type">surface</field>
+            <!-- unecessary in V14 -->
+<!--            <field name="measure_type">surface</field>-->
         </record>
         <record id="product_uom_categ_density" model="uom.category">
             <field name="name">Density</field>
-            <field name="measure_type">density</field>
+            <!-- unecessary in V14 -->
+<!--            <field name="measure_type">density</field>-->
         </record>
         <record id="product_uom_categ_speed" model="uom.category">
             <field name="name">Speed</field>
-            <field name="measure_type">speed</field>
+            <!-- unecessary in V14 -->
+<!--            <field name="measure_type">speed</field>-->
         </record>
         <record id="product_uom_categ_grammage" model="uom.category">
             <field name="name">Grammage</field>
-            <field name="measure_type">grammage</field>
+            <!-- unecessary in V14 -->
+<!--            <field name="measure_type">grammage</field>-->
         </record>
        <!--
             Resource: uom.uom

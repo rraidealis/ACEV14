@@ -8,6 +8,7 @@ from . import commercial_name
 from . import packing_norm
 from . import pallet_type
 from . import product_template
-from . import uom_category
+# not necessary in V14
+# from . import uom_category
 from . import mrp_bom
 from . import product_category
