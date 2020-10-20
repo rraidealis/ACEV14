@@ -182,10 +182,8 @@
                             <field name="packing_norm_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
                             <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
-                                <field name="coil_by_pallet" attrs="{'invisible': [('is_coil_by_pallet_user_defined', '=', True)]}"/>
-                                <field name="manual_coil_by_pallet" attrs="{'invisible': [('is_coil_by_pallet_user_defined', '=', False)]}"/>
+                                <field name="coil_by_pallet"/>
                                 <field name="coil_by_pallet_uom_name"/>
-                                <field name="is_coil_by_pallet_user_defined"/><span>User Defined</span>
                             </div>
                             <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
                             <field name="pallet_type_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_pallet_type', '=', False)]}"/>
@@ -221,9 +219,9 @@
                                attrs="{'invisible': [('show_substrate_position', '=', False), ('show_is_surface_treatment', '=', False),
                                 ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
                                 ('show_is_sublot_jj', '=', False)]}">
-                            <field name="substrate_position" attrs="{'invisible': [('show_substrate_position', '=', False)]}"/>
+                            <field name="substrate_position_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_substrate_position', '=', False)]}"/>
                             <field name="is_surface_treatment" attrs="{'invisible': [('show_is_surface_treatment', '=', False)]}"/>
-                            <field name="embossing_pattern" attrs="{'invisible': [('show_embossing_pattern', '=', False)]}"/>
+                            <field name="embossing_pattern_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_embossing_pattern', '=', False)]}"/>
                             <field name="perforation_grid" attrs="{'invisible': [('show_perforation_grid', '=', False)]}"/>
                             <label for="glue_grammage" attrs="{'invisible': [('show_glue_grammage', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_glue_grammage', '=', False)]}">
@@ -235,13 +233,20 @@
                     </group>
                 </page>
             </xpath>
+            <!-- hide volume field on inventory tab -->
+            <xpath expr="//label[@for='volume']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='volume']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
 
     <!-- Tree views -->
 
     <record id="product_family_code_view_tree" model="ir.ui.view">
-        <field name="name">product_family_code_view_tree</field>
+        <field name="name">product.family.code.view.tree</field>
         <field name="model">product.family.code</field>
         <field name="arch" type="xml">
             <tree string="Family Code" editable="bottom">
@@ -251,7 +256,7 @@
     </record>
 
     <record id="product_color_code_view_tree" model="ir.ui.view">
-        <field name="name">product_color_code_view_tree</field>
+        <field name="name">product.color.code.view.tree</field>
         <field name="model">product.color.code</field>
         <field name="arch" type="xml">
             <tree string="Color Code" editable="bottom">
@@ -261,7 +266,7 @@
     </record>
 
     <record id="product_commercial_name_view_tree" model="ir.ui.view">
-        <field name="name">product_commercial_name_view_tree</field>
+        <field name="name">product.commercial.name.view.tree</field>
         <field name="model">product.commercial.name</field>
         <field name="arch" type="xml">
             <tree string="Commercial Name" editable="bottom">
@@ -271,7 +276,7 @@
     </record>
 
     <record id="product_formula_code_view_tree" model="ir.ui.view">
-        <field name="name">product_formula_code_view_tree</field>
+        <field name="name">product.formula.code.view.tree</field>
         <field name="model">product.formula.code</field>
         <field name="arch" type="xml">
             <tree string="Formula Code" editable="bottom">
@@ -281,7 +286,7 @@
     </record>
 
     <record id="product_packing_norm_view_tree" model="ir.ui.view">
-        <field name="name">product_packing_norm_view_tree</field>
+        <field name="name">product.packing.norm.view.tree</field>
         <field name="model">product.packing.norm</field>
         <field name="arch" type="xml">
             <tree string="Packing Norm" editable="bottom">
@@ -291,7 +296,7 @@
     </record>
 
     <record id="product_pallet_type_view_tree" model="ir.ui.view">
-        <field name="name">product_pallet_type_view_tree</field>
+        <field name="name">product.pallet.type.view.tree</field>
         <field name="model">product.pallet.type</field>
         <field name="arch" type="xml">
             <tree string="Pallet Type" editable="bottom">
@@ -301,7 +306,7 @@
     </record>
 
     <record id="product_technical_description_view_tree" model="ir.ui.view">
-        <field name="name">product_technical_description_view_tree</field>
+        <field name="name">product.technical.description.view.tree</field>
         <field name="model">product.technical.description</field>
         <field name="arch" type="xml">
             <tree string="Technical Description" editable="bottom">
@@ -310,7 +315,41 @@
         </field>
     </record>
 
+    <record id="product_embossing_pattern_view_tree" model="ir.ui.view">
+        <field name="name">product.embossing.pattern.view.tree</field>
+        <field name="model">product.embossing.pattern</field>
+        <field name="arch" type="xml">
+            <tree string="Embossing Pattern" editable="bottom">
+                <field name="name" string="Pattern"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_substrate_position_view_tree" model="ir.ui.view">
+        <field name="name">product.substrate.position.view.tree</field>
+        <field name="model">product.substrate.position</field>
+        <field name="arch" type="xml">
+            <tree string="Substrate Position" editable="bottom">
+                <field name="position" string="Position"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- Actions -->
+
+    <record id="product_substrate_position_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Substrate Position</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.substrate.position</field>
+        <field name="view_id" ref="product_substrate_position_view_tree"/>
+    </record>
+
+    <record id="product_embossing_pattern_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Embossing Pattern</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.embossing.pattern</field>
+        <field name="view_id" ref="product_embossing_pattern_view_tree"/>
+    </record>
 
     <record id="product_family_code_action_view_tree" model="ir.actions.act_window">
         <field name="name">Family Code</field>

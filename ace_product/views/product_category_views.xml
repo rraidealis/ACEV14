@@ -27,6 +27,7 @@
                             <field name="show_coil_position"/>
                             <field name="show_embossing_pattern"/>
                             <field name="show_substrate_position"/>
+                            <field name="show_perforation_grid"/>
                             <field name="show_coil_by_pallet"/>
                             <field name="show_coil_by_layer"/>
                             <field name="show_layer_number"/>

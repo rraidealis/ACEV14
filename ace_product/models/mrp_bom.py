@@ -34,8 +34,8 @@ class MrpBom(models.Model):
     # New Fields #
     ##############
 
-    # Integer/float fields
-    carrot_type = fields.Integer(string='Carrot Type')
+    # M2o fields
+    carrot_type_id = fields.Many2one('bom.carrot.type', string='Carrot Type')
 
     # Integer fields with units
     machine_time_number = fields.Integer(string='Number of Times', digits='Product Double Precision')

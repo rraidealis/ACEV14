@@ -10,3 +10,10 @@ class FormulaCode(models.Model):
     _record_name = 'code'
 
     code = fields.Char(string='Formula Code')
+
+    def name_get(self):
+        res = []
+        for formula_code in self:
+            name = formula_code.code
+            res.append((formula_code.id, name))
+        return res

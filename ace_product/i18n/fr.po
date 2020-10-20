@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-19 00:52+0000\n"
-"PO-Revision-Date: 2020-10-19 02:52+0200\n"
+"POT-Creation-Date: 2020-10-20 23:38+0000\n"
+"PO-Revision-Date: 2020-10-21 01:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fr\n"
+"Language: fr_BE\n"
 "X-Generator: Poedit 2.4.1\n"
 
 #. module: ace_product
@@ -63,21 +63,29 @@ msgid "Bill of Material"
 msgstr "Nomenclature"
 
 #. module: ace_product
+#: model:ir.ui.menu,name:ace_product.menu_bom_product_config
+msgid "Bill of Materials"
+msgstr "Nomenclatures"
+
+#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__current_bom_line_ids
 #: model:ir.model.fields,field_description:ace_product.field_product_template__current_bom_line_ids
 msgid "BoM Lines"
 msgstr ""
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__carrot_type
+#: model:ir.actions.act_window,name:ace_product.bom_carrot_type_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__name
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__carrot_type_id
+#: model:ir.ui.menu,name:ace_product.product_menu_carrot_type
+#: model_terms:ir.ui.view,arch_db:ace_product.bom_carrot_type_view_tree
 msgid "Carrot Type"
 msgstr "Type de carotte"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_category__is_mandrel
 msgid "Check this box if this is a specific category for mandrels"
-msgstr ""
-"Cocher cette case s'il s'agit d'une catégorie spécifique aux mandrins"
+msgstr "Cocher cette case s'il s'agit d'une catégorie spécifique aux mandrins"
 
 #. module: ace_product
 #: model_terms:ir.ui.view,arch_db:ace_product.product_color_code_view_tree
@@ -172,23 +180,29 @@ msgid "Commercial name visibility in sale orders"
 msgstr "Visibilité du nom commercial sur les bons de commande"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_date
 msgid "Created on"
 msgstr "Créé le"
@@ -291,19 +305,26 @@ msgid "Dimensions"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__embossing_pattern
-#: model:ir.model.fields,field_description:ace_product.field_product_template__embossing_pattern
+#: model:ir.actions.act_window,name:ace_product.product_embossing_pattern_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__embossing_pattern_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__embossing_pattern_id
+#: model:ir.ui.menu,name:ace_product.product_menu_embossing_pattern
+#: model_terms:ir.ui.view,arch_db:ace_product.product_embossing_pattern_view_tree
 msgid "Embossing Pattern"
 msgstr "Motif d'embossage"
 
@@ -357,11 +378,6 @@ msgstr ""
 #: model:ir.model.fields,help:ace_product.field_product_template__formula_code_so_visibility
 msgid "Formula code visibility in sale orders"
 msgstr "Visibilité du code formule sur les bons de commande"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__product_template__substrate_position__full
-msgid "Full Coverage"
-msgstr "Couverture complète"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage
@@ -445,48 +461,60 @@ msgstr "Visibilité du poids de la bobine brut sur les bons de commande"
 #. module: ace_product
 #: model:ir.model.fields.selection,name:ace_product.selection__product_template__coil_position__horizontal
 msgid "Horizontal"
-msgstr ""
+msgstr "Horizontale"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__id
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__id
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__id
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__id
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__id
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__id
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__id
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__id
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__id
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__id
 msgid "ID"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise-à-jour par"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise-à-jour le"
@@ -591,12 +619,6 @@ msgid "Manual Ace Film Grammage"
 msgstr ""
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__manual_coil_by_pallet
-#: model:ir.model.fields,field_description:ace_product.field_product_template__manual_coil_by_pallet
-msgid "Manual Coil By Pallet"
-msgstr ""
-
-#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__manual_grammage
 #: model:ir.model.fields,field_description:ace_product.field_product_template__manual_grammage
 msgid "Manual Grammage"
@@ -675,7 +697,7 @@ msgstr ""
 #. module: ace_product
 #: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
 msgid "Packaging"
-msgstr "Packaging"
+msgstr ""
 
 #. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_packing_norm_action_view_tree
@@ -698,10 +720,20 @@ msgid "Pallet Type"
 msgstr "Type de palette"
 
 #. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_embossing_pattern_view_tree
+msgid "Pattern"
+msgstr "Motif"
+
+#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__perforation_grid
 #: model:ir.model.fields,field_description:ace_product.field_product_template__perforation_grid
 msgid "Perforation Grid"
 msgstr "Grille de perforation"
+
+#. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_substrate_position_view_tree
+msgid "Position"
+msgstr ""
 
 #. module: ace_product
 #: model:ir.model,name:ace_product.model_product_category
@@ -745,8 +777,8 @@ msgid ""
 "Provided by BoM lines if there is at least one BoM line with a mandrel "
 "product"
 msgstr ""
-"Fourni par les lignes de nomenclature s'il existe au moins une ligne "
-"avec un produit de type mandrin"
+"Fourni par les lignes de nomenclature s'il existe au moins une ligne avec "
+"un produit de type mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_category__show_ace_film_grammage
@@ -966,11 +998,6 @@ msgid "Show Width"
 msgstr "Afficher largeur"
 
 #. module: ace_product
-#: model:uom.category,name:ace_product.product_uom_categ_small_length
-msgid "Small Length"
-msgstr "Petite longueur"
-
-#. module: ace_product
 #: model:uom.category,name:ace_product.product_uom_categ_speed
 msgid "Speed"
 msgstr "Vitesse"
@@ -993,17 +1020,21 @@ msgid "Sublot JJ"
 msgstr "Sous-lot type JJ"
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__substrate_position
-#: model:ir.model.fields,field_description:ace_product.field_product_template__substrate_position
+#: model:ir.actions.act_window,name:ace_product.product_substrate_position_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_product__substrate_position_id
+#: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__position
+#: model:ir.model.fields,field_description:ace_product.field_product_template__substrate_position_id
+#: model:ir.ui.menu,name:ace_product.product_menu_substrate_position
+#: model_terms:ir.ui.view,arch_db:ace_product.product_substrate_position_view_tree
 msgid "Substrate Position"
-msgstr "Position substrat"
+msgstr "Position Substrat"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__surface
 #: model:ir.model.fields,field_description:ace_product.field_product_template__surface
 #: model:uom.category,name:ace_product.product_uom_categ_surface
 msgid "Surface"
-msgstr "Surface"
+msgstr ""
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__surface_so_visibility
@@ -1092,6 +1123,11 @@ msgid "Total Production Width"
 msgstr "Largeur totale de production"
 
 #. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.bom_carrot_type_view_tree
+msgid "Type"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_uom_category__measure_type
 msgid "Type of Measure"
 msgstr "Type de Mesure"
@@ -1100,12 +1136,6 @@ msgstr "Type de Mesure"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__is_ace_film_grammage_user_defined
 #: model:ir.model.fields,field_description:ace_product.field_product_template__is_ace_film_grammage_user_defined
 msgid "User Defined Ace Film Grammage"
-msgstr ""
-
-#. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__is_coil_by_pallet_user_defined
-#: model:ir.model.fields,field_description:ace_product.field_product_template__is_coil_by_pallet_user_defined
-msgid "User Defined Coil By Pallet"
 msgstr ""
 
 #. module: ace_product
@@ -1123,7 +1153,7 @@ msgstr ""
 #. module: ace_product
 #: model:ir.model.fields.selection,name:ace_product.selection__product_template__coil_position__vertical
 msgid "Vertical"
-msgstr ""
+msgstr "Verticale"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__width
@@ -1156,8 +1186,8 @@ msgid "Width visibility in sale orders"
 msgstr "Visibilité de la largeur sur les bons de commande"
 
 #. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__product_template__embossing_pattern__xyx
-msgid "XYX"
+#: model:ir.model,name:ace_product.model_bom_carrot_type
+msgid "bom.carrot.type"
 msgstr ""
 
 #. module: ace_product
@@ -1201,6 +1231,11 @@ msgid "product.commercial.name"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model,name:ace_product.model_product_embossing_pattern
+msgid "product.embossing.pattern"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model,name:ace_product.model_product_family_code
 msgid "product.family.code"
 msgstr ""
@@ -1218,6 +1253,11 @@ msgstr ""
 #. module: ace_product
 #: model:ir.model,name:ace_product.model_product_pallet_type
 msgid "product.pallet.type"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_substrate_position
+msgid "product.substrate.position"
 msgstr ""
 
 #. module: ace_product

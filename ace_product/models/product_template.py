@@ -87,6 +87,8 @@ class ProductTemplate(models.Model):
     commercial_name_id = fields.Many2one('product.commercial.name', string='Commercial Name')
     packing_norm_id = fields.Many2one('product.packing.norm', string='Packing Norm')
     pallet_type_id = fields.Many2one('product.pallet.type', string='Pallet Type')
+    embossing_pattern_id = fields.Many2one('product.embossing.pattern', string='Embossing Pattern')
+    substrate_position_id = fields.Many2one('product.substrate.position', string='Substrate Position')
     mandrel_id = fields.Many2one('product.product', compute='_compute_mandrel_id', store=True, string='Mandrel', help='Provided by BoM lines if there is at least one BoM line with a mandrel product')
 
     # Boolean fields
@@ -96,18 +98,14 @@ class ProductTemplate(models.Model):
 
     # Selection fields
     coil_position = fields.Selection([('vertical', 'Vertical'), ('horizontal', 'Horizontal')], string='Coil Position')
-    embossing_pattern = fields.Selection([('xyx', 'XYX')], string='Embossing Pattern')
-    substrate_position = fields.Selection([('full', 'Full Coverage')], string='Substrate Position')
 
     # Integer/float fields
     perforation_grid = fields.Integer(string='Perforation Grid')
 
     # Integer fields with units
-    coil_by_pallet = fields.Integer(string='Coil by Pallet')
+    coil_by_pallet = fields.Integer(string='Coil by Pallet', compute='_compute_coil_by_pallet', store=True)
     coil_by_pallet_uom_id = fields.Many2one('uom.uom', string='Coil by Pallet UoM', readonly=True, default=_default_units_uom_id)
     coil_by_pallet_uom_name = fields.Char(string='Coil by Pallet UoM Label', readonly=True, related='coil_by_pallet_uom_id.name')
-    manual_coil_by_pallet = fields.Float(string='Manual Coil By Pallet')
-    is_coil_by_pallet_user_defined = fields.Boolean(string='User Defined Coil By Pallet')
 
     coil_by_layer = fields.Integer(string='Coil by Layer')
     coil_by_layer_uom_id = fields.Many2one('uom.uom', string='Coil by Layer UoM', readonly=True, default=_default_units_uom_id)
@@ -241,17 +239,27 @@ class ProductTemplate(models.Model):
     @api.depends('width', 'length')
     def _compute_surface(self):
         for product in self:
-            product.surface = (product.width/1000) * product.length
+            width_factor = product.width_uom_id.factor
+            length_factor = product.length_uom_id.factor
+            product.surface = (product.width / width_factor) * (product.length / length_factor)
+
+    @api.depends('coil_by_layer', 'layer_number')
+    def _compute_coil_by_pallet(self):
+        for product in self:
+            product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
     @api.depends('width', 'length', 'manual_grammage', 'grammage', 'is_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
     def _compute_coil_weight(self):
         for product in self:
-            weight = ((product.width/1000) * product.length * product.grammage) / 1000
+            width_factor = product.width_uom_id.factor
+            length_factor = product.length_uom_id.factor
+            weight = ((product.width / width_factor) * (product.length / length_factor) * product.grammage) / 1000
             if product.is_grammage_user_defined:
-                weight = ((product.width/1000) * product.length * product.manual_grammage) / 1000
+                weight = ((product.width / width_factor) * (product.length / length_factor) * product.manual_grammage) / 1000
             product.net_coil_weight = weight
             if product.mandrel_id:
-                weight += product.mandrel_id.weight
+                weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1
+                weight += (product.mandrel_id.weight / weight_factor)
             product.gross_coil_weight = weight
 
     @api.depends('mandrel_id', 'mandrel_id.width', 'mandrel_id.diameter')
@@ -260,5 +268,20 @@ class ProductTemplate(models.Model):
             product.mandrel_width = 0.0
             product.mandrel_diameter = 0.0
             if product.mandrel_id:
-                product.mandrel_width = product.mandrel_id.width / 10
-                product.mandrel_diameter = product.mandrel_id.diameter / 10
+                width_factor = product.mandrel_id.width.width_uom_id.factor
+                mandrel_width_factor = product.mandrel_with.mandrel_width_uom_id.factor
+                product.mandrel_width = (product.mandrel_id.width / mandrel_width_factor) * width_factor
+                product.mandrel_diameter = (product.mandrel_id.diameter / mandrel_width_factor) * width_factor
+
+    @api.depends('product_variant_ids', 'product_variant_ids.weight', 'gross_coil_weight')
+    def _compute_weight(self):
+        unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
+        for template in unique_variants:
+            if template.gross_coil_weight > 0:
+                weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1
+                gross_coil_weight_factor = template.gross_coil_weight_uom_id.factor
+                template.weight = (template.gross_coil_weight / gross_coil_weight_factor) * weight_factor
+            else:
+                template.weight = template.product_variant_ids.weight
+        for template in (self - unique_variants):
+            template.weight = 0.0

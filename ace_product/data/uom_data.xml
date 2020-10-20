@@ -4,11 +4,11 @@
         <!--
         Resource: uom.category
         -->
-        <record id="product_uom_categ_small_length" model="uom.category">
-            <field name="name">Small Length</field>
-            <!-- unecessary in V14 -->
+<!--        <record id="product_uom_categ_small_length" model="uom.category">-->
+<!--            <field name="name">Small Length</field>-->
+<!--            &lt;!&ndash; unecessary in V14 &ndash;&gt;-->
 <!--            <field name="measure_type">small_length</field>-->
-        </record>
+<!--        </record>-->
         <record id="product_uom_categ_surface" model="uom.category">
             <field name="name">Surface</field>
             <!-- unecessary in V14 -->
@@ -33,14 +33,15 @@
             Resource: uom.uom
         -->
         <record id="product_uom_millimeter" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_small_length"/>
+            <field name="category_id" ref="uom.uom_categ_length"/>
             <field name="name">mm</field>
-            <field name="factor" eval="1.0"/>
+            <field name="factor" eval="1000"/>
+            <field name="uom_type">smaller</field>
         </record>
         <record id="product_uom_micrometer" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_small_length"/>
+            <field name="category_id" ref="uom.uom_categ_length"/>
             <field name="name">μm</field>
-            <field name="factor" eval="1000"/>
+            <field name="factor" eval="1000000"/>
             <field name="uom_type">smaller</field>
         </record>
         <record id="product_uom_square_meter" model="uom.uom">
