@@ -268,7 +268,7 @@ class ProductTemplate(models.Model):
             product.mandrel_width = 0.0
             product.mandrel_diameter = 0.0
             if product.mandrel_id:
-                width_factor = product.mandrel_id.width.width_uom_id.factor
+                width_factor = product.mandrel_id.width_uom_id.factor
                 mandrel_width_factor = product.mandrel_with.mandrel_width_uom_id.factor
                 product.mandrel_width = (product.mandrel_id.width / mandrel_width_factor) * width_factor
                 product.mandrel_diameter = (product.mandrel_id.diameter / mandrel_width_factor) * width_factor
