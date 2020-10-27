@@ -8,10 +8,11 @@ from . import commercial_name
 from . import packing_norm
 from . import pallet_type
 from . import product_template
-## not necessary in V14
-# from . import uom_category
 from . import mrp_bom
 from . import product_category
 from . import embossing_pattern
 from . import carrot_type
 from . import substrate_position
+from . import color
+from . import perforation_grid
+from . import surface_treatment

@@ -145,13 +145,14 @@
             </xpath>
             <xpath expr="//page[@name='inventory']" position="after">
                 <page string="Packaging" name="packaging_information"
-                      attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_diameter', '=', False),
+                      attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False),
                       ('show_packing_norm', '=', False), ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False),
                       ('show_mandrel_width', '=', False), ('show_coil_by_layer', '=', False), ('show_layer_number', '=', False),
                       ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
                     <group>
 
                         <field name="show_mandrel" invisible="1"/>
+                        <field name="show_mandrel_weight" invisible="1"/>
                         <field name="show_mandrel_diameter" invisible="1"/>
                         <field name="show_mandrel_width" invisible="1"/>
                         <field name="show_packing_norm" invisible="1"/>
@@ -162,7 +163,7 @@
                         <field name="show_is_package_stored" invisible="1"/>
                         <field name="show_pallet_type" invisible="1"/>
 
-                        <group string="Mandrel" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
+                        <group string="Mandrel" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
                             <field name="mandrel_id" attrs="{'invisible': [('show_mandrel', '=', False)]}"/>
                             <label for="mandrel_diameter" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}">
@@ -173,6 +174,11 @@
                             <div class="o_row" attrs="{'invisible': [('show_mandrel_width', '=', False)]}">
                                 <field name="mandrel_width"/>
                                 <field name="mandrel_width_uom_name"/>
+                            </div>
+                            <label for="mandrel_weight" attrs="{'invisible': [('show_mandrel_weight', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_mandrel_weight', '=', False)]}">
+                                <field name="mandrel_weight"/>
+                                <field name="mandrel_weight_uom_name"/>
                             </div>
                         </group>
 
@@ -203,26 +209,26 @@
                     </group>
                 </page>
                 <page string="Production" name="production_information"
-                      attrs="{'invisible': [('show_substrate_position', '=', False), ('show_is_surface_treatment', '=', False),
+                      attrs="{'invisible': [('show_substrate_position', '=', False), ('show_surface_treatment', '=', False),
                       ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
                       ('show_is_sublot_jj', '=', False)]}">
                     <group>
 
                         <field name="show_substrate_position" invisible="1"/>
-                        <field name="show_is_surface_treatment" invisible="1"/>
+                        <field name="show_surface_treatment" invisible="1"/>
                         <field name="show_embossing_pattern" invisible="1"/>
                         <field name="show_perforation_grid" invisible="1"/>
                         <field name="show_glue_grammage" invisible="1"/>
                         <field name="show_is_sublot_jj" invisible="1"/>
 
                         <group string="Product Parameters"
-                               attrs="{'invisible': [('show_substrate_position', '=', False), ('show_is_surface_treatment', '=', False),
+                               attrs="{'invisible': [('show_substrate_position', '=', False), ('show_surface_treatment', '=', False),
                                 ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
                                 ('show_is_sublot_jj', '=', False)]}">
                             <field name="substrate_position_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_substrate_position', '=', False)]}"/>
-                            <field name="is_surface_treatment" attrs="{'invisible': [('show_is_surface_treatment', '=', False)]}"/>
+                            <field name="surface_treatment_id" attrs="{'invisible': [('show_surface_treatment', '=', False)]}"/>
                             <field name="embossing_pattern_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_embossing_pattern', '=', False)]}"/>
-                            <field name="perforation_grid" attrs="{'invisible': [('show_perforation_grid', '=', False)]}"/>
+                            <field name="perforation_grid_id" attrs="{'invisible': [('show_perforation_grid', '=', False)]}"/>
                             <label for="glue_grammage" attrs="{'invisible': [('show_glue_grammage', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_glue_grammage', '=', False)]}">
                                 <field name="glue_grammage"/>
@@ -239,6 +245,15 @@
             </xpath>
             <xpath expr="//div[@name='volume']" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='weight']/field[@name='weight']" position="attributes">
+                <attribute name="attrs">{'invisible':['|', ('is_weight_user_defined', '=', True), ('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//div[@name='weight']/field[@name='weight']" position="after">
+                <field name="manual_weight" attrs="{'invisible': [('is_weight_user_defined', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//div[@name='weight']/span" position="after">
+                <field name="is_weight_user_defined"/><span>User Defined</span>
             </xpath>
         </field>
     </record>
@@ -261,6 +276,27 @@
         <field name="arch" type="xml">
             <tree string="Color Code" editable="bottom">
                 <field name="code" string="Code"/>
+                <field name="color_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_perforation_grid_view_tree" model="ir.ui.view">
+        <field name="name">product.perforation.grid.view.tree</field>
+        <field name="model">product.perforation.grid</field>
+        <field name="arch" type="xml">
+            <tree string="Perforation Grid" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_color_view_tree" model="ir.ui.view">
+        <field name="name">product.color.view.tree</field>
+        <field name="model">product.color</field>
+        <field name="arch" type="xml">
+            <tree string="Color" editable="bottom">
+                <field name="name" string="name"/>
             </tree>
         </field>
     </record>
@@ -281,6 +317,16 @@
         <field name="arch" type="xml">
             <tree string="Formula Code" editable="bottom">
                 <field name="code" string="Code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_surface_treatment_view_tree" model="ir.ui.view">
+        <field name="name">product.surface.treatment.view.tree</field>
+        <field name="model">product.surface.treatment</field>
+        <field name="arch" type="xml">
+            <tree string="Surface Treatment" editable="bottom">
+                <field name="name" string="Name"/>
             </tree>
         </field>
     </record>
@@ -351,6 +397,20 @@
         <field name="view_id" ref="product_embossing_pattern_view_tree"/>
     </record>
 
+    <record id="product_surface_treatment_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Surface Treatment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.surface.treatment</field>
+        <field name="view_id" ref="product_surface_treatment_view_tree"/>
+    </record>
+
+    <record id="product_perforation_grid_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Perforation Grid</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.perforation.grid</field>
+        <field name="view_id" ref="product_perforation_grid_view_tree"/>
+    </record>
+
     <record id="product_family_code_action_view_tree" model="ir.actions.act_window">
         <field name="name">Family Code</field>
         <field name="type">ir.actions.act_window</field>
@@ -363,6 +423,13 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.color.code</field>
         <field name="view_id" ref="product_color_code_view_tree"/>
+    </record>
+
+    <record id="product_color_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Color</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.color</field>
+        <field name="view_id" ref="product_color_view_tree"/>
     </record>
 
     <record id="product_commercial_name_action_view_tree" model="ir.actions.act_window">

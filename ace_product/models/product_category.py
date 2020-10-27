@@ -25,7 +25,7 @@ class ProductCategory(models.Model):
 
     show_is_sublot_jj = fields.Boolean(string='Show Sublot JJ', default=True)
     show_is_package_stored = fields.Boolean(string='Show Storage by Package', default=True)
-    show_is_surface_treatment = fields.Boolean(string='Show Surface Treatment', default=True)
+    show_surface_treatment = fields.Boolean(string='Show Surface Treatment', default=True)
 
     show_coil_position = fields.Boolean(string='Show Coil Position', default=True)
     show_embossing_pattern = fields.Boolean(string='Show Embossing Pattern', default=True)
@@ -49,4 +49,5 @@ class ProductCategory(models.Model):
     show_density = fields.Boolean(string='Show Density', default=True)
     show_mandrel_diameter = fields.Boolean(string='Show Mandrel Diameter', default=True)
     show_mandrel_width = fields.Boolean(string='Show Mandrel Width', default=True)
+    show_mandrel_weight = fields.Boolean(string='Show Mandrel Weight', default=True)
     show_glue_grammage = fields.Boolean(string='Show Glue Grammage', default=True)

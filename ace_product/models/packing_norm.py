@@ -8,4 +8,4 @@ class PackingNorm(models.Model):
     _name = 'product.packing.norm'
     _order = 'name'
 
-    name = fields.Char(string='Packing Norm')
+    name = fields.Char(string='Packing Norm', required=True)

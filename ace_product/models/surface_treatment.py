@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class EmbossingPattern(models.Model):
-    _name = 'product.embossing.pattern'
+class SurfaceTreatment(models.Model):
+    _name = 'product.surface.treatment'
     _order = 'name'
 
-    name = fields.Char(string='Embossing Pattern', required=True)
+    name = fields.Char(string='Surface Treatment', required=True)

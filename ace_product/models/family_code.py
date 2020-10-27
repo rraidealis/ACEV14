@@ -9,7 +9,7 @@ class FamilyCode(models.Model):
     _order = 'code'
     _record_name = 'code'
 
-    code = fields.Char(string='Family Code')
+    code = fields.Char(string='Family Code', required=True)
 
     def name_get(self):
         res = []

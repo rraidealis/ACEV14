@@ -90,17 +90,15 @@ class ProductTemplate(models.Model):
     embossing_pattern_id = fields.Many2one('product.embossing.pattern', string='Embossing Pattern')
     substrate_position_id = fields.Many2one('product.substrate.position', string='Substrate Position')
     mandrel_id = fields.Many2one('product.product', compute='_compute_mandrel_id', store=True, string='Mandrel', help='Provided by BoM lines if there is at least one BoM line with a mandrel product')
+    perforation_grid_id = fields.Many2one('product.perforation.grid', string='Perforation Grid')
+    surface_treatment_id = fields.Many2one('product.surface.treatment', string='Surface Treatment')
 
     # Boolean fields
     is_sublot_jj = fields.Boolean(string='Sublot JJ')
     is_package_stored = fields.Boolean(string='Storage by Package')
-    is_surface_treatment = fields.Boolean(string='Surface Treatment')
 
     # Selection fields
     coil_position = fields.Selection([('vertical', 'Vertical'), ('horizontal', 'Horizontal')], string='Coil Position')
-
-    # Integer/float fields
-    perforation_grid = fields.Integer(string='Perforation Grid')
 
     # Integer fields with units
     coil_by_pallet = fields.Integer(string='Coil by Pallet', compute='_compute_coil_by_pallet', store=True)
@@ -140,6 +138,9 @@ class ProductTemplate(models.Model):
     width_uom_id = fields.Many2one('uom.uom', string='Width UoM', readonly=True, default=_default_millimeters_uom_id)
     width_uom_name = fields.Char(readonly=True, string='Width UoM Label', related='width_uom_id.name')
 
+    manual_weight = fields.Float(string='Manual Weight', digits='Product triple Precision')
+    is_weight_user_defined = fields.Boolean(string='User Defined Weight')
+
     surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product triple Precision')
     surface_uom_id = fields.Many2one('uom.uom', string='Surface UoM', readonly=True, default=_default_square_meters_uom_id)
     surface_uom_name = fields.Char(readonly=True, string='Surface Uom Label', related='surface_uom_id.name')
@@ -168,6 +169,10 @@ class ProductTemplate(models.Model):
     mandrel_width_uom_id = fields.Many2one('uom.uom', string='Mandrel Width UoM', readonly=True, default=_default_cms_uom_id)
     mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', readonly=True, related='mandrel_width_uom_id.name')
 
+    mandrel_weight = fields.Float(string='Mandrel Width', related='mandrel_id.weight', store=True, digits='Product Triple Precision')
+    mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
+    mandrel_weigt_uom_name = fields.Char(string='Mandrel Weight UoM Label', readonly=True, related='mandrel_weight_uom_id.name')
+
     glue_grammage = fields.Float(string='Glue Grammage', digits='Product Double Precision')
     glue_grammage_uom_id = fields.Many2one('uom.uom', readonly=True, string='Glue Grammage UoM', default=_default_grammage_uom_id)
     glue_grammage_uom_name = fields.Char(string='Glue Grammage UoM Label', readonly=True, related='glue_grammage_uom_id.name')
@@ -183,7 +188,7 @@ class ProductTemplate(models.Model):
     show_mandrel = fields.Boolean(string='Show Mandrel', related='categ_id.show_mandrel')
     show_is_sublot_jj = fields.Boolean(string='Show Sublot JJ', related='categ_id.show_is_sublot_jj')
     show_is_package_stored = fields.Boolean(string='Show Storage by Package', related='categ_id.show_is_package_stored')
-    show_is_surface_treatment = fields.Boolean(string='Show Surface Treatment', related='categ_id.show_is_surface_treatment')
+    show_surface_treatment = fields.Boolean(string='Show Surface Treatment', related='categ_id.show_surface_treatment')
     show_coil_position = fields.Boolean(string='Show Coil Position', related='categ_id.show_coil_position')
     show_embossing_pattern = fields.Boolean(string='Show Embossing Pattern', related='categ_id.show_embossing_pattern')
     show_substrate_position = fields.Boolean(string='Show Substrate Position', related='categ_id.show_substrate_position')
@@ -203,6 +208,7 @@ class ProductTemplate(models.Model):
     show_density = fields.Boolean(string='Show Density', related='categ_id.show_density')
     show_mandrel_diameter = fields.Boolean(string='Show Mandrel Diameter', related='categ_id.show_mandrel_diameter')
     show_mandrel_width = fields.Boolean(string='Show Mandrel Width', related='categ_id.show_mandrel_width')
+    show_mandrel_weight = fields.Boolean(string='Show Mandrel Weight', related='categ_id.show_mandrel_weight')
     show_glue_grammage = fields.Boolean(string='Show Glue Grammage', related='categ_id.show_glue_grammage')
 
     # SO visibility
@@ -279,11 +285,16 @@ class ProductTemplate(models.Model):
     def _compute_weight(self):
         unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
         for template in unique_variants:
-            if template.gross_coil_weight > 0:
+            if template.is_weight_user_defined:
+                template.weight = template.manual_weight
+            elif template.gross_coil_weight > 0:
                 weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1
                 gross_coil_weight_factor = template.gross_coil_weight_uom_id.factor
                 template.weight = (template.gross_coil_weight / gross_coil_weight_factor) * weight_factor
             else:
                 template.weight = template.product_variant_ids.weight
         for template in (self - unique_variants):
-            template.weight = 0.0
+            if template.is_weight_user_defined:
+                template.weight = template.manual_weight
+            else:
+                template.weight = 0.0

@@ -9,7 +9,7 @@ class SubstratePosition(models.Model):
     _order = 'position'
     _record_name = 'position'
 
-    position = fields.Char(string='Substrate Position')
+    position = fields.Char(string='Substrate Position', required=True)
 
     def name_get(self):
         res = []

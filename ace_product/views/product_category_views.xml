@@ -23,7 +23,7 @@
                             <field name="show_mandrel"/>
                             <field name="show_is_sublot_jj"/>
                             <field name="show_is_package_stored"/>
-                            <field name="show_is_surface_treatment"/>
+                            <field name="show_surface_treatment"/>
                             <field name="show_coil_position"/>
                             <field name="show_embossing_pattern"/>
                             <field name="show_substrate_position"/>
@@ -43,6 +43,7 @@
                             <field name="show_density"/>
                             <field name="show_mandrel_diameter"/>
                             <field name="show_mandrel_width"/>
+                            <field name="show_mandrel_weight"/>
                             <field name="show_glue_grammage"/>
                         </group>
                     </page>

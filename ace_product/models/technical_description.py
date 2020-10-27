@@ -9,7 +9,7 @@ class TechnicalDesc(models.Model):
     _order = 'desc'
     _record_name = 'desc'
 
-    desc = fields.Char(string='Family Code')
+    desc = fields.Char(string='Technical Description', required=True)
 
     def name_get(self):
         res = []

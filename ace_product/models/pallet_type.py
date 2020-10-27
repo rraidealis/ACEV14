@@ -8,4 +8,4 @@ class PalletType(models.Model):
     _name = 'product.pallet.type'
     _order = 'name'
 
-    name = fields.Char(string='Pallet Type')
+    name = fields.Char(string='Pallet Type', required=True)

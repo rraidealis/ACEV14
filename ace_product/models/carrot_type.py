@@ -8,4 +8,4 @@ class CarrotType(models.Model):
     _name = 'bom.carrot.type'
     _order = 'name'
 
-    name = fields.Char(string='Carrot Type')
+    name = fields.Char(string='Carrot Type', required=True)
