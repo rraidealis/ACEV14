@@ -281,7 +281,7 @@ class ProductTemplate(models.Model):
                 product.mandrel_width = (product.mandrel_id.width / width_factor) * mandrel_width_factor
                 product.mandrel_diameter = (product.mandrel_id.diameter / diameter_factor) * mandrel_diameter_factor
 
-    @api.depends('product_variant_ids', 'product_variant_ids.weight', 'gross_coil_weight')
+    @api.depends('product_variant_ids', 'product_variant_ids.weight', 'gross_coil_weight', 'manual_weight', 'is_weight_user_defined')
     def _compute_weight(self):
         unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
         for template in unique_variants:

@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-20 23:38+0000\n"
-"PO-Revision-Date: 2020-10-21 01:48+0200\n"
+"POT-Creation-Date: 2020-10-27 16:02+0000\n"
+"PO-Revision-Date: 2020-10-27 17:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fr_BE\n"
+"Language: fr\n"
 "X-Generator: Poedit 2.4.1\n"
 
 #. module: ace_product
@@ -137,7 +137,16 @@ msgid "Coil by Pallet UoM Label"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.actions.act_window,name:ace_product.product_color_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__color_id
+#: model:ir.ui.menu,name:ace_product.product_menu_color
+#: model_terms:ir.ui.view,arch_db:ace_product.product_color_view_tree
+msgid "Color"
+msgstr "Couleur"
+
+#. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_color_code_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_color_code__code
 #: model:ir.model.fields,field_description:ace_product.field_product_product__color_code_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__color_code_id
 #: model:ir.ui.menu,name:ace_product.product_menu_color_code
@@ -150,6 +159,11 @@ msgstr "Code couleur"
 #: model:ir.model.fields,field_description:ace_product.field_product_template__color_code_so_visibility
 msgid "Color Code So Visibility"
 msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_color__name
+msgid "Color Name"
+msgstr "Nom de la couleur"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__color_code_so_visibility
@@ -181,6 +195,7 @@ msgstr "Visibilité du nom commercial sur les bons de commande"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_color__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__create_uid
@@ -188,13 +203,16 @@ msgstr "Visibilité du nom commercial sur les bons de commande"
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__create_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__create_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_color__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__create_date
@@ -202,35 +220,12 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__create_date
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__create_date
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__create_date
 msgid "Created on"
 msgstr "Créé le"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__density
-msgid "Default Density"
-msgstr "Densité par défaut"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__grammage
-msgid "Default Grammage"
-msgstr "Grammage par défaut"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__small_length
-msgid "Default Small Length"
-msgstr "Petite longueur par défaut"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__speed
-msgid "Default Speed"
-msgstr "Vitesse par défaut"
-
-#. module: ace_product
-#: model:ir.model.fields.selection,name:ace_product.selection__uom_category__measure_type__surface
-msgid "Default Surface"
-msgstr "Surface par défaut"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__density
@@ -306,6 +301,9 @@ msgstr ""
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__display_name
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_category__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_color__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__display_name
@@ -313,10 +311,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__display_name
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__display_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_embossing_pattern_action_view_tree
@@ -330,10 +331,8 @@ msgstr "Motif d'embossage"
 
 #. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_family_code_action_view_tree
-#: model:ir.model.fields,field_description:ace_product.field_product_color_code__code
 #: model:ir.model.fields,field_description:ace_product.field_product_family_code__code
 #: model:ir.model.fields,field_description:ace_product.field_product_product__family_code_id
-#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__desc
 #: model:ir.model.fields,field_description:ace_product.field_product_template__family_code_id
 #: model:ir.ui.menu,name:ace_product.product_menu_family_code
 #: model_terms:ir.ui.view,arch_db:ace_product.product_family_code_view_tree
@@ -465,6 +464,9 @@ msgstr "Horizontale"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__id
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom__id
+#: model:ir.model.fields,field_description:ace_product.field_product_category__id
+#: model:ir.model.fields,field_description:ace_product.field_product_color__id
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__id
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__id
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__id
@@ -472,13 +474,19 @@ msgstr "Horizontale"
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__id
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__id
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__id
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__id
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__id
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__id
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__id
 msgid "ID"
 msgstr ""
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type____last_update
+#: model:ir.model.fields,field_description:ace_product.field_mrp_bom____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_category____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_color____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern____last_update
@@ -486,13 +494,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment____last_update
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description____last_update
+#: model:ir.model.fields,field_description:ace_product.field_product_template____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_color__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__write_uid
@@ -500,13 +512,16 @@ msgstr "Dernière modification le"
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__write_uid
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__write_uid
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise-à-jour par"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_bom_carrot_type__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_color__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_color_code__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_commercial_name__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_embossing_pattern__write_date
@@ -514,7 +529,9 @@ msgstr "Dernière mise-à-jour par"
 #: model:ir.model.fields,field_description:ace_product.field_product_formula_code__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_packing_norm__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_pallet_type__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_substrate_position__write_date
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__write_date
 #: model:ir.model.fields,field_description:ace_product.field_product_technical_description__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise-à-jour le"
@@ -595,6 +612,24 @@ msgid "Mandrel Diameter UoM Label"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_weight
+msgid "Mandrel Weight"
+msgstr "Poids du mandrin"
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight_uom_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_weight_uom_id
+msgid "Mandrel Weight UoM"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight_uom_name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_weight_uom_name
+msgid "Mandrel Weight UoM Label"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width
 msgid "Mandrel Width"
@@ -625,9 +660,16 @@ msgid "Manual Grammage"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__manual_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__manual_weight
+msgid "Manual Weight"
+msgstr ""
+
+#. module: ace_product
 #: model_terms:ir.ui.view,arch_db:ace_product.product_commercial_name_view_tree
 #: model_terms:ir.ui.view,arch_db:ace_product.product_packing_norm_view_tree
 #: model_terms:ir.ui.view,arch_db:ace_product.product_pallet_type_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_product.product_surface_treatment_view_tree
 msgid "Name"
 msgstr "Nom"
 
@@ -725,8 +767,12 @@ msgid "Pattern"
 msgstr "Motif"
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__perforation_grid
-#: model:ir.model.fields,field_description:ace_product.field_product_template__perforation_grid
+#: model:ir.actions.act_window,name:ace_product.product_perforation_grid_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_perforation_grid__name
+#: model:ir.model.fields,field_description:ace_product.field_product_product__perforation_grid_id
+#: model:ir.model.fields,field_description:ace_product.field_product_template__perforation_grid_id
+#: model:ir.ui.menu,name:ace_product.product_menu_perforation_grid
+#: model_terms:ir.ui.view,arch_db:ace_product.product_perforation_grid_view_tree
 msgid "Perforation Grid"
 msgstr "Grille de perforation"
 
@@ -749,11 +795,6 @@ msgstr "Paramètres du produit"
 #: model:ir.model,name:ace_product.model_product_template
 msgid "Product Template"
 msgstr "Modèle d'article"
-
-#. module: ace_product
-#: model:ir.model,name:ace_product.model_uom_category
-msgid "Product UoM Categories"
-msgstr "Catégorie d'UdM"
 
 #. module: ace_product
 #: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
@@ -900,6 +941,13 @@ msgid "Show Mandrel Diameter"
 msgstr "Afficher diamètre du mandrin"
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_mandrel_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_mandrel_weight
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_mandrel_weight
+msgid "Show Mandrel Weight"
+msgstr "Afficher poids du mandrin"
+
+#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_category__show_mandrel_width
 #: model:ir.model.fields,field_description:ace_product.field_product_product__show_mandrel_width
 #: model:ir.model.fields,field_description:ace_product.field_product_template__show_mandrel_width
@@ -970,9 +1018,9 @@ msgid "Show Surface"
 msgstr "Afficher surface"
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_category__show_is_surface_treatment
-#: model:ir.model.fields,field_description:ace_product.field_product_product__show_is_surface_treatment
-#: model:ir.model.fields,field_description:ace_product.field_product_template__show_is_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_category__show_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_product__show_surface_treatment
+#: model:ir.model.fields,field_description:ace_product.field_product_template__show_surface_treatment
 msgid "Show Surface Treatment"
 msgstr "Afficher traitement de surface"
 
@@ -1043,8 +1091,12 @@ msgid "Surface So Visibility"
 msgstr ""
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_product_product__is_surface_treatment
-#: model:ir.model.fields,field_description:ace_product.field_product_template__is_surface_treatment
+#: model:ir.actions.act_window,name:ace_product.product_surface_treatment_action_view_tree
+#: model:ir.model.fields,field_description:ace_product.field_product_product__surface_treatment_id
+#: model:ir.model.fields,field_description:ace_product.field_product_surface_treatment__name
+#: model:ir.model.fields,field_description:ace_product.field_product_template__surface_treatment_id
+#: model:ir.ui.menu,name:ace_product.product_menu_surface_treatment
+#: model_terms:ir.ui.view,arch_db:ace_product.product_surface_treatment_view_tree
 msgid "Surface Treatment"
 msgstr "Traitement de surface"
 
@@ -1069,6 +1121,7 @@ msgstr "Visibilité du champs surface sur les bons de commande"
 #. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_technical_description_action_view_tree
 #: model:ir.model.fields,field_description:ace_product.field_product_product__technical_description_id
+#: model:ir.model.fields,field_description:ace_product.field_product_technical_description__desc
 #: model:ir.model.fields,field_description:ace_product.field_product_template__technical_description_id
 #: model:ir.ui.menu,name:ace_product.product_menu_technical_description
 #: model_terms:ir.ui.view,arch_db:ace_product.product_technical_description_view_tree
@@ -1128,11 +1181,6 @@ msgid "Type"
 msgstr ""
 
 #. module: ace_product
-#: model:ir.model.fields,field_description:ace_product.field_uom_category__measure_type
-msgid "Type of Measure"
-msgstr "Type de Mesure"
-
-#. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__is_ace_film_grammage_user_defined
 #: model:ir.model.fields,field_description:ace_product.field_product_template__is_ace_film_grammage_user_defined
 msgid "User Defined Ace Film Grammage"
@@ -1145,10 +1193,16 @@ msgid "User Defined Grammage"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model.fields,field_description:ace_product.field_product_product__is_weight_user_defined
+#: model:ir.model.fields,field_description:ace_product.field_product_template__is_weight_user_defined
+msgid "User Defined Weight"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__current_bom_line_ids
 #: model:ir.model.fields,help:ace_product.field_product_template__current_bom_line_ids
 msgid "Utility field"
-msgstr ""
+msgstr "Champs utilitaire"
 
 #. module: ace_product
 #: model:ir.model.fields.selection,name:ace_product.selection__product_template__coil_position__vertical
@@ -1221,6 +1275,16 @@ msgid "m²"
 msgstr ""
 
 #. module: ace_product
+#: model_terms:ir.ui.view,arch_db:ace_product.product_color_view_tree
+msgid "name"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_color
+msgid "product.color"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model,name:ace_product.model_product_color_code
 msgid "product.color.code"
 msgstr ""
@@ -1256,8 +1320,18 @@ msgid "product.pallet.type"
 msgstr ""
 
 #. module: ace_product
+#: model:ir.model,name:ace_product.model_product_perforation_grid
+msgid "product.perforation.grid"
+msgstr ""
+
+#. module: ace_product
 #: model:ir.model,name:ace_product.model_product_substrate_position
 msgid "product.substrate.position"
+msgstr ""
+
+#. module: ace_product
+#: model:ir.model,name:ace_product.model_product_surface_treatment
+msgid "product.surface.treatment"
 msgstr ""
 
 #. module: ace_product
