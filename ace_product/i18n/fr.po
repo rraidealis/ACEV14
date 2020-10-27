@@ -1075,7 +1075,7 @@ msgstr "Sous-lot type JJ"
 #: model:ir.ui.menu,name:ace_product.product_menu_substrate_position
 #: model_terms:ir.ui.view,arch_db:ace_product.product_substrate_position_view_tree
 msgid "Substrate Position"
-msgstr "Position Substrat"
+msgstr "Position substrat"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__surface
