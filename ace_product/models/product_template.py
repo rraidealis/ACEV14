@@ -40,15 +40,15 @@ class ProductTemplate(models.Model):
     def _default_millimeters_uom_id(self):
         uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_small_length')
-            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
+            categ = self.env.ref('uom.uom_categ_length')
+            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000')], limit=1)
         return uom
 
     def _default_micrometers_uom_id(self):
         uom = self.env.ref('ace_product.product_uom_micrometer', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_small_length')
-            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'smaller')], limit=1)
+            categ = self.env.ref('uom.uom_categ_length')
+            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000000')], limit=1)
         return uom
 
     def _default_square_meters_uom_id(self):
@@ -169,9 +169,9 @@ class ProductTemplate(models.Model):
     mandrel_width_uom_id = fields.Many2one('uom.uom', string='Mandrel Width UoM', readonly=True, default=_default_cms_uom_id)
     mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', readonly=True, related='mandrel_width_uom_id.name')
 
-    mandrel_weight = fields.Float(string='Mandrel Width', related='mandrel_id.weight', store=True, digits='Product Triple Precision')
+    mandrel_weight = fields.Float(string='Mandrel Weight', related='mandrel_id.weight', store=True, digits='Product Triple Precision')
     mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
-    mandrel_weigt_uom_name = fields.Char(string='Mandrel Weight UoM Label', readonly=True, related='mandrel_weight_uom_id.name')
+    mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', readonly=True, related='mandrel_weight_uom_id.name')
 
     glue_grammage = fields.Float(string='Glue Grammage', digits='Product Double Precision')
     glue_grammage_uom_id = fields.Many2one('uom.uom', readonly=True, string='Glue Grammage UoM', default=_default_grammage_uom_id)

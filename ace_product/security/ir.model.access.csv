@@ -9,5 +9,8 @@ all_access_product_pallet_type,All access Product Pallet Type,model_product_pall
 all_access_product_embossing_pattern,All access Product Embossing Pattern,model_product_embossing_pattern,base.group_user,1,1,1,1
 all_access_product_substrate_position,All access Product Substrate Position,model_product_substrate_position,base.group_user,1,1,1,1
 all_access_bom_carrot_type,All access BoM Carrot Type,model_bom_carrot_type,base.group_user,1,1,1,1
+all_access_product_color,All access Product Color,model_product_color,base.group_user,1,1,1,1
+all_access_product_surface_treatment,All access Product Surface Treatment,model_product_surface_treatment,base.group_user,1,1,1,1
+all_access_product_perforation_grid,All access Product Perforation Grid,model_product_perforation_grid,base.group_user,1,1,1,1
 
 

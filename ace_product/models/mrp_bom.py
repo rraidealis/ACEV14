@@ -19,8 +19,8 @@ class MrpBom(models.Model):
     def _default_millimeters_uom_id(self):
         uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_small_length')
-            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
+            categ = self.env.ref('uom.uom_categ_length')
+            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000')], limit=1)
         return uom
 
     def _default_meters_per_minute_uom_id(self):
@@ -38,7 +38,7 @@ class MrpBom(models.Model):
     carrot_type_id = fields.Many2one('bom.carrot.type', string='Carrot Type')
 
     # Integer fields with units
-    machine_time_number = fields.Integer(string='Number of Times', digits='Product Double Precision')
+    machine_time_number = fields.Integer(string='Number of Times')
     machine_time_number_uom_id = fields.Many2one('uom.uom', string='Number of Times UoM', readonly=True, default=_default_units_uom_id)
     machine_time_number_uom_name = fields.Char(string='Number of Times UoM Label', readonly=True, related='machine_time_number_uom_id.name')
 

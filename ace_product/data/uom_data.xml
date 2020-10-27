@@ -32,28 +32,28 @@
             <field name="uom_type">smaller</field>
         </record>
         <record id="product_uom_square_meter" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_surface"/>
+            <field name="category_id" ref="ace_product.product_uom_categ_surface"/>
             <field name="name">m²</field>
             <field name="factor" eval="1.0"/>
         </record>
         <record id="product_uom_km_per_hour" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_speed"/>
+            <field name="category_id" ref="ace_product.product_uom_categ_speed"/>
             <field name="name">km/h</field>
             <field name="factor" eval="1.0"/>
         </record>
         <record id="product_uom_meter_per_minute" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_speed"/>
+            <field name="category_id" ref="ace_product.product_uom_categ_speed"/>
             <field name="name">m/min</field>
             <field name="uom_type">smaller</field>
             <field name="factor" eval="16.6"/>
         </record>
         <record id="product_uom_grammage" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_grammage"/>
+            <field name="category_id" ref="ace_product.product_uom_categ_grammage"/>
             <field name="name">g/m²</field>
             <field name="factor" eval="1.0"/>
         </record>
         <record id="product_uom_density" model="uom.uom">
-            <field name="category_id" ref="product_uom_categ_density"/>
+            <field name="category_id" ref="ace_product.product_uom_categ_density"/>
             <field name="name">g/cm³</field>
             <field name="factor" eval="1.0"/>
         </record>
