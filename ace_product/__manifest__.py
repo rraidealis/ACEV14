@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Ace Product & Inventory',
-    'version': '14.0.0.1',
+    'version': '14.0.0.2',
     'category': 'Operations/Inventory',
     'summary': '',
     'author': 'dwa@idealisconsulting - Idealis Consulting',
