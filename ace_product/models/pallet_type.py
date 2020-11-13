@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class PalletType(models.Model):
     _name = 'product.pallet.type'
+    _description = 'Product Pallet Type'
     _order = 'name'
 
     name = fields.Char(string='Pallet Type', required=True)

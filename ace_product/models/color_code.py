@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class ColorCode(models.Model):
     _name = 'product.color.code'
+    _description = 'Product Color Code'
     _order = 'code'
     _record_name = 'code'
 

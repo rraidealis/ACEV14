@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class CommercialName(models.Model):
     _name = 'product.commercial.name'
+    _description = 'Product Commercial Name'
     _order = 'name'
 
     name = fields.Char(string='Commercial Name', required=True)

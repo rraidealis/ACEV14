@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class TechnicalDesc(models.Model):
     _name = 'product.technical.description'
+    _description = 'Product Technical Description'
     _order = 'desc'
     _record_name = 'desc'
 

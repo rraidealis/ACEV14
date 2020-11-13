@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class SurfaceTreatment(models.Model):
     _name = 'product.surface.treatment'
+    _description = 'Product Surface Treatment'
     _order = 'name'
 
     name = fields.Char(string='Surface Treatment', required=True)

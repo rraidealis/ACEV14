@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class FamilyCode(models.Model):
     _name = 'product.family.code'
+    _description = 'Product Family Code'
     _order = 'code'
     _record_name = 'code'
 

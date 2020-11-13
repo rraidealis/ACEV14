@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class CarrotType(models.Model):
     _name = 'bom.carrot.type'
+    _description = 'Product Carrot Type'
     _order = 'name'
 
     name = fields.Char(string='Carrot Type', required=True)

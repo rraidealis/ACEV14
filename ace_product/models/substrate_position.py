@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class SubstratePosition(models.Model):
     _name = 'product.substrate.position'
+    _description = 'Product Substrate Position'
     _order = 'position'
     _record_name = 'position'
 

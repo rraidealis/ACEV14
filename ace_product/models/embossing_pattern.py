@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class EmbossingPattern(models.Model):
     _name = 'product.embossing.pattern'
+    _description = 'Product Embossing Pattern'
     _order = 'name'
 
     name = fields.Char(string='Embossing Pattern', required=True)

@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class FormulaCode(models.Model):
     _name = 'product.formula.code'
+    _description = 'Product Formula Code'
     _order = 'code'
     _record_name = 'code'
 
