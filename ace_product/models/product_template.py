@@ -103,79 +103,79 @@ class ProductTemplate(models.Model):
     # Integer fields with units
     coil_by_pallet = fields.Integer(string='Coil by Pallet', compute='_compute_coil_by_pallet', store=True)
     coil_by_pallet_uom_id = fields.Many2one('uom.uom', string='Coil by Pallet UoM', readonly=True, default=_default_units_uom_id)
-    coil_by_pallet_uom_name = fields.Char(string='Coil by Pallet UoM Label', readonly=True, related='coil_by_pallet_uom_id.name')
+    coil_by_pallet_uom_name = fields.Char(string='Coil by Pallet UoM Label', related='coil_by_pallet_uom_id.name')
 
     coil_by_layer = fields.Integer(string='Coil by Layer')
     coil_by_layer_uom_id = fields.Many2one('uom.uom', string='Coil by Layer UoM', readonly=True, default=_default_units_uom_id)
-    coil_by_layer_uom_name = fields.Char(readonly=True, string='Coil by Layer UoM Label', related='coil_by_layer_uom_id.name')
+    coil_by_layer_uom_name = fields.Char(string='Coil by Layer UoM Label', related='coil_by_layer_uom_id.name')
 
     layer_number = fields.Integer(string='Number of Layers')
     layer_number_uom_id = fields.Many2one('uom.uom', string='Number of Layers UoM', readonly=True, default=_default_units_uom_id)
-    layer_number_uom_name = fields.Char(string='Number of Layers UoM Label', readonly=True, related='layer_number_uom_id.name')
+    layer_number_uom_name = fields.Char(string='Number of Layers UoM Label', related='layer_number_uom_id.name')
 
     # Float fields with units
     thickness = fields.Float(string='Thickness', digits='Product Double Precision')
     thickness_uom_id = fields.Many2one('uom.uom', string='Thickness UoM', readonly=True, default=_default_micrometers_uom_id)
-    thickness_uom_name = fields.Char(string='Thickness UoM Label', readonly=True, related='thickness_uom_id.name')
+    thickness_uom_name = fields.Char(string='Thickness UoM Label', related='thickness_uom_id.name')
 
     grammage = fields.Float(string='Grammage', digits='Product Single Precision')
     grammage_uom_id = fields.Many2one('uom.uom', string='Grammage UoM', readonly=True, default=_default_grammage_uom_id)
-    grammage_uom_name = fields.Char(string='Grammage UoM Label', readonly=True, related='grammage_uom_id.name')
+    grammage_uom_name = fields.Char(string='Grammage UoM Label', related='grammage_uom_id.name')
     manual_grammage = fields.Float(string='Manual Grammage', digits='Product Single Precision')
     is_grammage_user_defined = fields.Boolean(string='User Defined Grammage')
 
     ace_film_grammage = fields.Float(string='Ace Film Grammage', digits='Product Single Precision')
     ace_film_grammage_uom_id = fields.Many2one('uom.uom', string='Ace Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
-    ace_film_grammage_uom_name = fields.Char(readonly=True, string='Ace Film Grammage UoM Label', related='ace_film_grammage_uom_id.name')
+    ace_film_grammage_uom_name = fields.Char(string='Ace Film Grammage UoM Label', related='ace_film_grammage_uom_id.name')
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
     is_ace_film_grammage_user_defined = fields.Boolean(string='User Defined Ace Film Grammage')
 
     length = fields.Float(string='Length', digits='Product triple Precision')
     length_uom_id = fields.Many2one('uom.uom', string='Length UoM', readonly=True, default=_default_meters_uom_id)
-    length_uom_name = fields.Char(string='Length UoM Label', readonly=True, related='length_uom_id.name')
+    length_uom_name = fields.Char(string='Length UoM Label', related='length_uom_id.name')
 
     width = fields.Float(string='Width', digits='Product Single Precision')
     width_uom_id = fields.Many2one('uom.uom', string='Width UoM', readonly=True, default=_default_millimeters_uom_id)
-    width_uom_name = fields.Char(readonly=True, string='Width UoM Label', related='width_uom_id.name')
+    width_uom_name = fields.Char(string='Width UoM Label', related='width_uom_id.name')
 
     manual_weight = fields.Float(string='Manual Weight', digits='Product triple Precision')
     is_weight_user_defined = fields.Boolean(string='User Defined Weight')
 
     surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product triple Precision')
     surface_uom_id = fields.Many2one('uom.uom', string='Surface UoM', readonly=True, default=_default_square_meters_uom_id)
-    surface_uom_name = fields.Char(readonly=True, string='Surface Uom Label', related='surface_uom_id.name')
+    surface_uom_name = fields.Char(string='Surface Uom Label', related='surface_uom_id.name')
 
     diameter = fields.Float(string='Diameter', digits='Product Double Precision')
     diameter_uom_id = fields.Many2one('uom.uom', string='Diameter UoM', readonly=True, default=_default_millimeters_uom_id)
-    diameter_uom_name = fields.Char(string='Diameter UoM Label', readonly=True, related='diameter_uom_id.name')
+    diameter_uom_name = fields.Char(string='Diameter UoM Label', related='diameter_uom_id.name')
 
     net_coil_weight = fields.Float(string='Net Coil Weight', compute='_compute_coil_weight', store=True, digits='Product triple Precision')
     net_coil_weight_uom_id = fields.Many2one('uom.uom', string='Net Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
-    net_coil_weight_uom_name = fields.Char(string='Net Coil Weight UoM Label', readonly=True, related='net_coil_weight_uom_id.name')
+    net_coil_weight_uom_name = fields.Char(string='Net Coil Weight UoM Label', related='net_coil_weight_uom_id.name')
 
     gross_coil_weight = fields.Float(string='Gross Coil Weight', compute='_compute_coil_weight', store=True, digits='Product triple Precision')
     gross_coil_weight_uom_id = fields.Many2one('uom.uom', string='Gross Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
-    gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', readonly=True, related='gross_coil_weight_uom_id.name')
+    gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', related='gross_coil_weight_uom_id.name')
 
     density = fields.Float(string='Density')
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
-    density_uom_name = fields.Char(string='Density UoM Label', readonly=True, related='density_uom_id.name')
+    density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
 
     mandrel_diameter = fields.Float(string='Mandrel Diameter', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision')
     mandrel_diameter_uom_id = fields.Many2one('uom.uom', string='Mandrel Diameter UoM', readonly=True, default=_default_cms_uom_id)
-    mandrel_diameter_uom_name = fields.Char(string='Mandrel Diameter UoM Label', readonly=True, related='mandrel_diameter_uom_id.name')
+    mandrel_diameter_uom_name = fields.Char(string='Mandrel Diameter UoM Label', related='mandrel_diameter_uom_id.name')
 
     mandrel_width = fields.Float(string='Mandrel Width', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision')
     mandrel_width_uom_id = fields.Many2one('uom.uom', string='Mandrel Width UoM', readonly=True, default=_default_cms_uom_id)
-    mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', readonly=True, related='mandrel_width_uom_id.name')
+    mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', related='mandrel_width_uom_id.name')
 
     mandrel_weight = fields.Float(string='Mandrel Weight', related='mandrel_id.weight', store=True, digits='Product Triple Precision')
     mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
-    mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', readonly=True, related='mandrel_weight_uom_id.name')
+    mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', related='mandrel_weight_uom_id.name')
 
     glue_grammage = fields.Float(string='Glue Grammage', digits='Product Double Precision')
     glue_grammage_uom_id = fields.Many2one('uom.uom', readonly=True, string='Glue Grammage UoM', default=_default_grammage_uom_id)
-    glue_grammage_uom_name = fields.Char(string='Glue Grammage UoM Label', readonly=True, related='glue_grammage_uom_id.name')
+    glue_grammage_uom_name = fields.Char(string='Glue Grammage UoM Label', related='glue_grammage_uom_id.name')
 
     # Form visibility
     show_family_code = fields.Boolean(string='Show Family Code', related='categ_id.show_family_code')
