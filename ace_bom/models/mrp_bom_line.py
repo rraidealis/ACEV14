@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Idealis Consulting. See LICENSE file for full copyright and licensing details.
 
+from datetime import date
 from odoo import api, fields, models, _
 from odoo.tools import float_round
 
@@ -31,7 +32,7 @@ class MrpBomLine(models.Model):
     # Concentration
     layer_concentration = fields.Float(string='Concentration per Layer', digits='BoM Concentration Precision')
     layer_total_concentration = fields.Float(string='Total Concentration per Layer', digits='BoM Concentration Precision', compute='_compute_layer_total_concentration')
-    concentration = fields.Float(string='Concentration', digits='BoM Concentration Precision', compute='_compute_concentration')
+    concentration = fields.Float(string='Concentration', digits='BoM Concentration Precision', store=True, compute='_compute_concentration')
     related_concentration = fields.Float(string='Recipe Concentration', digits='BoM Concentration Precision', related='recipe_bom_line_id.concentration', help='Concentration taken from recipe line')
 
     # Char fields
@@ -65,11 +66,11 @@ class MrpBomLine(models.Model):
 
     def write(self, vals):
         res = super(MrpBomLine, self).write(vals)
-        if 'product_id' in vals or 'concentration' in vals or 'extruder_id' in vals:
+        if 'product_id' in vals or 'layer_concentration' in vals or 'extruder_id' in vals:
             for bom in self.bom_id.production_bom_ids:
                 bom.activity_schedule(
                     act_type_xmlid='mail.mail_activity_data_warning',
-                    date_deadline=fields.Datetime.now(),
+                    date_deadline=date.today(),
                     summary=_('Recipe has changed'),
                     note=_('At least one line of recipe ({}) has changed. You should recompute quantities.').format(self.bom_id.display_name),
                     user_id=self.env.uid)

@@ -74,7 +74,7 @@ msgid ""
 "At least one line of recipe ({}) has changed. You should recompute "
 "quantities."
 msgstr ""
-"Au moins une ligne de recette ({}) a changée. Vous devriez recalculer les "
+"Au moins une ligne de recette ({}) a changé. Vous devriez recalculer les "
 "quantités."
 
 #. module: ace_bom

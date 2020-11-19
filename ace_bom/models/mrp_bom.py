@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Idealis Consulting. See LICENSE file for full copyright and licensing details.
 
+from datetime import date, timedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import float_compare, float_round
@@ -133,7 +134,7 @@ class MrpBom(models.Model):
             for bom in self.production_bom_ids:
                 bom.activity_schedule(
                     act_type_xmlid='mail.mail_activity_data_warning',
-                    date_deadline=fields.Datetime.now(),
+                    date_deadline=date.today(),
                     summary=_('Recipe has changed'),
                     note=_('Recipe ({}) has changed. To apply changes to current BoM, you should re-import the recipe.').format(self.display_name),
                     user_id=self.env.uid)
