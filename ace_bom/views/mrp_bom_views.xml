@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="mrp_bom_tree_view" model="ir.ui.view">
+        <field name="name">mrp.bom.tree.inherited.activities</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tmpl_id']" position="after">
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mrp_bom_filter" model="ir.ui.view">
+        <field name="name">mrp.bom.view.search.inherited.activities</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <filter string="Warnings" name="activities_exception" domain="[('activity_exception_decoration', '!=', False)]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
     <record id="mrp_bom_view_form" model="ir.ui.view">
         <field name="name">mrp.bom.form.view.inherited.hide.page</field>
         <field name="model">mrp.bom</field>
@@ -31,7 +55,7 @@
             </xpath>
             <!-- hide unnecessary fields in case of recipe type -->
             <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)], 'required': [('is_recipe', '!=', True)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='product_id']" position="attributes">
                 <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
@@ -46,18 +70,29 @@
             <xpath expr="//page[@name='miscellaneous']" position="attributes">
                 <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
             </xpath>
+            <xpath expr="//page[@name='components']" position="attributes">
+                <attribute name="attrs">{'invisible': [('type', '=', 'recipe'), ('id', '=', False)]}</attribute>
+            </xpath>
             <!-- hide unnecessary columns in case of recipe type -->
+            <!-- set readonly components linked to a recipe line -->
             <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="attributes">
-                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="attributes">
-                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='bom_product_template_attribute_value_ids']" position="attributes">
                 <attribute name="attrs">{'column_invisible': ['|', ('parent.product_id', '!=', False), ('parent.is_recipe', '=', True)]}</attribute>
             </xpath>
+            <!-- add domain to components -->
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('uom_id', 'in', allowed_uom_ids)]</attribute>
+            </xpath>
 
-            <!-- required fields -->
+            <!-- required/readonly fields -->
             <xpath expr="//field[@name='code']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '=', True)]}</attribute>
             </xpath>
@@ -68,12 +103,20 @@
                 <attribute name="attrs">{'required': [('is_recipe', '!=', True)]}</attribute>
             </xpath>
 
+            <!-- add header -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': [('type', '!=', 'normal')]}"/>
+                    <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
+                </header>
+            </xpath>
+
             <!-- add buttons -->
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button type="object" name="action_view_production_boms" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('is_recipe', '!=', True)]}">
+                <button type="object" name="action_view_production_boms" class="oe_stat_button" icon="fa-flask" attrs="{'invisible': [('is_recipe', '!=', True)]}">
                     <div class="o_field_widget o_stat_info">
-<!--                        <span class="o_stat_value"><field name="production_bom_count"/></span>-->
-                        <span class="o_stat_text">Bill of Materials</span>
+                        <span class="o_stat_value"><field name="production_bom_count"/></span>
+                        <span class="o_stat_text">Used in</span>
                     </div>
                 </button>
             </xpath>
@@ -93,28 +136,39 @@
 
             <!-- add columns -->
             <xpath expr="//field[@name='bom_line_ids']/tree" position="attributes">
-                <attribute name="decoration-warning">layer_total_concentration &lt; 100.00</attribute>
-                <attribute name="decoration-danger">layer_total_concentration &gt; 100.00</attribute>
+                <attribute name="decoration-warning">layer_total_concentration and layer_total_concentration &lt; 100.00</attribute>
+                <attribute name="decoration-danger">layer_total_concentration and layer_total_concentration &gt; 100.00</attribute>
+                <attribute name="decoration-info">recipe_bom_line_id</attribute>
             </xpath>
             <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
-                <field name="extruder_id" width="200px" options="{'no_create':True}" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="hopper" width="80px" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="density" width="80px" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="layer_concentration" string="Concentration(%)/Layer" width="160px" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}"/>
+                <field name="recipe_bom_line_id" invisible="1"/>
+                <field name="allowed_uom_ids" invisible="1"/>
+                <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.type', '=', 'normal'), ('parent.recipe_bom_id', '=', False)],
+                                                                                                                                    'required': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}"/>
+                <field name="hopper" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
+                <field name="density" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
+                <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
+                <field name="layer_concentration" string="Concentration(%)/Layer" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="layer_total_concentration" invisible="1"/>
-                <field name="concentration" string="Concentration(%)" width="160px" attrs="{'invisible': [('parent.is_recipe', '!=', True)]}" sum="Total"/>
+                <field name="related_concentration" string="Concentration (%)" width="160px" attrs="{'column_invisible': ['|', ('parent.type', '!=', 'normal'), ('parent.recipe_bom_id', '=', False)]}" sum="Total"/>
+                <field name="concentration" string="Concentration(%)" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}" sum="Total"/>
             </xpath>
 
             <!-- add fields -->
+            <xpath expr="//field[@name='message_ids']" position="before">
+                <field name="activity_ids"/>
+            </xpath>
             <xpath expr="//field[@name='active']" position="after">
                 <field name="is_recipe" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='code']" position="before">
                 <field name="recipe_number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
             </xpath>
+            <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
+                <field name="recipe_bom_id" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+            </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
                 <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
                 <field name="color_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
                 <label for="min_thickness" string="Thickness" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
@@ -132,8 +186,13 @@
                     <field name="density"/>
                     <field name="density_uom_name"/>
                 </div>
+                <label for="recipe_weight" string="Recipe Raw Mat Weight" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
+                <div class="o_row" attrs="{'invisible': [('recipe_bom_id', '=', False)]}">
+                    <field name="recipe_weight"/>
+                    <field name="recipe_weight_uom_name"/>
+                </div>
             </xpath>
-
         </field>
     </record>
+
 </odoo>
