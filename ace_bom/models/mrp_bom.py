@@ -63,7 +63,7 @@ class MrpBom(models.Model):
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code')
     color_code_id = fields.Many2one('product.color.code', string='Color Code')
-    workcenter_id = fields.Many2one('mrp.routing.workcenter', string='Work Center')
+    workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center')
 
     # Float fields with units
     min_thickness = fields.Float(string='Min Thickness', digits='Product Double Precision')
