@@ -1,0 +1,570 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ace_bom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-19 07:21+0000\n"
+"PO-Revision-Date: 2020-11-19 09:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr_BE\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "<span class=\"o_stat_text\">Used in</span>"
+msgstr "<span class=\"o_stat_text\">Utilisé dans</span>"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "<span>from </span>"
+msgstr "<span>de </span>"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "<span>to </span>"
+msgstr "<span>à </span>"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Décoration des activités d'exception"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_state
+msgid "Activity State"
+msgstr "Statut de l'activité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icône de l'activité"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid ""
+"All layers should have a total concentration of 100% (total concentration "
+"of layer {} is {}%)."
+msgstr ""
+"Toutes les couches doivent avoir une concentration totale de 100% (la "
+"concentration total de la couche {} est de {}%)."
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__allowed_uom_ids
+msgid "Allowed UoMs"
+msgstr "UdM autorisées"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid ""
+"At least one line of recipe ({}) has changed. You should recompute "
+"quantities."
+msgstr ""
+"Au moins une ligne de recette ({}) a changée. Vous devriez recalculer les "
+"quantités."
+
+#. module: ace_bom
+#: model:ir.model,name:ace_bom.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Nomenclature"
+
+#. module: ace_bom
+#: model:ir.model,name:ace_bom.model_mrp_bom_line
+msgid "Bill of Material Line"
+msgstr "Ligne de nomenclature"
+
+#. module: ace_bom
+#: model:ir.model,name:ace_bom.model_mrp_bom_extruder
+msgid "BoM Extruder"
+msgstr "Extrudeuse"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__production_bom_line_ids
+msgid "BoM Production Line"
+msgstr "Ligne de nomenclature d'une production"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__recipe_bom_line_id
+msgid "BoM Recipe Line"
+msgstr "Ligne de nomenclature d'une recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__type
+msgid "BoM Type"
+msgstr "Type de nomenclature"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#: code:addons/ace_bom/wizard/import_recipe.py:0
+#, python-format
+msgid ""
+"Cannot convert UoMs while importing recipe. UoMs categories should be the "
+"same on the BoM ({}) and the component ({})."
+msgstr ""
+"Impossible de convertir les unités lors de l'import d'une recette. Les "
+"catégories d'unités de mesure doivent être les mêmes entre la nomenclature "
+"({}) et le composant ({})."
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__color_code_id
+msgid "Color Code"
+msgstr "Code couleur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__concentration
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__concentration
+msgid "Concentration"
+msgstr ""
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Concentration (%)"
+msgstr ""
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__layer_concentration
+msgid "Concentration per Layer"
+msgstr "Concentration par couche"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom_line__related_concentration
+msgid "Concentration taken from recipe line"
+msgstr "Concentration provenant de la ligne de nomenclature de la recette"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Concentration(%)"
+msgstr ""
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Concentration(%)/Layer"
+msgstr "Concentration(%)/Couche"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__create_uid
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__create_date
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom_import_recipe__uom_category_id
+msgid "Default UoM category used for raw mat weight"
+msgstr "Catégorie d'UdM par défaut utilisée pour le poids des matières brutes"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__density
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__density
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Density"
+msgstr "Densité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__density_uom_id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__density_uom_id
+msgid "Density UoM"
+msgstr "UdM de la densité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__density_uom_name
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__density_uom_name
+msgid "Density UoM Label"
+msgstr "Nom de l'UdM de la densité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__display_name
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__display_name
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__extruder_id
+msgid "Extruder"
+msgstr "Extrudeuse"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__extruder_ids
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Extruders"
+msgstr "Extrudeuses"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__is_recipe
+msgid "Field used to display recipe fields"
+msgstr "Champs technique utilisé pour afficher les informations de la recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__formula_code_id
+msgid "Formula Code"
+msgstr "Code formule"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__hopper
+msgid "Hopper"
+msgstr "Trémie"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__id
+msgid "ID"
+msgstr ""
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_exception_icon
+msgid "Icon"
+msgstr "Icône"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icône utilisée pour indiquer une activité de type exception."
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+msgid "Import"
+msgstr "Importer"
+
+#. module: ace_bom
+#: model:ir.model,name:ace_bom.model_mrp_bom_import_recipe
+msgid "Import BoM Recipe in order to fill components"
+msgstr ""
+"Importer une nomenclature de recette dans le but d'ajouter les composants "
+"de celle-ci"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+#, python-format
+msgid "Import Recipe"
+msgstr "Importer recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__is_recipe
+msgid "Is Recipe"
+msgstr "Est une recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom____last_update
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder____last_update
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe____last_update
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__write_uid
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise-à-jour par"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__write_date
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise-à-jour là"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__max_thickness
+msgid "Max Thickness"
+msgstr "Épaisseur maximale"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__max_width
+msgid "Max Width"
+msgstr "Largeur maximale"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__min_thickness
+msgid "Min Thickness"
+msgstr "Épaisseur minimale"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__min_width
+msgid "Min Width"
+msgstr "Largeur minimale"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Échéance de la prochaine activité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_summary
+msgid "Next Activity Summary"
+msgstr "Résumé de la prochaine activité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_type_id
+msgid "Next Activity Type"
+msgstr "Type de la prochaine activité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__recipe_number
+msgid "Number"
+msgstr "Nombre"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__bom_id
+msgid "Parent BoM"
+msgstr "Nomenclature parente"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+msgid ""
+"Pay attention that this action will erase components of any previously "
+"imported recipe."
+msgstr ""
+"Veuillez prendre en considération que cette action effacera tous les "
+"composants de la recette existante."
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__product_tmpl_id
+msgid "Product"
+msgstr "Article"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__bom_id
+msgid "Production BoM"
+msgstr "Nomenclature de production"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__production_bom_ids
+msgid "Production BoMs"
+msgstr "Nomenclatures de production"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__production_bom_count
+msgid "Production BoMs Count"
+msgstr "Nombre de nomenclatures de production"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__product_qty
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__recipe_bom_id
+#: model:ir.model.fields.selection,name:ace_bom.selection__mrp_bom__type__recipe
+msgid "Recipe"
+msgstr "Recette"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid ""
+"Recipe ({}) has changed. To apply changes to current BoM, you should re-"
+"import the recipe."
+msgstr ""
+"La recette ({}) a été modifiée. Pour appliquer les changements à la "
+"nomenclature actuelle, vous devriez ré-importer la recette."
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__recipe_bom_id
+msgid "Recipe BoM"
+msgstr "Nomenclature de recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__related_concentration
+msgid "Recipe Concentration"
+msgstr "Concentration de la recette"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+msgid "Recipe Raw Mat Weight"
+msgstr "Poids des matériaux bruts de la recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__recipe_weight
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__recipe_weight
+msgid "Recipe Raw Weight"
+msgstr "Poids brut de la recette"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid "Recipe has changed"
+msgstr "La recette a été modifiée"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Recompute Recipe Quantities"
+msgstr "Recalculer les quantités de la recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__activity_user_id
+msgid "Responsible User"
+msgstr "Responsable"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_import_recipe_view_form
+msgid "Select a Recipe"
+msgstr "Sélectionner une recette"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Thickness"
+msgstr "Épaisseur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__thickness_uom_id
+msgid "Thickness UoM"
+msgstr "UdM de l'épaisseur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__thickness_uom_name
+msgid "Thickness UoM Label"
+msgstr "Nom de l'UdM de l'épaisseur"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Total"
+msgstr ""
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__layer_total_concentration
+msgid "Total Concentration per Layer"
+msgstr "Concentration totale par couche"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid "Total concentration of BoM lines is {}% (should be 100%)."
+msgstr ""
+"La concentration totale des lignes de nomenclature est de {}% (au lieu de "
+"100%)."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid "Total concentration of BoM's extruders is {}% (should be 100%)."
+msgstr ""
+"La concentration totale des extrudeuses de la nomenclature est de {}% (au "
+"lieu de 100%)."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid "Total concentration of Recipe BoM lines is {}% (should be 100%)."
+msgstr ""
+"La concentration totale des lignes de nomenclature de la recette est de {}% "
+"(au lieu de 100%)."
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Type de l'activité d'exception sur l'enregistrement."
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__product_uom_id
+msgid "Unit of Measure"
+msgstr "Unité de mesure"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__product_uom_id
+msgid ""
+"Unit of Measure (Unit of Measure) is the unit of measurement for the "
+"inventory control"
+msgstr "L'unité de mesure est l'unité utilisée dans la gestion du stock"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "UoM"
+msgstr "UdM"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__uom_category_id
+msgid "UoM Category"
+msgstr "Catégorie de l'UdM"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.view_mrp_bom_filter
+msgid "Warnings"
+msgstr "Alertes"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__recipe_weight_uom_id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__recipe_weight_uom_id
+msgid "Weight UoM"
+msgstr "UdM du poids"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__recipe_weight_uom_name
+msgid "Weight UoM Label"
+msgstr "Nom de l'UdM du poids"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__recipe_weight
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom_import_recipe__recipe_weight
+msgid "Weight of raw materials used in recipe"
+msgstr "Poids des matériaux bruts utilisés dans la recette"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Width"
+msgstr "Largeur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__width_uom_id
+msgid "Width UoM"
+msgstr "UdM de la largeur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__width_uom_name
+msgid "Width UoM Label"
+msgstr "Nom de l'UdM de la largeur"
+
+#. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__workcenter_id
+msgid "Work Center"
+msgstr "Poste de travail"
