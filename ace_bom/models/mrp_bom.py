@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 # Part of Idealis Consulting. See LICENSE file for full copyright and licensing details.
 
-from datetime import date, timedelta
+from datetime import date
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import float_compare, float_round
 
 
 class MrpBom(models.Model):
-    # _inherit = 'mrp.bom'
     _name = 'mrp.bom'
     _inherit = ['mrp.bom', 'mail.activity.mixin']
 
@@ -47,7 +46,7 @@ class MrpBom(models.Model):
     type = fields.Selection(selection_add=[('recipe', 'Recipe')], ondelete={'recipe': 'set default'})
 
     # utility fields
-    is_recipe = fields.Boolean(string='Is Recipe', store=True, compute='_compute_is_recipe', help='Field used to display recipe fields')
+    is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_is_recipe', help='Field used to display recipe fields')
 
     # Char fields
     recipe_number = fields.Char(string='Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom'))
@@ -58,6 +57,7 @@ class MrpBom(models.Model):
     # O2m fields
     extruder_ids = fields.One2many('mrp.bom.extruder', 'bom_id', string='Extruders')
     production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')])
+    alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines')
 
     # M2o fields
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
@@ -76,11 +76,11 @@ class MrpBom(models.Model):
     width_uom_id = fields.Many2one('uom.uom', string='Width UoM', readonly=True, default=_default_millimeters_uom_id)
     width_uom_name = fields.Char(string='Width UoM Label', related='width_uom_id.name')
 
-    density = fields.Float(string='Density')
+    density = fields.Float(string='Density', compute='_compute_density', store=True)
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
 
-    recipe_weight = fields.Float(string='Recipe Raw Weight', digits='Product triple Precision', readonly=True, help='Weight of raw materials used in recipe')
+    recipe_weight = fields.Float(string='Recipe Raw Weight', digits='Product Triple Precision', readonly=True, help='Weight of raw materials used in recipe')
     recipe_weight_uom_id = fields.Many2one('uom.uom', string='Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     recipe_weight_uom_name = fields.Char(string='Weight UoM Label', related='recipe_weight_uom_id.name')
 
@@ -111,10 +111,30 @@ class MrpBom(models.Model):
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
                                               .format(line.extruder_id.display_name, line.layer_total_concentration))
 
+    @api.constrains('alt_bom_line_ids')
+    def _check_alt_bom_lines_concentration(self):
+        for bom in self:
+            if bom.is_recipe and bom.alt_bom_line_ids:
+                precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
+                total = float_round(sum(bom.alt_bom_line_ids.mapped('concentration')), precision_digits=precision)
+                if float_compare(total, 100.0, precision_digits=precision) != 0:
+                    raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format(total))
+                for line in bom.alt_bom_line_ids:
+                    if float_compare(line.layer_total_concentration, 100.0, precision_digits=precision) != 0:
+                        raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
+                                              .format(line.extruder_id.display_name, line.layer_total_concentration))
+
     @api.depends('type')
     def _compute_is_recipe(self):
         for bom in self:
             bom.is_recipe = True if bom.type == 'recipe' else False
+
+    @api.depends('bom_line_ids.density', 'bom_line_ids.concentration', 'bom_line_ids.product_id.density')
+    def _compute_density(self):
+        for bom in self:
+            recipe_bom_lines = bom.bom_line_ids.filtered(lambda line: line.density and line.concentration)
+            precision = self.env['decimal.precision'].precision_get('Product Double Precision')
+            bom.density = float_round(sum([line.density*(line.concentration/100) for line in recipe_bom_lines]), precision_digits=precision)
 
     @api.onchange('type')
     def _onchange_bom_type(self):

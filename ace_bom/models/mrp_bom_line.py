@@ -3,6 +3,7 @@
 
 from datetime import date
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 from odoo.tools import float_round
 
 
@@ -16,13 +17,19 @@ class MrpBomLine(models.Model):
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
+    # changes to field
+    bom_id = fields.Many2one('mrp.bom', required=False)  # field required handled in constrains
+
     # M2m fields
     allowed_uom_ids = fields.Many2many('uom.uom', string='Allowed UoMs', compute='_compute_allowed_uom_ids')
+
+    # O2m fields
+    production_bom_line_ids = fields.One2many('mrp.bom.line', 'recipe_bom_line_id', string='BoM Production Line', readonly=True)
 
     # M2o fields
     extruder_id = fields.Many2one('mrp.bom.extruder', string='Extruder')
     recipe_bom_line_id = fields.Many2one('mrp.bom.line', string='BoM Recipe Line', readonly=True)
-    production_bom_line_ids = fields.One2many('mrp.bom.line', 'recipe_bom_line_id', string='BoM Production Line', readonly=True)
+    alt_bom_id = fields.Many2one('mrp.bom', string='Parent Alternative BoM', ondelete='cascade')  # field required handled in constrains
 
     # Float fields with UoM
     density = fields.Float(string='Density', store=True, related='product_id.density', digits='Product Double Precision')
@@ -38,9 +45,15 @@ class MrpBomLine(models.Model):
     # Char fields
     hopper = fields.Char('Hopper')
 
+    @api.constrains('bom_id', 'alt_bom_id')
+    def _check_exist_bom(self):
+        for line in self:
+            if not line.bom_id and not line.alt_bom_id:
+                raise ValidationError(_('BoM Line should be related to a BoM.'))
+
     def _compute_allowed_uom_ids(self):
         for line in self:
-            if line.bom_id.type == 'recipe':
+            if line.bom_id.type == 'recipe' or line.alt_bom_id.type == 'recipe':
                 categ = self.env.ref('uom.product_uom_categ_kgm')
                 uoms = self.env['uom.uom'].search([('category_id', '=', categ.id)])
             else:
@@ -62,16 +75,21 @@ class MrpBomLine(models.Model):
     def _compute_layer_total_concentration(self):
         for line in self:
             precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
-            line.layer_total_concentration = float_round(sum(line.bom_id.bom_line_ids.filtered(lambda l: l.extruder_id == line.extruder_id).mapped('layer_concentration')), precision_digits=precision)
+            if line.bom_id:
+                line.layer_total_concentration = float_round(sum(line.bom_id.bom_line_ids.filtered(lambda l: l.extruder_id == line.extruder_id).mapped('layer_concentration')), precision_digits=precision)
+            elif line.alt_bom_id:
+                line.layer_total_concentration = float_round(sum(line.alt_bom_id.alt_bom_line_ids.filtered(lambda l: l.extruder_id == line.extruder_id).mapped('layer_concentration')), precision_digits=precision)
+            else:
+                line.layer_total_concentration = 0.0
 
     def write(self, vals):
         res = super(MrpBomLine, self).write(vals)
-        if 'product_id' in vals or 'layer_concentration' in vals or 'extruder_id' in vals:
+        if not self.alt_bom_id and ('product_id' in vals or 'layer_concentration' in vals or 'extruder_id' in vals):
             for bom in self.bom_id.production_bom_ids:
                 bom.activity_schedule(
                     act_type_xmlid='mail.mail_activity_data_warning',
                     date_deadline=date.today(),
                     summary=_('Recipe has changed'),
-                    note=_('At least one line of recipe ({}) has changed. You should recompute quantities.').format(self.bom_id.display_name),
+                    note=_('Product line ({}) of recipe ({}) has changed. You should recompute quantities.').format(self.product_id.name, self.bom_id.display_name),
                     user_id=self.env.uid)
         return res

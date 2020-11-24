@@ -130,7 +130,7 @@ class ProductTemplate(models.Model):
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
     is_ace_film_grammage_user_defined = fields.Boolean(string='User Defined Ace Film Grammage')
 
-    length = fields.Float(string='Length', digits='Product triple Precision')
+    length = fields.Float(string='Length', digits='Product Triple Precision')
     length_uom_id = fields.Many2one('uom.uom', string='Length UoM', readonly=True, default=_default_meters_uom_id)
     length_uom_name = fields.Char(string='Length UoM Label', related='length_uom_id.name')
 
@@ -138,10 +138,10 @@ class ProductTemplate(models.Model):
     width_uom_id = fields.Many2one('uom.uom', string='Width UoM', readonly=True, default=_default_millimeters_uom_id)
     width_uom_name = fields.Char(string='Width UoM Label', related='width_uom_id.name')
 
-    manual_weight = fields.Float(string='Manual Weight', digits='Product triple Precision')
+    manual_weight = fields.Float(string='Manual Weight', digits='Product Triple Precision')
     is_weight_user_defined = fields.Boolean(string='User Defined Weight')
 
-    surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product triple Precision')
+    surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product Triple Precision')
     surface_uom_id = fields.Many2one('uom.uom', string='Surface UoM', readonly=True, default=_default_square_meters_uom_id)
     surface_uom_name = fields.Char(string='Surface Uom Label', related='surface_uom_id.name')
 
@@ -149,11 +149,11 @@ class ProductTemplate(models.Model):
     diameter_uom_id = fields.Many2one('uom.uom', string='Diameter UoM', readonly=True, default=_default_millimeters_uom_id)
     diameter_uom_name = fields.Char(string='Diameter UoM Label', related='diameter_uom_id.name')
 
-    net_coil_weight = fields.Float(string='Net Coil Weight', compute='_compute_coil_weight', store=True, digits='Product triple Precision')
+    net_coil_weight = fields.Float(string='Net Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision')
     net_coil_weight_uom_id = fields.Many2one('uom.uom', string='Net Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     net_coil_weight_uom_name = fields.Char(string='Net Coil Weight UoM Label', related='net_coil_weight_uom_id.name')
 
-    gross_coil_weight = fields.Float(string='Gross Coil Weight', compute='_compute_coil_weight', store=True, digits='Product triple Precision')
+    gross_coil_weight = fields.Float(string='Gross Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision')
     gross_coil_weight_uom_id = fields.Many2one('uom.uom', string='Gross Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', related='gross_coil_weight_uom_id.name')
 

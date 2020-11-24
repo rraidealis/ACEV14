@@ -16,7 +16,7 @@ class ImportRecipe(models.TransientModel):
 
     bom_id = fields.Many2one('mrp.bom', string='Production BoM', required=True, domain=[('type', '=', 'standard')])
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe BoM', domain=[('type', '=', 'recipe')])
-    recipe_weight = fields.Float(string='Recipe Raw Weight', digits='Product triple Precision', help='Weight of raw materials used in recipe')
+    recipe_weight = fields.Float(string='Recipe Raw Weight', digits='Product Triple Precision', help='Weight of raw materials used in recipe')
     recipe_weight_uom_id = fields.Many2one('uom.uom', string='Weight UoM', default=_default_kilograms_uom_id)
     uom_category_id = fields.Many2one('uom.category', string='UoM Category', default=lambda self: self.env.ref('uom.product_uom_categ_kgm'), help='Default UoM category used for raw mat weight')
 

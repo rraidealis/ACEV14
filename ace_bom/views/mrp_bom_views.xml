@@ -123,6 +123,33 @@
 
             <!-- add pages -->
             <xpath expr="//page[@name='components']" position="after">
+                <page string="Alternative Components" name="alt_components" attrs="{'invisible': ['|', ('id', '=', False), ('is_recipe', '!=', True)]}">
+                    <field name="alt_bom_line_ids" widget="one2many" context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_alt_bom_id': id}">
+                        <tree string="Alternative Components" decoration-danger="layer_total_concentration and layer_total_concentration &gt; 100.00" decoration-warning="layer_total_concentration and layer_total_concentration &lt; 100.00" editable="bottom">
+                            <field name="company_id" invisible="1"/>
+                            <field name="allowed_uom_ids" invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" domain="[('uom_id', 'in', allowed_uom_ids)]" context="{'default_type': 'product'}"/>
+                            <field name="product_tmpl_id" invisible="1"/>
+                            <button name="action_see_attachments" type="object" icon="fa-files-o" aria-label="Product Attachments" title="Product Attachments" class="float-right oe_read_only"/>
+                            <field name="attachments_count" class="text-left oe_read_only" string=" "/>
+                            <field name="product_qty" invisible="1"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="parent_product_tmpl_id" invisible="1" />
+                            <field name="possible_bom_product_template_attribute_value_ids" invisible="1"/>
+                            <field name="product_uom_id" invisible="1"/>
+                            <field name="bom_product_template_attribute_value_ids" invisible="1"/>
+                            <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" required="1"/>
+                            <field name="hopper" width="80px"/>
+                            <field name="density" width="80px"/>
+                            <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom"/>
+                            <field name="layer_concentration" string="Concentration(%)/Layer" width="160px"/>
+                            <field name="layer_total_concentration" invisible="1"/>
+                            <field name="concentration" string="Concentration(%)" width="160px" sum="Total"/>
+                        </tree>
+                    </field>
+                </page>
+
                 <page string="Extruders" name="extruders" attrs="{'invisible': [('is_recipe', '!=', True)]}">
                     <field name="extruder_ids" widget="one2many" context="{'default_bom_id': id}">
                         <tree string="Extruders" editable="bottom">

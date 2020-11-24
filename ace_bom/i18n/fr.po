@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-19 07:21+0000\n"
-"PO-Revision-Date: 2020-11-19 09:00+0100\n"
+"POT-Creation-Date: 2020-11-24 20:42+0000\n"
+"PO-Revision-Date: 2020-11-24 21:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fr_BE\n"
+"Language: fr\n"
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: ace_bom
@@ -68,14 +68,19 @@ msgid "Allowed UoMs"
 msgstr "UdM autorisées"
 
 #. module: ace_bom
-#: code:addons/ace_bom/models/mrp_bom_line.py:0
-#, python-format
-msgid ""
-"At least one line of recipe ({}) has changed. You should recompute "
-"quantities."
-msgstr ""
-"Au moins une ligne de recette ({}) a changé. Vous devriez recalculer les "
-"quantités."
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__alt_bom_line_ids
+msgid "Alternative BoM Lines"
+msgstr "Lignes alternatives de la nomenclature"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Alternative Components"
+msgstr "Composants alternatifs"
+
+#. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom__alt_bom_line_ids
+msgid "Alternative recipe lines"
+msgstr "Lignes alternatives de la recette"
 
 #. module: ace_bom
 #: model:ir.model,name:ace_bom.model_mrp_bom
@@ -91,6 +96,12 @@ msgstr "Ligne de nomenclature"
 #: model:ir.model,name:ace_bom.model_mrp_bom_extruder
 msgid "BoM Extruder"
 msgstr "Extrudeuse"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid "BoM Line should be related to a BoM."
+msgstr "La ligne de nomenclature doit être liée à une nomenclature."
 
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__production_bom_line_ids
@@ -344,7 +355,13 @@ msgid "Number"
 msgstr "Nombre"
 
 #. module: ace_bom
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__alt_bom_id
+msgid "Parent Alternative BoM"
+msgstr "Nomenclature parente de la ligne alternative"
+
+#. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__bom_id
+#: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__bom_id
 msgid "Parent BoM"
 msgstr "Nomenclature parente"
 
@@ -361,6 +378,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__product_tmpl_id
 msgid "Product"
 msgstr "Article"
+
+#. module: ace_bom
+#: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
+msgid "Product Attachments"
+msgstr "Pièces jointe du produit"
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid ""
+"Product line ({}) of recipe ({}) has changed. You should recompute "
+"quantities."
+msgstr ""
+"La ligne du produit ({}) de la recette ({}) a changé. Vous devriez "
+"recalculer les quantités des composants de la recette."
 
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__bom_id
@@ -499,6 +531,14 @@ msgid "Total concentration of Recipe BoM lines is {}% (should be 100%)."
 msgstr ""
 "La concentration totale des lignes de nomenclature de la recette est de {}% "
 "(au lieu de 100%)."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid "Total concentration of alternative BoM lines is {}% (should be 100%)."
+msgstr ""
+"La concentration totale des lignes alternatives de la nomenclature est de "
+"{}% (elle devrait être de 100%)."
 
 #. module: ace_bom
 #: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_exception_decoration
