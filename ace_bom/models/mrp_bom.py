@@ -56,8 +56,8 @@ class MrpBom(models.Model):
 
     # O2m fields
     extruder_ids = fields.One2many('mrp.bom.extruder', 'bom_id', string='Extruders')
-    production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')])
-    alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines')
+    production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')]) # only recipes have production BoMs
+    alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines') # it is not possible to use bom_line_ids field for alternative components
 
     # M2o fields
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
@@ -86,6 +86,7 @@ class MrpBom(models.Model):
 
     @api.constrains('extruder_ids')
     def _check_extruders_concentration(self):
+        """ Check if total concentration of extruders is 100% """
         for bom in self:
             if bom.is_recipe and bom.extruder_ids:
                 precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
@@ -95,17 +96,22 @@ class MrpBom(models.Model):
 
     @api.constrains('bom_line_ids')
     def _check_bom_lines_concentration(self):
+        """ Check concentration of components of a recipe and components of a production BoM linked to a recipe """
         for bom in self:
+            # check production BoM lines concentration
             if bom.type == 'normal' and bom.recipe_bom_id:
                 precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.bom_line_ids.mapped('related_concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of Recipe BoM lines is {}% (should be 100%).').format(total))
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
+            # check recipe BoM lines concentration
             elif bom.is_recipe and bom.bom_line_ids:
                 precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.bom_line_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of BoM lines is {}% (should be 100%).').format(total))
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
+                # since it is possible to set a concentration above 100% on a line in order to have a total of 100%,
+                # we should check if all layers have a total concentration of 100%
                 for line in bom.bom_line_ids:
                     if float_compare(line.layer_total_concentration, 100.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
@@ -113,6 +119,7 @@ class MrpBom(models.Model):
 
     @api.constrains('alt_bom_line_ids')
     def _check_alt_bom_lines_concentration(self):
+        """ Check concentration of alternative components of a recipe """
         for bom in self:
             if bom.is_recipe and bom.alt_bom_line_ids:
                 precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
@@ -131,36 +138,45 @@ class MrpBom(models.Model):
 
     @api.depends('bom_line_ids.density', 'bom_line_ids.concentration', 'bom_line_ids.product_id.density')
     def _compute_density(self):
+        """ Compute bom density according to lines density """
         for bom in self:
             recipe_bom_lines = bom.bom_line_ids.filtered(lambda line: line.density and line.concentration)
             precision = self.env['decimal.precision'].precision_get('Product Double Precision')
             bom.density = float_round(sum([line.density*(line.concentration/100) for line in recipe_bom_lines]), precision_digits=precision)
 
+    @api.depends('production_bom_ids')
+    def _compute_production_bom_count(self):
+        """ Count production BoMs """
+        for bom in self:
+            bom.production_bom_count = len(bom.production_bom_ids)
+
     @api.onchange('type')
     def _onchange_bom_type(self):
+        """ Clean product and quantity if BoM type is recipe """
         if self.type == 'recipe':
             self.product_tmpl_id = False
             self.product_id = False
             self.product_qty = 1.0
 
-    @api.depends('production_bom_ids')
-    def _compute_production_bom_count(self):
-        for bom in self:
-            bom.production_bom_count = len(bom.production_bom_ids)
-
     def write(self, vals):
         res = super(MrpBom, self).write(vals)
-        if 'workcenter_id' in vals or 'type' in vals:
-            for bom in self.production_bom_ids:
-                bom.activity_schedule(
-                    act_type_xmlid='mail.mail_activity_data_warning',
-                    date_deadline=date.today(),
-                    summary=_('Recipe has changed'),
-                    note=_('Recipe ({}) has changed. To apply changes to current BoM, you should re-import the recipe.').format(self.display_name),
-                    user_id=self.env.uid)
+        # TODO : do we still need to display an exception if recipe information change ?
+        # if 'workcenter_id' in vals or 'type' in vals:
+        #     for bom in self.production_bom_ids:
+        #         bom.activity_schedule(
+        #             act_type_xmlid='mail.mail_activity_data_warning',
+        #             date_deadline=date.today(),
+        #             summary=_('Recipe has changed'),
+        #             note=_('Recipe ({}) has changed. To apply changes to current BoM, you should re-import the recipe.').format(self.display_name),
+        #             user_id=self.env.uid)
         return res
 
     def name_get(self):
+        """
+        Overwritten method
+        Use standard formatting if bom is not a recipe,
+        else display name should use recipe number instead of product template display name
+        """
         return [(bom.id, '%s%s' % (bom.code and '%s: ' % bom.code or '', bom.product_tmpl_id.display_name if not bom.is_recipe else bom.recipe_number)) for bom in self]
 
     def action_view_production_boms(self):
@@ -172,6 +188,7 @@ class MrpBom(models.Model):
         return result
 
     def action_import_recipe_bom(self):
+        """ Open a wizard in order to import a recipe """
         self.ensure_one()
         view = self.env.ref('ace_bom.mrp_bom_import_recipe_view_form')
         wiz = self.env['mrp.bom.import.recipe'].create({'bom_id': self.id})
@@ -188,6 +205,10 @@ class MrpBom(models.Model):
         }
 
     def action_compute_recipe_quantities(self):
+        """
+        Compute recipe quantities if current bom is linked to a recipe
+        Lines related to recipe components are deleted first, then a new line is added for each recipe component.
+        """
         self.ensure_one()
         if self.recipe_bom_id:
             self.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id).unlink()
@@ -196,8 +217,9 @@ class MrpBom(models.Model):
                     bom_weight_uom = self.recipe_weight_uom_id
                     line_uom = line.product_uom_id
                     concentration = line.concentration
+                    # convert uoms between line product and raw weight
                     if bom_weight_uom.category_id == line_uom.category_id:
-                        bom_weight = bom_weight_uom._compute_quantity(bom_weight, line.product_uom_id)
+                        bom_weight = bom_weight_uom._compute_quantity(bom_weight, line_uom)
                     else:
                         raise UserError(_(
                             'Cannot convert UoMs while importing recipe. UoMs categories should be the same on the BoM ({}) and the component ({}).').format(
@@ -210,4 +232,16 @@ class MrpBom(models.Model):
                         'product_qty': bom_weight * (concentration / 100),
                         'recipe_bom_line_id': line.id})
 
-
+    def unlink(self):
+        """
+        Overridden method
+        Prevent user from deleting recipes. those should be archived instead.
+        """
+        recipes = self.filtered(lambda bom: bom.type == 'recipe')
+        if recipes:
+            msg = _('It is not possible to delete recipe ({}). Instead, you should archive it.')
+            if len(recipes) > 1:
+                msg = _('It is not possible to delete recipes ({}). Instead, you should archive them.')
+            raise UserError(msg.format(' ,'.join(recipes.mapped('display_name'))))
+        else:
+            return super(MrpBom, self).unlink()

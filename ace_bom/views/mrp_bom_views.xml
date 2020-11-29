@@ -96,13 +96,15 @@
             <xpath expr="//field[@name='code']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '=', True)]}</attribute>
             </xpath>
+            <xpath expr="//field[@name='type']" position="attributes">
+                <attribute name="attrs">{'readonly': [('production_bom_count', '&gt;', 0)]}</attribute>
+            </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '!=', True)]}</attribute>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_uom_id']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '!=', True)]}</attribute>
             </xpath>
-
             <!-- add header -->
             <xpath expr="//sheet" position="before">
                 <header>

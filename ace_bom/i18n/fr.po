@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 20:42+0000\n"
-"PO-Revision-Date: 2020-11-24 21:49+0100\n"
+"POT-Creation-Date: 2020-11-29 17:08+0000\n"
+"PO-Revision-Date: 2020-11-29 18:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "UdM autorisées"
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom__alt_bom_line_ids
 msgid "Alternative BoM Lines"
-msgstr "Lignes alternatives de la nomenclature"
+msgstr "Composants alternatifs de la nomenclature"
 
 #. module: ace_bom
 #: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
@@ -80,7 +80,7 @@ msgstr "Composants alternatifs"
 #. module: ace_bom
 #: model:ir.model.fields,help:ace_bom.field_mrp_bom__alt_bom_line_ids
 msgid "Alternative recipe lines"
-msgstr "Lignes alternatives de la recette"
+msgstr "Composants alternatifs de la recette"
 
 #. module: ace_bom
 #: model:ir.model,name:ace_bom.model_mrp_bom
@@ -141,6 +141,35 @@ msgid "Color Code"
 msgstr "Code couleur"
 
 #. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid ""
+"Component ({}) has been added to recipe ({}). You should recompute "
+"quantities."
+msgstr ""
+"Le composant ({}) a été ajouté à la recette ({}). Vous devriez recalculer "
+"les quantités."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid ""
+"Component ({}) of recipe ({}) has been deleted. You should recompute "
+"quantities."
+msgstr ""
+"Le composant ({}) de la recette ({}) a été supprimé. Vous devriez "
+"recalculer les quantités."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom_line.py:0
+#, python-format
+msgid ""
+"Component ({}) of recipe ({}) has changed. You should recompute quantities."
+msgstr ""
+"Le composant ({}) de la recette ({}) a changé. Vous devriez recalculer les "
+"quantités."
+
+#. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__concentration
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__concentration
 msgid "Concentration"
@@ -159,7 +188,7 @@ msgstr "Concentration par couche"
 #. module: ace_bom
 #: model:ir.model.fields,help:ace_bom.field_mrp_bom_line__related_concentration
 msgid "Concentration taken from recipe line"
-msgstr "Concentration provenant de la ligne de nomenclature de la recette"
+msgstr "Concentration provenant du composant de la recette"
 
 #. module: ace_bom
 #: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
@@ -290,6 +319,24 @@ msgid "Is Recipe"
 msgstr "Est une recette"
 
 #. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid ""
+"It is not possible to delete recipe ({}). Instead, you should archive it."
+msgstr ""
+"Il n'est pas possible de supprimer la recette ({}). Vous devriez l'archiver "
+"à la place."
+
+#. module: ace_bom
+#: code:addons/ace_bom/models/mrp_bom.py:0
+#, python-format
+msgid ""
+"It is not possible to delete recipes ({}). Instead, you should archive them."
+msgstr ""
+"Il n'est pas possible de supprimer les recettes ({}). Vous devriez les "
+"archiver à la place."
+
+#. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom____last_update
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder____last_update
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe____last_update
@@ -357,7 +404,7 @@ msgstr "Nombre"
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_line__alt_bom_id
 msgid "Parent Alternative BoM"
-msgstr "Nomenclature parente de la ligne alternative"
+msgstr "Nomenclature parente du composant alternatif"
 
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_extruder__bom_id
@@ -383,16 +430,6 @@ msgstr "Article"
 #: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
 msgid "Product Attachments"
 msgstr "Pièces jointe du produit"
-
-#. module: ace_bom
-#: code:addons/ace_bom/models/mrp_bom_line.py:0
-#, python-format
-msgid ""
-"Product line ({}) of recipe ({}) has changed. You should recompute "
-"quantities."
-msgstr ""
-"La ligne du produit ({}) de la recette ({}) a changé. Vous devriez "
-"recalculer les quantités des composants de la recette."
 
 #. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__bom_id
@@ -421,16 +458,6 @@ msgid "Recipe"
 msgstr "Recette"
 
 #. module: ace_bom
-#: code:addons/ace_bom/models/mrp_bom.py:0
-#, python-format
-msgid ""
-"Recipe ({}) has changed. To apply changes to current BoM, you should re-"
-"import the recipe."
-msgstr ""
-"La recette ({}) a été modifiée. Pour appliquer les changements à la "
-"nomenclature actuelle, vous devriez ré-importer la recette."
-
-#. module: ace_bom
 #: model:ir.model.fields,field_description:ace_bom.field_mrp_bom_import_recipe__recipe_bom_id
 msgid "Recipe BoM"
 msgstr "Nomenclature de recette"
@@ -453,11 +480,10 @@ msgid "Recipe Raw Weight"
 msgstr "Poids brut de la recette"
 
 #. module: ace_bom
-#: code:addons/ace_bom/models/mrp_bom.py:0
 #: code:addons/ace_bom/models/mrp_bom_line.py:0
 #, python-format
 msgid "Recipe has changed"
-msgstr "La recette a été modifiée"
+msgstr "La recette a changée"
 
 #. module: ace_bom
 #: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
@@ -499,6 +525,12 @@ msgid "Thickness UoM Label"
 msgstr "Nom de l'UdM de l'épaisseur"
 
 #. module: ace_bom
+#: model:ir.model.fields,help:ace_bom.field_mrp_bom_line__alt_bom_id
+msgid "This is the BoM used for alternative components."
+msgstr ""
+"Il s'agit de la nomenclature utilisée pour les composants alternatifs."
+
+#. module: ace_bom
 #: model_terms:ir.ui.view,arch_db:ace_bom.mrp_bom_form_view
 msgid "Total"
 msgstr ""
@@ -511,14 +543,6 @@ msgstr "Concentration totale par couche"
 #. module: ace_bom
 #: code:addons/ace_bom/models/mrp_bom.py:0
 #, python-format
-msgid "Total concentration of BoM lines is {}% (should be 100%)."
-msgstr ""
-"La concentration totale des lignes de nomenclature est de {}% (au lieu de "
-"100%)."
-
-#. module: ace_bom
-#: code:addons/ace_bom/models/mrp_bom.py:0
-#, python-format
 msgid "Total concentration of BoM's extruders is {}% (should be 100%)."
 msgstr ""
 "La concentration totale des extrudeuses de la nomenclature est de {}% (au "
@@ -527,18 +551,18 @@ msgstr ""
 #. module: ace_bom
 #: code:addons/ace_bom/models/mrp_bom.py:0
 #, python-format
-msgid "Total concentration of Recipe BoM lines is {}% (should be 100%)."
+msgid "Total concentration of alternative BoM lines is {}% (should be 100%)."
 msgstr ""
-"La concentration totale des lignes de nomenclature de la recette est de {}% "
-"(au lieu de 100%)."
+"La concentration totale des composants alternatifs de la nomenclature est "
+"de {}% (elle devrait être de 100%)."
 
 #. module: ace_bom
 #: code:addons/ace_bom/models/mrp_bom.py:0
 #, python-format
-msgid "Total concentration of alternative BoM lines is {}% (should be 100%)."
+msgid "Total concentration of recipe components is {}% (should be 100%)."
 msgstr ""
-"La concentration totale des lignes alternatives de la nomenclature est de "
-"{}% (elle devrait être de 100%)."
+"La concentration totale des composants de la recette est de {}% (au lieu de "
+"100%)."
 
 #. module: ace_bom
 #: model:ir.model.fields,help:ace_bom.field_mrp_bom__activity_exception_decoration
