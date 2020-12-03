@@ -1,0 +1,418 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ace_uom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-03 17:48+0000\n"
+"PO-Revision-Date: 2020-12-03 19:11+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__active
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__active
+msgid "Active"
+msgstr "Actif"
+
+#. module: ace_uom
+#: model:ir.model.fields.selection,name:ace_uom.selection__uom_uom_template__uom_type__bigger
+msgid "Bigger than the reference Unit of Measure"
+msgstr "Plus grand que l'unité de mesure de référence"
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid ""
+"Cannot create an uom with a factor equal to 0.0 (field name: {}, field value: "
+"{})."
+msgstr ""
+"Impossible de créer une UdM avec un facteur égal à 0.0 (nom du champs: {}, "
+"valeur du champs: {})."
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__category_template_id
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_uom_template_view_tree
+msgid "Category"
+msgstr "Catégorie"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__name_from
+msgid "Category Name"
+msgstr "Nom de la catégorie"
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid ""
+"Category template {} should have one \"default purchase\" uom template (found "
+"{})."
+msgstr ""
+"Le modèle de catégorie {} devrait avoir un modèle d'UdM par défaut pour les "
+"achats ({} trouvé(s))."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid "Category template {} should have one \"default\" uom template (found {})."
+msgstr ""
+"Le modèle de catégorie {} devrait avoir un modèle d'UdM par défaut ({} "
+"trouvé(s))."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid ""
+"Category template {} should have one \"reference\" uom template (found {})."
+msgstr ""
+"Le modèle de catégorie {} devrait avoir un modèle d'UdM de référence ({} "
+"trouvé(s))."
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__create_uid
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__create_date
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_category__display_name
+#: model:ir.model.fields,field_description:ace_uom.field_product_template__display_name
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category__display_name
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__display_name
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom__display_name
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: ace_uom
+#: model_terms:ir.ui.view,arch_db:ace_uom.product_template_form_view
+msgid "Generate UoMs"
+msgstr "Générer les UdMs"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_category__id
+#: model:ir.model.fields,field_description:ace_uom.field_product_template__id
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category__id
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__id
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom__id
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__id
+msgid "ID"
+msgstr ""
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__default_purchase_uom
+msgid "Is Default Purchase UoM"
+msgstr "UdM pour les achats par défaut"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__default_uom
+msgid "Is Default UoM"
+msgstr "UdM par défaut"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_category____last_update
+#: model:ir.model.fields,field_description:ace_uom.field_product_template____last_update
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category____last_update
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template____last_update
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom____last_update
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__write_uid
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__write_date
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: ace_uom
+#: model_terms:ir.ui.view,arch_db:ace_uom.product_template_form_view
+msgid "Missing UoMs"
+msgstr "UdMs manquantes"
+
+#. module: ace_uom
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_category_template_view_tree
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_uom_template_view_tree
+msgid "Name"
+msgstr "Nom"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_product_category
+msgid "Product Category"
+msgstr "Catégorie d'article"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_product_template
+msgid "Product Template"
+msgstr "Modèle d'article"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "Unité de mesure d'article"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_uom_category
+msgid "Product UoM Categories"
+msgstr "Catégorie d'UdM"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_uom_category_template
+msgid "Product UoM Category Template"
+msgstr "Modèle de catégorie d'unité de mesure"
+
+#. module: ace_uom
+#: model:ir.model,name:ace_uom.model_uom_uom_template
+msgid "Product UoM Template"
+msgstr "Modèle d'unité de mesure"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__factor_from
+msgid "Ratio"
+msgstr "Facteur"
+
+#. module: ace_uom
+#: model:ir.model.fields.selection,name:ace_uom.selection__uom_uom_template__uom_type__reference
+msgid "Reference Unit of Measure for this category"
+msgstr "Unité de mesure de référence pour cette catégorie"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__rounding
+msgid "Rounding Precision"
+msgstr "Précision d'arrondi"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_product__show_banner_missing_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_template__show_banner_missing_uom
+msgid "Show Banner Missing UoM"
+msgstr "Afficher la bannière pour les UdMs manquantes"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_product_product__show_generate_uoms_button
+#: model:ir.model.fields,field_description:ace_uom.field_product_template__show_generate_uoms_button
+msgid "Show Generate UoMs Button"
+msgstr "Afficher le bouton pour générer les UdMs"
+
+#. module: ace_uom
+#: model:ir.model.fields.selection,name:ace_uom.selection__uom_uom_template__uom_type__smaller
+msgid "Smaller than the reference Unit of Measure"
+msgstr "Plus petit que l'unité de mesure de référence"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__name
+msgid "Template Name"
+msgstr "Nom du modèle"
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom__uom_template_id
+msgid "Template used for creation of current UoM"
+msgstr "Modèle utilisé pour la création de l'unité de mesure actuelle"
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_category__category_template_id
+msgid "Template used for creation of current UoM category"
+msgstr ""
+"Modèle utilisé pour la création de la catégorie d'unité de mesure actuelle"
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom_template__rounding
+msgid ""
+"The computed quantity will be a multiple of this value. Use 1.0 for a Unit of "
+"Measure that cannot be further split, such as a piece."
+msgstr ""
+"La quantité calculée sera un multiple de cette valeur. Utiliser 1.0 pour une "
+"unité de mesure qui ne peut être divisée, telle que des pièces."
+
+#. module: ace_uom
+#: model:ir.model.constraint,message:ace_uom.constraint_uom_uom_template_rounding_gt_zero
+msgid "The rounding precision must be strictly positive."
+msgstr "La précision de l'arrondi doit être strictement positive."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid "There is already an UoM category with this name ({})."
+msgstr "Il existe déjà une catégorie d'UdM avec ce nom ({})."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom_template__default_uom
+msgid "This UoM will be used as default UoM on product."
+msgstr "Cette UdM sera utilisée comme unité de mesure par défaut sur le produit."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom_template__default_purchase_uom
+msgid "This UoM will be used as default purchase UoM on product."
+msgstr ""
+"Cette UdM sera utilisée comme unité de mesure par défaut pour les achats sur "
+"le produit."
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__uom_type
+msgid "Type"
+msgstr ""
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/product_template.py:0
+#, python-format
+msgid ""
+"Unable to create a new UoM category with this name (field name: {}, field "
+"value: {})."
+msgstr ""
+"Impossible de créer une nouvelle catégorie d'UdM avec ce nom (nom du champs: "
+"{}, valeur du champs: {})."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom_template__active
+msgid ""
+"Uncheck the active field to disable a unit of measure without deleting it."
+msgstr ""
+"Décochez le champs actif pour désactiver une unité de mesure sans la supprimer."
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom_template__name
+msgid "Unit of Measure"
+msgstr "Unité de mesure"
+
+#. module: ace_uom
+#: model:ir.actions.act_window,name:ace_uom.uom_category_template_action_view_tree
+#: model:ir.model.fields,field_description:ace_uom.field_product_category__uom_category_template_id
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category__category_template_id
+#: model:ir.ui.menu,name:ace_uom.inventory_menu_uom_category_template
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_category_template_view_form
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_category_template_view_tree
+msgid "UoM Category Template"
+msgstr "Modèle de catégorie d'UdM"
+
+#. module: ace_uom
+#: model:ir.actions.act_window,name:ace_uom.uom_uom_template_action_view_tree
+#: model:ir.model.fields,field_description:ace_uom.field_uom_uom__uom_template_id
+#: model:ir.ui.menu,name:ace_uom.inventory_menu_uom_template
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_category_template_view_form
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_uom_template_view_form
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_uom_template_view_tree
+msgid "UoM Template"
+msgstr "Modèle d'UdM"
+
+#. module: ace_uom
+#: model:ir.model.fields,field_description:ace_uom.field_uom_category_template__uom_template_ids
+#: model_terms:ir.ui.view,arch_db:ace_uom.uom_category_template_view_form
+msgid "UoM Templates"
+msgstr "Modèles d'UdM"
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_uom_template.py:0
+#, python-format
+msgid ""
+"UoM category template %s should have a reference UoM template. If you just "
+"created a new category template, please record the 'reference' unit first."
+msgstr ""
+"Le modèle de catégorie d'UdM %s devrait avoir un modèle d'UdM de référence. Si "
+"vous venez de créer un nouveau modèle de catégorie, enregistrez l'unité de "
+"référence en premier lieu."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_uom_template.py:0
+#, python-format
+msgid "UoM category template %s should only have one reference UoM template."
+msgstr ""
+"Le modèle de catégorie d'UdM %s ne devrait avoir qu'un modèle d'UdM de "
+"référence."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_category_template.py:0
+#, python-format
+msgid ""
+"UoM category template {} should have at least one UoM template set as "
+"\"reference\" unit."
+msgstr ""
+"Le modèle de catégorie d'UdM {} devrait avoir au moins un modèle d'UdM défini "
+"comme référence."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_uom_template.py:0
+#, python-format
+msgid ""
+"UoM category template {} should have only one UoM template set as default UoM."
+msgstr ""
+"Le modèle de catégorie d'UdM {} ne devrait avoir qu'un modèle d'UdM défini "
+"comme UdM par défaut."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_uom_template.py:0
+#, python-format
+msgid ""
+"UoM category template {} should have only one UoM template set as default "
+"purchase UoM."
+msgstr ""
+"Le modèle de catégorie d'UdM {} ne devrait avoir qu'un modèle d'UdM défini "
+"comme UdM par défaut pour les achats."
+
+#. module: ace_uom
+#: code:addons/ace_uom/models/uom_uom_template.py:0
+#, python-format
+msgid "UoM category template {} should have only one reference UoM template."
+msgstr ""
+"Le modèle de catégorie d'UdM {} ne devrait avoir qu'un modèle d'UdM défini "
+"comme référence."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_product_product__show_banner_missing_uom
+#: model:ir.model.fields,help:ace_uom.field_product_template__show_banner_missing_uom
+msgid "Used to display a banner if custom uoms have not yet been computed"
+msgstr ""
+"Utilisé pour afficher une bannière si les UdMs n'ont pas encore été générées "
+"sur base des templates définis."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_product_category__uom_category_template_id
+msgid "Used to generate new UoMs for product of this category"
+msgstr ""
+"Utilisé pour générer de nouvelles UdMs pour les produits de cette catégorie."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_product_product__show_generate_uoms_button
+#: model:ir.model.fields,help:ace_uom.field_product_template__show_generate_uoms_button
+msgid ""
+"Used to show \"generate UoMs\" button if custom uoms are in use for current "
+"product"
+msgstr ""
+"Utilisé pour afficher le bouton de génération d'UdMs si des UdMs doivent être "
+"générées sur base de templates définis."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_uom_template__factor_from
+msgid ""
+"Value of this product field is used as factor of the new uom. Only float type "
+"fields are allowed."
+msgstr ""
+"La valeur de ce champs est utilisée comme facteur pour la nouvelle unité de "
+"mesure. Seuls les champs de type float sont permis."
+
+#. module: ace_uom
+#: model:ir.model.fields,help:ace_uom.field_uom_category_template__name_from
+msgid ""
+"Value of this product field is used as name of the new uom category. Only char "
+"fields are allowed."
+msgstr ""
+"La valeur de ce champs est utilisée comme nom pour la nouvelle catégorie "
+"d'UdM. Seuls les champs de type char sont permis."

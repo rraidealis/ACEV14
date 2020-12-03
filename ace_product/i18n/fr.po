@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 20:34+0000\n"
-"PO-Revision-Date: 2020-11-24 21:42+0100\n"
+"POT-Creation-Date: 2020-12-03 18:12+0000\n"
+"PO-Revision-Date: 2020-12-03 19:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage_uom_id
 msgid "Ace Film Grammage UoM"
-msgstr ""
+msgstr "UdM du grammage du film ACE"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__ace_film_grammage_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__ace_film_grammage_uom_name
 msgid "Ace Film Grammage UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du grammage du film ACE"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__ace_film_grammage_so_visibility
@@ -110,13 +110,13 @@ msgstr "Bobines par couche"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_layer_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_layer_uom_id
 msgid "Coil by Layer UoM"
-msgstr ""
+msgstr "UdM du nombre de bobine par couche"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_layer_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_layer_uom_name
 msgid "Coil by Layer UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du nombre de bobine par couche"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet
@@ -128,13 +128,13 @@ msgstr "Bobines par palette"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_pallet_uom_id
 msgid "Coil by Pallet UoM"
-msgstr ""
+msgstr "UdM du nombre de bobine par palette"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__coil_by_pallet_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__coil_by_pallet_uom_name
 msgid "Coil by Pallet UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du nombre de bobine par palette"
 
 #. module: ace_product
 #: model:ir.actions.act_window,name:ace_product.product_color_action_view_tree
@@ -244,13 +244,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__density_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__density_uom_id
 msgid "Density UoM"
-msgstr ""
+msgstr "UdM de densité"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__density_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__density_uom_name
 msgid "Density UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de densité"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__density_so_visibility
@@ -280,13 +280,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__diameter_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__diameter_uom_id
 msgid "Diameter UoM"
-msgstr ""
+msgstr "UdM de diamètre"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__diameter_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__diameter_uom_name
 msgid "Diameter UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de diamètre"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__diameter_so_visibility
@@ -388,13 +388,13 @@ msgstr "Grammage colle"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__glue_grammage_uom_id
 msgid "Glue Grammage UoM"
-msgstr ""
+msgstr "UdM de grammage de la colle"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__glue_grammage_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__glue_grammage_uom_name
 msgid "Glue Grammage UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de grammage de la colle"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__grammage
@@ -413,13 +413,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__grammage_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__grammage_uom_id
 msgid "Grammage UoM"
-msgstr ""
+msgstr "UdM de grammage"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__grammage_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__grammage_uom_name
 msgid "Grammage UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de grammage"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__grammage_so_visibility
@@ -443,13 +443,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight_uom_id
 msgid "Gross Coil Weight UoM"
-msgstr ""
+msgstr "UdM de poids brut de la bobine"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__gross_coil_weight_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__gross_coil_weight_uom_name
 msgid "Gross Coil Weight UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de poids brut de la bobine"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__gross_coil_weight_so_visibility
@@ -552,13 +552,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__length_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__length_uom_id
 msgid "Length UoM"
-msgstr ""
+msgstr "UdM de longueur"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__length_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__length_uom_name
 msgid "Length UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de longeur"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__length_so_visibility
@@ -574,12 +574,12 @@ msgstr "Paramètres de la machine"
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_speed_uom_id
 msgid "Machine Speed UoM"
-msgstr ""
+msgstr "UdM de vitesse de la machine"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_speed_uom_name
 msgid "Machine Speed UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de vitesse de la machine"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_id
@@ -603,13 +603,13 @@ msgstr "Diamètre du mandrin"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_diameter_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_diameter_uom_id
 msgid "Mandrel Diameter UoM"
-msgstr ""
+msgstr "UdM du diamètre du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_diameter_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_diameter_uom_name
 msgid "Mandrel Diameter UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du diamètre du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight
@@ -621,13 +621,13 @@ msgstr "Poids du mandrin"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_weight_uom_id
 msgid "Mandrel Weight UoM"
-msgstr ""
+msgstr "UdM du poids du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_weight_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_weight_uom_name
 msgid "Mandrel Weight UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du poids du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width
@@ -639,13 +639,13 @@ msgstr "Largeur du mandrin"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width_uom_id
 msgid "Mandrel Width UoM"
-msgstr ""
+msgstr "UdM de largeur du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__mandrel_width_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__mandrel_width_uom_name
 msgid "Mandrel Width UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de largeur du mandrin"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__manual_ace_film_grammage
@@ -689,13 +689,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight_uom_id
 msgid "Net Coil Weight UoM"
-msgstr ""
+msgstr "UdM du poids net de la bobine"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__net_coil_weight_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__net_coil_weight_uom_name
 msgid "Net Coil Weight UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du poids net de la bobine"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__net_coil_weight_so_visibility
@@ -713,13 +713,13 @@ msgstr "Nombre de couche"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__layer_number_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__layer_number_uom_id
 msgid "Number of Layers UoM"
-msgstr ""
+msgstr "UdM du nombre de couches"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__layer_number_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__layer_number_uom_name
 msgid "Number of Layers UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du nombre de couches"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number
@@ -729,12 +729,12 @@ msgstr "Nombre de fois"
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number_uom_id
 msgid "Number of Times UoM"
-msgstr ""
+msgstr "UdM du nombre de fois"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__machine_time_number_uom_name
 msgid "Number of Times UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM du nombre de fois"
 
 #. module: ace_product
 #: model_terms:ir.ui.view,arch_db:ace_product.product_template_form_view
@@ -869,12 +869,12 @@ msgstr ""
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__total_production_width_uom_id
 msgid "Production Width UoM"
-msgstr ""
+msgstr "UdM de largeur de production"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_mrp_bom__total_production_width_uom_name
 msgid "Production Width UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de largeur de production"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__mandrel_id
@@ -1169,13 +1169,13 @@ msgstr "Traitement de surface"
 #: model:ir.model.fields,field_description:ace_product.field_product_product__surface_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__surface_uom_id
 msgid "Surface UoM"
-msgstr ""
+msgstr "UdM de surface"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__surface_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__surface_uom_name
 msgid "Surface Uom Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de surface"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__surface_so_visibility
@@ -1221,13 +1221,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__thickness_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__thickness_uom_id
 msgid "Thickness UoM"
-msgstr ""
+msgstr "UdM d'épaisseur"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__thickness_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__thickness_uom_name
 msgid "Thickness UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM d'épaisseur"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__thickness_so_visibility
@@ -1290,13 +1290,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:ace_product.field_product_product__width_uom_id
 #: model:ir.model.fields,field_description:ace_product.field_product_template__width_uom_id
 msgid "Width UoM"
-msgstr ""
+msgstr "UdM de largeur"
 
 #. module: ace_product
 #: model:ir.model.fields,field_description:ace_product.field_product_product__width_uom_name
 #: model:ir.model.fields,field_description:ace_product.field_product_template__width_uom_name
 msgid "Width UoM Label"
-msgstr ""
+msgstr "Intitulé de l'UdM de largeur"
 
 #. module: ace_product
 #: model:ir.model.fields,help:ace_product.field_product_product__width_so_visibility
