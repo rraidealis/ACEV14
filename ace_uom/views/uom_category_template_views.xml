@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_category_template_view_form" model="ir.ui.view">
+        <field name="name">uom.category.template.view.form</field>
+        <field name="model">uom.category.template</field>
+        <field name="arch" type="xml">
+            <form string="UoM Category Template">
+                <sheet>
+                    <group>
+                         <group>
+                             <field name="name"/>
+                             <field name="name_from"/>
+                         </group>
+                         <group>
+                             <field name="active" widget="boolean_toggle"/>
+                         </group>
+                        <separator string="UoM Templates"/>
+                        <field name="uom_template_ids" widget="one2many" context="{'default_category_template_id': active_id}">
+                            <tree>
+                                <field name="category_template_id" invisible="1"/>
+                                <field name="name"/>
+                                <field name="uom_type"/>
+                                <field name="default_uom"/>
+                                <field name="default_purchase_uom"/>
+                                <field name="active"/>
+                            </tree>
+                            <form string="UoM Template">
+                                <sheet>
+                                    <group>
+                                         <group name="uom_details">
+                                             <field name="name"/>
+                                             <field name="uom_type"/>
+                                             <field name="factor_from" attrs="{'invisible': [('uom_type', '=', 'reference')], 'required': [('uom_type', '!=', 'reference')]}"/>
+                                         </group>
+                                         <group name="active_rounding">
+                                             <field name="active" widget="boolean_toggle"/>
+                                             <field name="rounding" digits="[42, 5]"/>
+                                             <field name="default_uom"/>
+                                             <field name="default_purchase_uom"/>
+                                         </group>
+                                     </group>
+                                </sheet>
+                            </form>
+                        </field>
+                     </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="uom_category_template_view_tree" model="ir.ui.view">
+        <field name="name">uom.category.template.view.tree</field>
+        <field name="model">uom.category.template</field>
+        <field name="arch" type="xml">
+            <tree string="UoM Category Template">
+                <field name="name" string="Name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="uom_category_template_action_view_tree" model="ir.actions.act_window">
+        <field name="name">UoM Category Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">uom.category.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="uom_category_template_view_tree"/>
+    </record>
+
+    <menuitem
+        id="inventory_menu_uom_category_template" name="UoM Category Template"
+        parent="stock.product_uom_menu" sequence="98"
+        action="ace_uom.uom_category_template_action_view_tree"/>
+
+</odoo>

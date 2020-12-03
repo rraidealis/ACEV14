@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit.uom.template</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="show_generate_uoms_button" invisible="1"/>
+                <field name="show_banner_missing_uom" invisible="1"/>
+                <button string="Generate UoMs" type="object" class="btn-primary" name="generate_uoms_action" attrs="{'invisible': ['|', ('show_generate_uoms_button', '=', False), ('show_banner_missing_uom', '=', False)]}"/>
+                <button string="Generate UoMs" type="object" name="generate_uoms_action" attrs="{'invisible': ['|', ('show_generate_uoms_button', '=', False), ('show_banner_missing_uom', '=', True)]}"/>
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="Missing UoMs" bg_color="bg-danger" attrs="{'invisible': [('show_banner_missing_uom', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

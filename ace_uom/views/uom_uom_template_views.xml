@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_uom_template_view_form" model="ir.ui.view">
+        <field name="name">uom.uom.template.view.form</field>
+        <field name="model">uom.uom.template</field>
+        <field name="arch" type="xml">
+            <form string="UoM Template">
+                <sheet>
+                    <group>
+                         <group name="uom_details">
+                             <field name="name"/>
+                             <field name="category_template_id"/>
+                             <field name="uom_type"/>
+                             <field name="factor_from" attrs="{'invisible': [('uom_type', '=', 'reference')], 'required': [('uom_type', '!=', 'reference')]}"/>
+                         </group>
+                         <group name="active_rounding">
+                             <field name="active" widget="boolean_toggle"/>
+                             <field name="rounding" digits="[42, 5]"/>
+                             <field name="default_uom"/>
+                             <field name="default_purchase_uom"/>
+                         </group>
+                     </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="uom_uom_template_view_tree" model="ir.ui.view">
+        <field name="name">uom.uom.template.view.tree</field>
+        <field name="model">uom.uom.template</field>
+        <field name="arch" type="xml">
+            <tree string="UoM Template">
+                <field name="name" string="Name"/>
+                <field name="category_template_id" string="Category"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="uom_uom_template_action_view_tree" model="ir.actions.act_window">
+        <field name="name">UoM Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">uom.uom.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="uom_uom_template_view_tree"/>
+    </record>
+
+    <menuitem
+        id="inventory_menu_uom_template" name="UoM Template"
+        parent="stock.product_uom_menu" sequence="99"
+        action="ace_uom.uom_uom_template_action_view_tree"/>
+
+</odoo>
