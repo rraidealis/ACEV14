@@ -86,11 +86,11 @@ class ProductTemplate(models.Model):
             default_uom_template = category_template.uom_template_ids.filtered(lambda x: x.default_uom)
             default_uom_po_template = category_template.uom_template_ids.filtered(lambda x: x.default_purchase_uom)
             if len(reference_uom_template) != 1:
-                raise ValidationError(_('Category template {} should have one "reference" uom template (found {}).').format(category_template, len(reference_uom_template)))
+                raise ValidationError(_('Category template {} should have one "reference" uom template (found {}).').format(category_template.name, len(reference_uom_template)))
             if len(default_uom_template) != 1:
-                raise ValidationError(_('Category template {} should have one "default" uom template (found {}).').format(category_template, len(default_uom_template)))
+                raise ValidationError(_('Category template {} should have one "default" uom template (found {}).').format(category_template.name, len(default_uom_template)))
             if len(default_uom_po_template) != 1:
-                raise ValidationError(_('Category template {} should have one "default purchase" uom template (found {}).').format(category_template, len(default_uom_po_template)))
+                raise ValidationError(_('Category template {} should have one "default purchase" uom template (found {}).').format(category_template.name, len(default_uom_po_template)))
             # 4. If a reference has been kept, update it, else create a new one from template
             if not reference_uom:
                 reference_uom = self.env['uom.uom'].create(self._prepare_uom_values(reference_uom_template, default_uom_category))
@@ -104,8 +104,8 @@ class ProductTemplate(models.Model):
             for uom_template in (category_template.uom_template_ids - reference_uom_template):
                 self.env['uom.uom'].create(self._prepare_uom_values(uom_template, default_uom_category))
             # 6. Updates uom_id and uom_po_id on product with recently created uoms
-            default_uom = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_template.id), ('active', '=', True)])
-            default_uom_po = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_po_template.id), ('active', '=', True)])
+            default_uom = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_template.id), ('category_id', '=', default_uom_category.id), ('active', '=', True)])
+            default_uom_po = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_po_template.id), ('category_id', '=', default_uom_category.id), ('active', '=', True)])
             self.write({'uom_id': default_uom.id, 'uom_po_id': default_uom_po.id})
 
     def _prepare_uom_values(self, template, category):
@@ -113,10 +113,15 @@ class ProductTemplate(models.Model):
         Prepare uom values from uom template and uom category
         If factor is not different than 0.0, raise an error
         """
-        if template.factor_from:
-            factor = getattr(self, template.factor_from)
-        else:
+        if template.uom_type == 'reference':
             factor = 1.0
+        else:
+            if template.factor_from and not template.user_defined_ratio:
+                factor = getattr(self, template.factor_from)
+            elif template.factor and template.user_defined_ratio:
+                factor = template.factor
+            else:
+                raise ValidationError(_('Unable to create UoM {}: conversion ratio is missing.').format(template.name))
         if float_compare(factor, 0.000, 3) == 0:
             raise ValidationError(_('Cannot create an uom with a factor equal to 0.0 (field name: {}, field value: {}).').format(template.factor_from, factor))
         return {

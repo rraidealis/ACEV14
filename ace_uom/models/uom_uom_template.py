@@ -12,8 +12,12 @@ class UoMTemplate(models.Model):
     name = fields.Char('Unit of Measure', required=True, translate=True)
     category_template_id = fields.Many2one('uom.category.template', string='Category', required=True, ondelete='cascade')
     # required only if type != reference. This is handled in view
-    factor_from = fields.Selection(selection='_selection_product_field', string='Ratio',
+    factor_from = fields.Selection(selection='_selection_product_field', string='Ratio From',
                                   help='Value of this product field is used as factor of the new uom. Only float type fields are allowed.')
+    factor = fields.Float(
+        'Ratio', default=1.0, digits=0, required=True,  # force NUMERIC with unlimited precision
+        help='How much bigger or smaller this unit is compared to the reference Unit of Measure for this category: 1 * (reference unit) = ratio * (this unit)')
+    user_defined_ratio = fields.Boolean(string='User Defined Ratio', help='Used to manually set a factor instead of using value from a product field')
     rounding = fields.Float(string='Rounding Precision', default=0.01, digits=0, required=True,
         help='The computed quantity will be a multiple of this value. '
              'Use 1.0 for a Unit of Measure that cannot be further split, such as a piece.')
@@ -27,6 +31,7 @@ class UoMTemplate(models.Model):
     default_purchase_uom = fields.Boolean(string='Is Default Purchase UoM', default=True, help='This UoM will be used as default purchase UoM on product.')
 
     _sql_constraints = [
+        ('factor_gt_zero', 'CHECK (factor!=0 OR not user_defined_ratio)', 'The conversion ratio for a unit of measure template cannot be 0.'),
         ('rounding_gt_zero', 'CHECK (rounding>0)', 'The rounding precision must be strictly positive.')
     ]
 
@@ -94,3 +99,14 @@ class UoMTemplate(models.Model):
                 ('default_purchase_uom', '=', True)])
             if len(default_purchase_uoms) > 1:
                 raise ValidationError(_('UoM category template {} should have only one UoM template set as default purchase UoM.').format(self.category_template_id.name))
+
+    @api.onchange('uom_type')
+    def _onchange_uom_type(self):
+        self.factor_from = False
+        self.factor = 1.0
+        self.user_defined_ratio = False
+
+    @api.onchange('user_defined_ratio')
+    def _onchange_user_defined_ratio(self):
+        self.factor = 1.0
+        self.factor_from = False
