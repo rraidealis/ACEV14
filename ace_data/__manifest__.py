@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'ACE Datas',
+    'name': 'ACE Data',
     'version': '14.0.0.1',
     'category': 'Manufacturing/Manufacturing',
     'summary': '',

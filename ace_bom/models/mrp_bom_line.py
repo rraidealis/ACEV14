@@ -11,9 +11,9 @@ class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
     def _default_density_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_density', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_density', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_density')
+            categ = self.env.ref('ace_data.product_uom_categ_density')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 

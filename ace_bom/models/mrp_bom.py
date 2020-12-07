@@ -12,23 +12,23 @@ class MrpBom(models.Model):
     _inherit = ['mrp.bom', 'mail.activity.mixin']
 
     def _default_millimeters_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_small_length')
+            categ = self.env.ref('ace_data.product_uom_categ_small_length')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
     def _default_micrometers_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_micrometer', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_micrometer', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_small_length')
+            categ = self.env.ref('ace_data.product_uom_categ_small_length')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'smaller')], limit=1)
         return uom
 
     def _default_density_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_density', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_density', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_density')
+            categ = self.env.ref('ace_data.product_uom_categ_density')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
