@@ -17,16 +17,19 @@ class MrpBom(models.Model):
         return uom
 
     def _default_millimeters_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
             categ = self.env.ref('uom.uom_categ_length')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000')], limit=1)
         return uom
 
     def _default_meters_per_minute_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_meter_per_minute', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_meter_per_minute', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_meter_per_minute', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_speed')
+            # categ = self.env.ref('ace_product.product_uom_categ_speed')
+            categ = self.env.ref('ace_data.product_uom_categ_speed')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'smaller')], limit=1)
         return uom
 

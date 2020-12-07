@@ -8,8 +8,8 @@
     'website': 'http://www.idealisconsulting.com',
     'depends': ['mrp'],
     'data': [
-        'data/product_data.xml',
-        'data/uom_data.xml',
+        # 'data/product_data.xml',
+        # 'data/uom_data.xml',
 		'security/ir.model.access.csv',
         'views/product_views.xml',
         'views/mrp_bom_views.xml',

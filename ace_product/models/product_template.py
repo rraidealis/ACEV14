@@ -38,37 +38,45 @@ class ProductTemplate(models.Model):
         return uom
 
     def _default_millimeters_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
             categ = self.env.ref('uom.uom_categ_length')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000')], limit=1)
         return uom
 
     def _default_micrometers_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_micrometer', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_micrometer', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_micrometer', raise_if_not_found=False)
         if not uom:
             categ = self.env.ref('uom.uom_categ_length')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('factor', '=', '1000000')], limit=1)
         return uom
 
     def _default_square_meters_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_square_meter', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_square_meter', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_square_meter', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_surface')
+            # categ = self.env.ref('ace_product.product_uom_categ_surface')
+            categ = self.env.ref('ace_data.product_uom_categ_surface')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
     def _default_grammage_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_grammage', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_grammage', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_grammage', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_grammage')
+            # categ = self.env.ref('ace_product.product_uom_categ_grammage')
+            categ = self.env.ref('ace_data.product_uom_categ_grammage')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
     def _default_density_uom_id(self):
-        uom = self.env.ref('ace_product.product_uom_density', raise_if_not_found=False)
+        # uom = self.env.ref('ace_product.product_uom_density', raise_if_not_found=False)
+        uom = self.env.ref('ace_data.product_uom_density', raise_if_not_found=False)
         if not uom:
-            categ = self.env.ref('ace_product.product_uom_categ_density')
+            # categ = self.env.ref('ace_product.product_uom_categ_density')
+            categ = self.env.ref('ace_data.product_uom_categ_density')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
@@ -130,7 +138,7 @@ class ProductTemplate(models.Model):
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
     is_ace_film_grammage_user_defined = fields.Boolean(string='User Defined Ace Film Grammage')
 
-    length = fields.Float(string='Length', digits='Product Triple Precision')
+    ace_length = fields.Float(string='Length', digits='Product Triple Precision')
     length_uom_id = fields.Many2one('uom.uom', string='Length UoM', readonly=True, default=_default_meters_uom_id)
     length_uom_name = fields.Char(string='Length UoM Label', related='length_uom_id.name')
 
@@ -242,26 +250,26 @@ class ProductTemplate(models.Model):
             if bom_lines:
                 product.mandrel_id = bom_lines[0].product_id
 
-    @api.depends('width', 'length')
+    @api.depends('width', 'ace_length')
     def _compute_surface(self):
         for product in self:
             width_factor = product.width_uom_id.factor
             length_factor = product.length_uom_id.factor
-            product.surface = (product.width / width_factor) * (product.length / length_factor)
+            product.surface = (product.width / width_factor) * (product.ace_length / length_factor)
 
     @api.depends('coil_by_layer', 'layer_number')
     def _compute_coil_by_pallet(self):
         for product in self:
             product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
-    @api.depends('width', 'length', 'manual_grammage', 'grammage', 'is_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
+    @api.depends('width', 'ace_length', 'manual_grammage', 'grammage', 'is_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
     def _compute_coil_weight(self):
         for product in self:
             width_factor = product.width_uom_id.factor
             length_factor = product.length_uom_id.factor
-            weight = ((product.width / width_factor) * (product.length / length_factor) * product.grammage) / 1000
+            weight = ((product.width / width_factor) * (product.ace_length / length_factor) * product.grammage) / 1000
             if product.is_grammage_user_defined:
-                weight = ((product.width / width_factor) * (product.length / length_factor) * product.manual_grammage) / 1000
+                weight = ((product.width / width_factor) * (product.ace_length / length_factor) * product.manual_grammage) / 1000
             product.net_coil_weight = weight
             if product.mandrel_id:
                 weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1

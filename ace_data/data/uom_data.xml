@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+        Resource: uom.category
+        -->
+        <record id="product_uom_categ_surface" model="uom.category">
+            <field name="name">Surface</field>
+        </record>
+        <record id="product_uom_categ_density" model="uom.category">
+            <field name="name">Density</field>
+        </record>
+        <record id="product_uom_categ_speed" model="uom.category">
+            <field name="name">Speed</field>
+        </record>
+        <record id="product_uom_categ_grammage" model="uom.category">
+            <field name="name">Grammage</field>
+        </record>
+       <!--
+            Resource: uom.uom
+        -->
+        <record id="product_uom_millimeter" model="uom.uom">
+            <field name="category_id" ref="uom.uom_categ_length"/>
+            <field name="name">mm</field>
+            <field name="factor" eval="1000"/>
+            <field name="uom_type">smaller</field>
+        </record>
+        <record id="product_uom_micrometer" model="uom.uom">
+            <field name="category_id" ref="uom.uom_categ_length"/>
+            <field name="name">μm</field>
+            <field name="factor" eval="1000000"/>
+            <field name="uom_type">smaller</field>
+        </record>
+        <record id="product_uom_square_meter" model="uom.uom">
+            <field name="category_id" ref="ace_data.product_uom_categ_surface"/>
+            <field name="name">m²</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+        <record id="product_uom_km_per_hour" model="uom.uom">
+            <field name="category_id" ref="ace_data.product_uom_categ_speed"/>
+            <field name="name">km/h</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+        <record id="product_uom_meter_per_minute" model="uom.uom">
+            <field name="category_id" ref="ace_data.product_uom_categ_speed"/>
+            <field name="name">m/min</field>
+            <field name="uom_type">smaller</field>
+            <field name="factor" eval="16.6"/>
+        </record>
+        <record id="product_uom_grammage" model="uom.uom">
+            <field name="category_id" ref="ace_data.product_uom_categ_grammage"/>
+            <field name="name">g/m²</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+        <record id="product_uom_density" model="uom.uom">
+            <field name="category_id" ref="ace_data.product_uom_categ_density"/>
+            <field name="name">g/cm³</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+    </data>
+</odoo>
