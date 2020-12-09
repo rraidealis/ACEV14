@@ -32,8 +32,9 @@
                             <field name="show_coil_by_layer"/>
                             <field name="show_layer_number"/>
                             <field name="show_thickness"/>
-                            <field name="show_grammage"/>
+                            <field name="show_total_grammage"/>
                             <field name="show_ace_film_grammage"/>
+                            <field name="show_extruded_film_grammage"/>
                             <field name="show_length"/>
                             <field name="show_width"/>
                             <field name="show_surface"/>

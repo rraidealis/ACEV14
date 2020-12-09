@@ -215,10 +215,10 @@
                     <field name="density"/>
                     <field name="density_uom_name"/>
                 </div>
-                <label for="recipe_weight" string="Recipe Raw Mat Weight" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
+                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
                 <div class="o_row" attrs="{'invisible': [('recipe_bom_id', '=', False)]}">
-                    <field name="recipe_weight"/>
-                    <field name="recipe_weight_uom_name"/>
+                    <field name="raw_mat_weight"/>
+                    <field name="raw_mat_weight_uom_name"/>
                 </div>
             </xpath>
         </field>

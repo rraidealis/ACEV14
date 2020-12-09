@@ -10,13 +10,7 @@
                 <p>Pay attention that this action will erase components of any previously imported recipe.</p>
                 <group>
                     <field name="bom_id" invisible="1"/>
-                    <field name="uom_category_id" invisible="1"/>
                     <field name="recipe_bom_id"/>
-                    <label for="recipe_weight" string="Recipe Raw Mat Weight"/>
-                    <div class="o_row">
-                        <field name="recipe_weight"/>
-                        <field name="recipe_weight_uom_id" options="{'no_create': True}" domain="[('category_id', '=', uom_category_id)]"/>
-                    </div>
                 </group>
                 <footer>
                     <button string="Import" name="button_import_recipe" type="object" class="btn-primary"/>

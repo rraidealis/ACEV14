@@ -38,8 +38,9 @@ class ProductCategory(models.Model):
     show_layer_number = fields.Boolean(string='Show Number of Layers', default=True)
 
     show_thickness = fields.Boolean(string='Show Thickness', default=True)
-    show_grammage = fields.Boolean(string='Show Grammage', default=True)
+    show_total_grammage = fields.Boolean(string='Show Total Grammage', default=True)
     show_ace_film_grammage = fields.Boolean(string='Show Ace Film Grammage', default=True)
+    show_extruded_film_grammage = fields.Boolean(string='Show Extruded Film Grammage', default=True)
     show_length = fields.Boolean(string='Show Length', default=True)
     show_width = fields.Boolean(string='Show Width', default=True)
     show_surface = fields.Boolean(string='Show Surface', default=True)

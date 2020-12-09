@@ -12,5 +12,7 @@ all_access_bom_carrot_type,All access BoM Carrot Type,model_bom_carrot_type,base
 all_access_product_color,All access Product Color,model_product_color,base.group_user,1,1,1,1
 all_access_product_surface_treatment,All access Product Surface Treatment,model_product_surface_treatment,base.group_user,1,1,1,1
 all_access_product_perforation_grid,All access Product Perforation Grid,model_product_perforation_grid,base.group_user,1,1,1,1
+all_access_product_theoretical_density,All access Product Theoretical Density,model_product_theoretical_density,base.group_user,1,1,1,1
+
 
 

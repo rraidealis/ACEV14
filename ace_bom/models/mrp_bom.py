@@ -80,9 +80,9 @@ class MrpBom(models.Model):
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
 
-    recipe_weight = fields.Float(string='Recipe Raw Weight', digits='Product Triple Precision', readonly=True, help='Weight of raw materials used in recipe')
-    recipe_weight_uom_id = fields.Many2one('uom.uom', string='Weight UoM', readonly=True, default=_default_kilograms_uom_id)
-    recipe_weight_uom_name = fields.Char(string='Weight UoM Label', related='recipe_weight_uom_id.name')
+    raw_mat_weight = fields.Float(string='Raw Mat Weight', digits='Product Triple Precision', compute='_compute_raw_mat_weight', store=True, tracking=True, help='Weight of raw materials used to produce this product')
+    raw_mat_weight_uom_id = fields.Many2one('uom.uom', string='Weight UoM', readonly=True, default=_default_kilograms_uom_id)
+    raw_mat_weight_uom_name = fields.Char(string='Weight UoM Label', related='raw_mat_weight_uom_id.name')
 
     @api.constrains('extruder_ids')
     def _check_extruders_concentration(self):
@@ -130,6 +130,26 @@ class MrpBom(models.Model):
                     if float_compare(line.layer_total_concentration, 100.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
                                               .format(line.extruder_id.display_name, line.layer_total_concentration))
+
+    @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id')
+    def _compute_raw_mat_weight(self):
+        for bom in self:
+            product_uom_factor = bom.product_uom_id.factor
+            bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * (bom.product_qty * product_uom_factor)
+            if bom.recipe_bom_id:
+                for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):
+                    bom_weight = bom.raw_mat_weight
+                    bom_weight_uom = bom.raw_mat_weight_uom_id
+                    line_uom = line.product_uom_id
+                    concentration = line.related_concentration
+                    # convert uoms between line product and raw weight
+                    if bom_weight_uom.category_id == line_uom.category_id:
+                        bom_weight = bom_weight_uom._compute_quantity(bom_weight, line_uom)
+                    else:
+                        raise UserError(_(
+                            'Cannot convert UoMs while importing recipe. UoMs categories should be the same on the BoM ({}) and the component ({}).').format(
+                            bom_weight_uom.display_name, line_uom.display_name))
+                    line.product_qty = bom_weight * (concentration / 100)
 
     @api.depends('type')
     def _compute_is_recipe(self):
@@ -213,8 +233,8 @@ class MrpBom(models.Model):
         if self.recipe_bom_id:
             self.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id).unlink()
             for line in self.recipe_bom_id.bom_line_ids:
-                    bom_weight = self.recipe_weight
-                    bom_weight_uom = self.recipe_weight_uom_id
+                    bom_weight = self.raw_mat_weight
+                    bom_weight_uom = self.raw_mat_weight_uom_id
                     line_uom = line.product_uom_id
                     concentration = line.concentration
                     # convert uoms between line product and raw weight

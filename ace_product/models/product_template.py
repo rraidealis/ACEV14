@@ -38,7 +38,6 @@ class ProductTemplate(models.Model):
         return uom
 
     def _default_millimeters_uom_id(self):
-        # uom = self.env.ref('ace_product.product_uom_millimeter', raise_if_not_found=False)
         uom = self.env.ref('ace_data.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
             categ = self.env.ref('uom.uom_categ_length')
@@ -46,7 +45,6 @@ class ProductTemplate(models.Model):
         return uom
 
     def _default_micrometers_uom_id(self):
-        # uom = self.env.ref('ace_product.product_uom_micrometer', raise_if_not_found=False)
         uom = self.env.ref('ace_data.product_uom_micrometer', raise_if_not_found=False)
         if not uom:
             categ = self.env.ref('uom.uom_categ_length')
@@ -54,28 +52,22 @@ class ProductTemplate(models.Model):
         return uom
 
     def _default_square_meters_uom_id(self):
-        # uom = self.env.ref('ace_product.product_uom_square_meter', raise_if_not_found=False)
         uom = self.env.ref('ace_data.product_uom_square_meter', raise_if_not_found=False)
         if not uom:
-            # categ = self.env.ref('ace_product.product_uom_categ_surface')
             categ = self.env.ref('ace_data.product_uom_categ_surface')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
     def _default_grammage_uom_id(self):
-        # uom = self.env.ref('ace_product.product_uom_grammage', raise_if_not_found=False)
         uom = self.env.ref('ace_data.product_uom_grammage', raise_if_not_found=False)
         if not uom:
-            # categ = self.env.ref('ace_product.product_uom_categ_grammage')
             categ = self.env.ref('ace_data.product_uom_categ_grammage')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
     def _default_density_uom_id(self):
-        # uom = self.env.ref('ace_product.product_uom_density', raise_if_not_found=False)
         uom = self.env.ref('ace_data.product_uom_density', raise_if_not_found=False)
         if not uom:
-            # categ = self.env.ref('ace_product.product_uom_categ_density')
             categ = self.env.ref('ace_data.product_uom_categ_density')
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
@@ -126,13 +118,19 @@ class ProductTemplate(models.Model):
     thickness_uom_id = fields.Many2one('uom.uom', string='Thickness UoM', readonly=True, default=_default_micrometers_uom_id)
     thickness_uom_name = fields.Char(string='Thickness UoM Label', related='thickness_uom_id.name')
 
-    grammage = fields.Float(string='Grammage', digits='Product Single Precision')
-    grammage_uom_id = fields.Many2one('uom.uom', string='Grammage UoM', readonly=True, default=_default_grammage_uom_id)
-    grammage_uom_name = fields.Char(string='Grammage UoM Label', related='grammage_uom_id.name')
-    manual_grammage = fields.Float(string='Manual Grammage', digits='Product Single Precision')
-    is_grammage_user_defined = fields.Boolean(string='User Defined Grammage')
+    extruded_film_grammage = fields.Float(string='Extruded Film Grammage', compute='_compute_extruded_film_grammage', store=True, digits='Product Single Precision')
+    extruded_film_grammage_uom_id = fields.Many2one('uom.uom', string='Extruded Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
+    extruded_film_grammage_uom_name = fields.Char(string='Extruded Film Grammage UoM Label', related='extruded_film_grammage_uom_id.name')
+    manual_extruded_film_grammage = fields.Float(string='Manual Extruded Film Grammage', digits='Product Single Precision')
+    is_extruded_film_grammage_user_defined = fields.Boolean(string='User Defined Extruded Film Grammage')
 
-    ace_film_grammage = fields.Float(string='Ace Film Grammage', digits='Product Single Precision')
+    total_grammage = fields.Float(string='Total Grammage', related='extruded_film_grammage', digits='Product Single Precision')
+    total_grammage_uom_id = fields.Many2one('uom.uom', string='Total Grammage UoM', readonly=True, default=_default_grammage_uom_id)
+    total_grammage_uom_name = fields.Char(string='Total Grammage UoM Label', related='total_grammage_uom_id.name')
+    manual_total_grammage = fields.Float(string='Manual Total Grammage', digits='Product Single Precision')
+    is_total_grammage_user_defined = fields.Boolean(string='User Defined Total Grammage')
+
+    ace_film_grammage = fields.Float(string='Ace Film Grammage', related='extruded_film_grammage', digits='Product Single Precision')
     ace_film_grammage_uom_id = fields.Many2one('uom.uom', string='Ace Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     ace_film_grammage_uom_name = fields.Char(string='Ace Film Grammage UoM Label', related='ace_film_grammage_uom_id.name')
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
@@ -165,7 +163,7 @@ class ProductTemplate(models.Model):
     gross_coil_weight_uom_id = fields.Many2one('uom.uom', string='Gross Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', related='gross_coil_weight_uom_id.name')
 
-    density = fields.Float(string='Density')
+    density = fields.Float(string='Density', compute='_compute_density', store=True)
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
 
@@ -205,8 +203,9 @@ class ProductTemplate(models.Model):
     show_coil_by_layer = fields.Boolean(string='Show Coil by Layer', related='categ_id.show_coil_by_layer')
     show_layer_number = fields.Boolean(string='Show Number of Layers', related='categ_id.show_layer_number')
     show_thickness = fields.Boolean(string='Show Thickness', related='categ_id.show_thickness')
-    show_grammage = fields.Boolean(string='Show Grammage', related='categ_id.show_grammage')
+    show_total_grammage = fields.Boolean(string='Show Total Grammage', related='categ_id.show_total_grammage')
     show_ace_film_grammage = fields.Boolean(string='Show Ace Film Grammage', related='categ_id.show_ace_film_grammage')
+    show_extruded_film_grammage = fields.Boolean(string='Show Extruded Film Grammage', related='categ_id.show_extruded_film_grammage')
     show_width = fields.Boolean(string='Show Width', related='categ_id.show_width')
     show_length = fields.Boolean(string='Show Length', related='categ_id.show_length')
     show_surface = fields.Boolean(string='Show Surface', related='categ_id.show_surface')
@@ -221,8 +220,9 @@ class ProductTemplate(models.Model):
 
     # SO visibility
     thickness_so_visibility = fields.Boolean(help='Thickness visibility in sale orders')
-    grammage_so_visibility = fields.Boolean(help='Grammage visibility in sale orders')
+    total_grammage_so_visibility = fields.Boolean(help='Total Grammage visibility in sale orders')
     ace_film_grammage_so_visibility = fields.Boolean(help='Ace Film grammage visibility in sale orders')
+    extruded_film_grammage_so_visibility = fields.Boolean(help='Extruded Film grammage visibility in sale orders')
     length_so_visibility = fields.Boolean(help='Length visibility in sale orders')
     width_so_visibility = fields.Boolean(help='Width visibility in sale orders')
     surface_so_visibility = fields.Boolean(help='Surface visibility in sale orders')
@@ -239,6 +239,24 @@ class ProductTemplate(models.Model):
     ####################
     # Computed Methods #
     ####################
+
+    @api.depends('thickness', 'density', 'manual_extruded_film_grammage', 'is_extruded_film_grammage_user_defined')
+    def _compute_extruded_film_grammage(self):
+        for product in self:
+            product.extruded_film_grammage = 0.0
+            if product.is_extruded_film_grammage_user_defined:
+                product.extruded_film_grammage = product.manual_extruded_film_grammage
+            elif product.thickness and product.density:
+                product.extruded_film_grammage = product.thickness * product.density
+
+    @api.depends('color_code_id', 'formula_code_id')
+    def _compute_density(self):
+        for product in self:
+            product.density = 0.0
+            if product.color_code_id and product.formula_code_id:
+                theoretical_density = self.env['product.theoretical.density'].search([('color_code_id', '=', product.color_code_id.id),
+                                                                                      ('formula_code_id', '=', product.formula_code_id.id)], limit=1)
+                product.density = theoretical_density.density_uom_id._compute_quantity(theoretical_density.density, product.density_uom_id)
 
     @api.depends('current_bom_line_ids.product_id',
                  'current_bom_line_ids.product_id.categ_id',
@@ -262,14 +280,13 @@ class ProductTemplate(models.Model):
         for product in self:
             product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
-    @api.depends('width', 'ace_length', 'manual_grammage', 'grammage', 'is_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
+    @api.depends('surface', 'manual_ace_film_grammage', 'ace_film_grammage', 'is_ace_film_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
     def _compute_coil_weight(self):
         for product in self:
-            width_factor = product.width_uom_id.factor
-            length_factor = product.length_uom_id.factor
-            weight = ((product.width / width_factor) * (product.ace_length / length_factor) * product.grammage) / 1000
-            if product.is_grammage_user_defined:
-                weight = ((product.width / width_factor) * (product.ace_length / length_factor) * product.manual_grammage) / 1000
+            # Todo: Arbitrary divisor value, grams factor. Find a way to have a dynamic value since we didn't know that it is a conversion of g to kg
+            weight = (product.surface * product.ace_film_grammage) / 1000
+            if product.is_ace_film_grammage_user_defined:
+                weight = (product.surface * product.manual_ace_film_grammage) / 1000
             product.net_coil_weight = weight
             if product.mandrel_id:
                 weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1

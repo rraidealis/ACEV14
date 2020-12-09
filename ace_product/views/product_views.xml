@@ -52,14 +52,15 @@
 
                 <group string="Dimensions"
                        attrs="{'invisible': [('show_thickness', '=', False),
-                       ('show_grammage', '=', False), ('show_ace_film_grammage', '=', False),
+                       ('show_total_grammage', '=', False), ('show_ace_film_grammage', '=', False), ('show_extruded_film_grammage', '=', False),
                        ('show_length', '=', False), ('show_width', '=', False), ('show_surface', '=', False),
                        ('show_diameter', '=', False), ('show_net_coil_weight', '=', False),
                        ('show_gross_coil_weight', '=', False), ('show_density', '=', False)]}">
 
                     <field name="show_thickness" invisible="1"/>
-                    <field name="show_grammage" invisible="1"/>
+                    <field name="show_total_grammage" invisible="1"/>
                     <field name="show_ace_film_grammage" invisible="1"/>
+                    <field name="show_extruded_film_grammage" invisible="1"/>
                     <field name="show_length" invisible="1"/>
                     <field name="show_width" invisible="1"/>
                     <field name="show_surface" invisible="1"/>
@@ -75,13 +76,13 @@
                         <field name="thickness_uom_name"/>
                     </div>
 
-                    <label for="grammage" attrs="{'invisible': [('show_grammage', '=', False)]}"/>
-                    <div class="o_row" attrs="{'invisible': [('show_grammage', '=', False)]}">
-                        <span class="oe_edit_only">SO</span><field name="grammage_so_visibility"/>
-                        <field name="grammage" attrs="{'invisible': [('is_grammage_user_defined', '=', True)]}"/>
-                        <field name="manual_grammage" attrs="{'invisible': [('is_grammage_user_defined', '=', False)]}"/>
-                        <field name="grammage_uom_name"/>
-                        <field name="is_grammage_user_defined"/><span>User Defined</span>
+                    <label for="extruded_film_grammage" attrs="{'invisible': [('show_extruded_film_grammage', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_extruded_film_grammage', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="extruded_film_grammage_so_visibility"/>
+                        <field name="extruded_film_grammage" attrs="{'invisible': [('is_extruded_film_grammage_user_defined', '=', True)]}"/>
+                        <field name="manual_extruded_film_grammage" attrs="{'invisible': [('is_extruded_film_grammage_user_defined', '=', False)]}"/>
+                        <field name="extruded_film_grammage_uom_name"/>
+                        <field name="is_extruded_film_grammage_user_defined"/><span>User Defined</span>
                     </div>
 
                     <label for="ace_film_grammage" attrs="{'invisible': [('show_ace_film_grammage', '=', False)]}"/>
@@ -91,6 +92,15 @@
                         <field name="manual_ace_film_grammage" attrs="{'invisible': [('is_ace_film_grammage_user_defined', '=', False)]}"/>
                         <field name="ace_film_grammage_uom_name"/>
                         <field name="is_ace_film_grammage_user_defined"/><span>User Defined</span>
+                    </div>
+
+                    <label for="total_grammage" attrs="{'invisible': [('show_total_grammage', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_total_grammage', '=', False)]}">
+                        <span class="oe_edit_only">SO</span><field name="total_grammage_so_visibility"/>
+                        <field name="total_grammage" attrs="{'invisible': [('is_total_grammage_user_defined', '=', True)]}"/>
+                        <field name="manual_total_grammage" attrs="{'invisible': [('is_total_grammage_user_defined', '=', False)]}"/>
+                        <field name="total_grammage_uom_name"/>
+                        <field name="is_total_grammage_user_defined"/><span>User Defined</span>
                     </div>
 
                     <label for="ace_length" attrs="{'invisible': [('show_length', '=', False)]}"/>
@@ -382,6 +392,19 @@
         </field>
     </record>
 
+    <record id="product_theoretical_density_view_tree" model="ir.ui.view">
+        <field name="name">product.theoretical.density.view.tree</field>
+        <field name="model">product.theoretical.density</field>
+        <field name="arch" type="xml">
+            <tree string="Theoretical Density" editable="bottom">
+                <field name="formula_code_id"/>
+                <field name="color_code_id"/>
+                <field name="density"/>
+                <field name="density_uom_name" string="UoM" width="80px"/>
+            </tree>
+        </field>
+    </record>
+
     <!-- Actions -->
 
     <record id="product_substrate_position_action_view_tree" model="ir.actions.act_window">
@@ -466,6 +489,13 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.technical.description</field>
         <field name="view_id" ref="product_technical_description_view_tree"/>
+    </record>
+
+    <record id="product_theoretical_density_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Theoretical Density</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.theoretical.density</field>
+        <field name="view_id" ref="product_theoretical_density_view_tree"/>
     </record>
 
 </odoo>

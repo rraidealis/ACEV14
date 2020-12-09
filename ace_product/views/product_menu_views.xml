@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <menuitem id="product_description_parent_menu" name="Product Description" parent="stock.menu_stock_config_settings" sequence="5"/>
     <menuitem
         id="product_menu_family_code" name="Family Code"
-        parent="stock.menu_product_in_config_stock" sequence="80"
+        parent="ace_product.product_description_parent_menu" sequence="80"
         action="ace_product.product_family_code_action_view_tree"/>
     <menuitem
         id="product_menu_technical_description" name="Technical Description"
-        parent="stock.menu_product_in_config_stock" sequence="81"
+        parent="ace_product.product_description_parent_menu" sequence="81"
         action="ace_product.product_technical_description_action_view_tree"/>
     <menuitem
         id="product_menu_formula_code" name="Formula Code"
-        parent="stock.menu_product_in_config_stock" sequence="82"
+        parent="ace_product.product_description_parent_menu" sequence="82"
         action="ace_product.product_formula_code_action_view_tree"/>
     <menuitem
         id="product_menu_color_code" name="Color Code"
-        parent="stock.menu_product_in_config_stock" sequence="83"
+        parent="ace_product.product_description_parent_menu" sequence="83"
         action="ace_product.product_color_code_action_view_tree"/>
     <menuitem
         id="product_menu_color" name="Color"
-        parent="stock.menu_product_in_config_stock" sequence="84"
+        parent="ace_product.product_description_parent_menu" sequence="84"
         action="ace_product.product_color_action_view_tree"/>
     <menuitem
         id="product_menu_commercial_name" name="Commercial Name"
-        parent="stock.menu_product_in_config_stock" sequence="85"
+        parent="ace_product.product_description_parent_menu" sequence="85"
         action="ace_product.product_commercial_name_action_view_tree"/>
     <menuitem
+        id="product_menu_theoretical_density" name="Theoretical Density"
+        parent="ace_product.product_description_parent_menu" sequence="86"
+        action="ace_product.product_theoretical_density_action_view_tree"/>
+
+    <menuitem id="product_packaging_parent_menu" name="Packaging" parent="stock.menu_stock_config_settings" sequence="6"/>
+    <menuitem
         id="product_menu_packing_norm" name="Packing Norm"
-        parent="stock.menu_product_in_config_stock" sequence="86"
+        parent="ace_product.product_packaging_parent_menu" sequence="87"
         action="ace_product.product_packing_norm_action_view_tree"/>
     <menuitem
         id="product_menu_pallet_type" name="Pallet Type"
-        parent="stock.menu_product_in_config_stock" sequence="87"
+        parent="ace_product.product_packaging_parent_menu" sequence="88"
         action="ace_product.product_pallet_type_action_view_tree"/>
-     <menuitem
+
+    <menuitem id="product_production_parent_menu" name="Production" parent="stock.menu_stock_config_settings" sequence="7"/>
+    <menuitem
         id="product_menu_surface_treatment" name="Surface Treatment"
-        parent="stock.menu_product_in_config_stock" sequence="88"
+        parent="ace_product.product_production_parent_menu" sequence="89"
         action="ace_product.product_surface_treatment_action_view_tree"/>
     <menuitem
         id="product_menu_embossing_pattern" name="Embossing Pattern"
-        parent="stock.menu_product_in_config_stock" sequence="89"
+        parent="ace_product.product_production_parent_menu" sequence="90"
         action="ace_product.product_embossing_pattern_action_view_tree"/>
     <menuitem
         id="product_menu_perforation_grid" name="Perforation Grid"
-        parent="stock.menu_product_in_config_stock" sequence="90"
+        parent="ace_product.product_production_parent_menu" sequence="91"
         action="ace_product.product_perforation_grid_action_view_tree"/>
     <menuitem
         id="product_menu_substrate_position" name="Substrate Position"
-        parent="stock.menu_product_in_config_stock" sequence="91"
+        parent="ace_product.product_production_parent_menu" sequence="92"
         action="ace_product.product_substrate_position_action_view_tree"/>
 
     <menuitem id="menu_bom_product_config" name="Bill of Materials" parent="stock.menu_stock_config_settings" sequence="5"/>
