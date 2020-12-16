@@ -50,7 +50,7 @@
                     </div>
                 </group>
 
-                <group string="Dimensions"
+                <group string="Measures"
                        attrs="{'invisible': [('show_thickness', '=', False),
                        ('show_total_grammage', '=', False), ('show_ace_film_grammage', '=', False), ('show_extruded_film_grammage', '=', False),
                        ('show_length', '=', False), ('show_width', '=', False), ('show_surface', '=', False),
@@ -173,7 +173,7 @@
                         <field name="show_is_package_stored" invisible="1"/>
                         <field name="show_pallet_type" invisible="1"/>
 
-                        <group string="Mandrel" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
+                        <group string="Mandrel Information" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
                             <field name="mandrel_id" attrs="{'invisible': [('show_mandrel', '=', False)]}"/>
                             <label for="mandrel_diameter" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}">
@@ -192,7 +192,7 @@
                             </div>
                         </group>
 
-                        <group string="Packaging" attrs="{'invisible': [('show_packing_norm', '=', False),
+                        <group string="Packaging Information" attrs="{'invisible': [('show_packing_norm', '=', False),
                         ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False), ('show_coil_by_layer', '=', False),
                         ('show_layer_number', '=', False), ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
                             <field name="packing_norm_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
@@ -218,7 +218,7 @@
 
                     </group>
                 </page>
-                <page string="Production" name="production_information"
+                <page string="Production Parameters" name="production_information"
                       attrs="{'invisible': [('show_substrate_position', '=', False), ('show_surface_treatment', '=', False),
                       ('show_embossing_pattern', '=', False), ('show_perforation_grid', '=', False), ('show_glue_grammage', '=', False),
                       ('show_is_sublot_jj', '=', False)]}">

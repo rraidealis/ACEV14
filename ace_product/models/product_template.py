@@ -124,13 +124,13 @@ class ProductTemplate(models.Model):
     manual_extruded_film_grammage = fields.Float(string='Manual Extruded Film Grammage', digits='Product Single Precision')
     is_extruded_film_grammage_user_defined = fields.Boolean(string='User Defined Extruded Film Grammage')
 
-    total_grammage = fields.Float(string='Total Grammage', related='extruded_film_grammage', digits='Product Single Precision')
+    total_grammage = fields.Float(string='Total Grammage', compute='_compute_total_grammage', store=True, digits='Product Single Precision')
     total_grammage_uom_id = fields.Many2one('uom.uom', string='Total Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     total_grammage_uom_name = fields.Char(string='Total Grammage UoM Label', related='total_grammage_uom_id.name')
     manual_total_grammage = fields.Float(string='Manual Total Grammage', digits='Product Single Precision')
     is_total_grammage_user_defined = fields.Boolean(string='User Defined Total Grammage')
 
-    ace_film_grammage = fields.Float(string='Ace Film Grammage', related='extruded_film_grammage', digits='Product Single Precision')
+    ace_film_grammage = fields.Float(string='Ace Film Grammage', compute='_compute_ace_film_grammage', store=True, digits='Product Single Precision')
     ace_film_grammage_uom_id = fields.Many2one('uom.uom', string='Ace Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     ace_film_grammage_uom_name = fields.Char(string='Ace Film Grammage UoM Label', related='ace_film_grammage_uom_id.name')
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
@@ -179,7 +179,7 @@ class ProductTemplate(models.Model):
     mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', related='mandrel_weight_uom_id.name')
 
-    glue_grammage = fields.Float(string='Glue Grammage', digits='Product Double Precision')
+    glue_grammage = fields.Float(string='Glue/Coating Grammage', digits='Product Double Precision')
     glue_grammage_uom_id = fields.Many2one('uom.uom', readonly=True, string='Glue Grammage UoM', default=_default_grammage_uom_id)
     glue_grammage_uom_name = fields.Char(string='Glue Grammage UoM Label', related='glue_grammage_uom_id.name')
 
@@ -246,8 +246,28 @@ class ProductTemplate(models.Model):
             product.extruded_film_grammage = 0.0
             if product.is_extruded_film_grammage_user_defined:
                 product.extruded_film_grammage = product.manual_extruded_film_grammage
-            elif product.thickness and product.density:
-                product.extruded_film_grammage = product.thickness * product.density
+            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded' and product.thickness and product.density:
+                # TODO arbitrary divisor -> conversion of micrometers to centimeters
+                # TODO arbitrary multiplicator -> conversion of cm2 to m2
+                product.extruded_film_grammage = ((product.thickness / 10000) * product.density) * 10000
+
+    @api.depends('extruded_film_grammage', 'is_ace_film_grammage_user_defined', 'ace_film_grammage')
+    def _compute_ace_film_grammage(self):
+        for product in self:
+            product.ace_film_grammage = 0.0
+            if product.is_ace_film_grammage_user_defined:
+                product.ace_film_grammage = product.manual_ace_film_grammage
+            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded':
+                product.ace_film_grammage = product.extruded_film_grammage
+
+    @api.depends('extruded_film_grammage', 'manual_total_grammage', 'is_total_grammage_user_defined')
+    def _compute_total_grammage(self):
+        for product in self:
+            product.total_grammage = 0.0
+            if product.is_total_grammage_user_defined:
+                product.total_grammage = product.manual_total_grammage
+            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded':
+                product.total_grammage = product.extruded_film_grammage
 
     @api.depends('color_code_id', 'formula_code_id')
     def _compute_density(self):

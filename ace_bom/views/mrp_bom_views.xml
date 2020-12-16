@@ -40,7 +40,7 @@
         </field>
     </record>
 
-    <!-- pay attention that this record should not have the same id than the previous one or it will be overridden -->
+    <!-- pay attention that this record should not have the same name than the previous one or it will be overridden -->
     <record id="mrp_bom_form_view" model="ir.ui.view">
         <field name="name">mrp.bom.form.view.inherited.recipe.type</field>
         <field name="model">mrp.bom</field>
@@ -71,27 +71,8 @@
                 <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//page[@name='components']" position="attributes">
-                <attribute name="attrs">{'invisible': [('type', '=', 'recipe'), ('id', '=', False)]}</attribute>
+                <attribute name="attrs">{'invisible': [('is_recipe', '=', True), ('id', '=', False)]}</attribute>
             </xpath>
-            <!-- hide unnecessary columns in case of recipe type -->
-            <!-- set readonly components linked to a recipe line -->
-            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="attributes">
-                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="attributes">
-                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
-                <attribute name="attrs">{'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='bom_product_template_attribute_value_ids']" position="attributes">
-                <attribute name="attrs">{'column_invisible': ['|', ('parent.product_id', '!=', False), ('parent.is_recipe', '=', True)]}</attribute>
-            </xpath>
-            <!-- add domain to components -->
-            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
-                <attribute name="domain">[('uom_id', 'in', allowed_uom_ids)]</attribute>
-            </xpath>
-
             <!-- required/readonly fields -->
             <xpath expr="//field[@name='code']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '=', True)]}</attribute>
@@ -105,11 +86,12 @@
             <xpath expr="//form/sheet/group/group/div/field[@name='product_uom_id']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '!=', True)]}</attribute>
             </xpath>
+
             <!-- add header -->
             <xpath expr="//sheet" position="before">
                 <header>
-                    <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': [('type', '!=', 'normal')]}"/>
-                    <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
+                    <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': ['|', ('type', '!=', 'normal'), ('film_type_bom', '!=', 'extruded')]}"/>
+                    <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', '!=', 'extruded')]}"/>
                 </header>
             </xpath>
 
@@ -122,9 +104,35 @@
                     </div>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='bom_line_ids']" position="after">
+                <button name="action_add_component"
+                        string="Add a Film"
+                        type="object"
+                        class="oe_highlight"
+                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_film'}"
+                        attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
+                />
+                <button name="action_add_component"
+                        style="margin-left: 10px;"
+                        string="Add Glue"
+                        type="object"
+                        class="oe_highlight"
+                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_glue'}"
+                        attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
+                />
+                <button name="action_add_component"
+                        style="margin-left: 10px;"
+                        string="Add Coating"
+                        type="object"
+                        class="oe_highlight"
+                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_coating'}"
+                        attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
+                />
+            </xpath>
 
             <!-- add pages -->
             <xpath expr="//page[@name='components']" position="after">
+                <!-- Alternative components -->
                 <page string="Alternative Components" name="alt_components" attrs="{'invisible': ['|', ('id', '=', False), ('is_recipe', '!=', True)]}">
                     <field name="alt_bom_line_ids" widget="one2many" context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_alt_bom_id': active_id}">
                         <tree string="Alternative Components" decoration-danger="layer_total_concentration and layer_total_concentration &gt; 100.00" decoration-warning="layer_total_concentration and layer_total_concentration &lt; 100.00" editable="bottom">
@@ -149,6 +157,13 @@
                             <field name="layer_total_concentration" invisible="1"/>
                             <field name="concentration" string="Concentration(%)" width="160px" sum="Total"/>
                         </tree>
+                        <tree>
+                            <field name="company_id" invisible="1"/>
+                            <field name="allowed_uom_ids" invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" domain="[('uom_id', 'in', allowed_uom_ids)]" context="{'default_type': 'product'}"/>
+                            <field name="product_tmpl_id" invisible="1"/>
+                        </tree>
                     </field>
                 </page>
 
@@ -163,6 +178,28 @@
                 </page>
             </xpath>
 
+            <!-- hide unnecessary columns in case of recipe type -->
+            <!-- set readonly components linked to a recipe line -->
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="attributes">
+                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="attributes">
+                <attribute name="attrs">{'column_invisible': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('recipe_bom_line_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='bom_product_template_attribute_value_ids']" position="attributes">
+                <attribute name="attrs">{'column_invisible': ['|', ('parent.product_id', '!=', False), ('parent.is_recipe', '=', True)]}</attribute>
+            </xpath>
+            <!-- add domain to components -->
+            <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('uom_id', 'in', allowed_uom_ids), ('categ_id', 'in', allowed_product_category_ids)]</attribute>
+            </xpath>
+            <!-- add default view form -->
+            <xpath expr="//field[@name='bom_line_ids']" position="attributes">
+                <attribute name="context">{'form_view_ref': 'mrp.mrp_bom_line_view_form', 'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': id}</attribute>
+            </xpath>
             <!-- add columns -->
             <xpath expr="//field[@name='bom_line_ids']/tree" position="attributes">
                 <attribute name="decoration-warning">layer_total_concentration and layer_total_concentration &lt; 100.00</attribute>
@@ -172,14 +209,15 @@
             <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
                 <field name="recipe_bom_line_id" invisible="1"/>
                 <field name="allowed_uom_ids" invisible="1"/>
-                <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.type', '=', 'normal'), ('parent.recipe_bom_id', '=', False)],
+                <field name="allowed_product_category_ids" invisible="1"/>
+                <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', '|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.recipe_bom_id', '=', False), ('parent.film_type_bom', '!=', 'extruded'), ('parent.is_recipe', '!=', True)],
                                                                                                                                     'required': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}"/>
                 <field name="hopper" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="density" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="layer_concentration" string="Concentration(%)/Layer" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="layer_total_concentration" invisible="1"/>
-                <field name="related_concentration" string="Concentration (%)" width="160px" attrs="{'column_invisible': ['|', ('parent.type', '!=', 'normal'), ('parent.recipe_bom_id', '=', False)]}" sum="Total"/>
+                <field name="related_concentration" string="Concentration (%)" width="160px" attrs="{'column_invisible': ['|', '|', ('parent.type', '!=', 'normal'), ('parent.film_type_bom', '!=', 'extruded'), ('parent.film_type_bom', '=', 'extruded'), ('parent.recipe_bom_id', '=', False)]}" sum="Total"/>
                 <field name="concentration" string="Concentration(%)" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}" sum="Total"/>
             </xpath>
 
@@ -189,13 +227,14 @@
             </xpath>
             <xpath expr="//field[@name='active']" position="after">
                 <field name="is_recipe" invisible="1"/>
+                <field name="film_type_bom" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='code']" position="before">
                 <field name="recipe_number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
-                <field name="recipe_bom_id" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+                <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', '!=', 'extruded')]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
                 <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
@@ -215,13 +254,21 @@
                     <field name="density"/>
                     <field name="density_uom_name"/>
                 </div>
-                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': [('recipe_bom_id', '=', False)]}"/>
-                <div class="o_row" attrs="{'invisible': [('recipe_bom_id', '=', False)]}">
+                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '=', True)]}">
                     <field name="raw_mat_weight"/>
                     <field name="raw_mat_weight_uom_name"/>
                 </div>
             </xpath>
         </field>
+    </record>
+
+    <record id="bom_line_action_form_view" model="ir.actions.act_window">
+        <field name="name">Create Component Line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.bom.line</field>
+        <field name="view_id" ref="ace_bom.mrp_bom_line_view_form"/>
+        <field name="target">new</field>
     </record>
 
 </odoo>

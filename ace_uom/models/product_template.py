@@ -59,26 +59,22 @@ class ProductTemplate(models.Model):
         category_template = self.categ_id.uom_category_template_id
         # 1. Check if there is an uom category template set on product category
         if category_template:
-            # 2. Retrieve uom category from uom_id
-            default_uom_category = self.uom_id.category_id \
-                if self.uom_id.category_id.category_template_id \
-                   and self.uom_id.category_id.category_template_id == category_template \
-                else False
-            # 2a.   If uom_id category has been created from a template and this template is the same
-            #       as the one set on product category then keep reference and archives the other ones
+            # 2. Retrieve category name from product field value and look for a matching record in database
+            category_name = getattr(self, category_template.name_from)
+            if not category_name:
+                raise ValidationError(_('Unable to create a new UoM category with this name (field name: {}, field value: {}).').format(category_template.name_from, category_name))
+            default_uom_category = self.env['uom.category'].search([('name', '=', category_name)], limit=1)
+            # 2a. If there is already a category with this name and this category has the same template than the one set on product category
+            #     then keep reference and archive other uoms
             if default_uom_category:
-                uoms = self.env['uom.uom'].search([('category_id', '=', default_uom_category.id), ('active', '=', True)])
-                reference_uom = uoms.filtered(lambda uom: uom.uom_type == 'reference')
-                (uoms - reference_uom).write({'active': False})
-            # 2b.   Else try to create a new uom category with information from uom category template. If category name is
-            #       not valid or is already in use, then raise an error
-            else:
-                category_name = getattr(self, category_template.name_from)
-                if not category_name:
-                    raise ValidationError(_('Unable to create a new UoM category with this name (field name: {}, field value: {}).').format(category_template.name_from, category_name))
-                default_uom_category = self.env['uom.category'].search([('name', '=', category_name)], limit=1)
-                if default_uom_category:
+                if default_uom_category.category_template_id and default_uom_category.category_template_id == category_template:
+                    uoms = self.env['uom.uom'].search([('category_id', '=', default_uom_category.id), ('active', '=', True)])
+                    reference_uom = uoms.filtered(lambda uom: uom.uom_type == 'reference')
+                    (uoms - reference_uom).write({'active': False})
+                else:
                     raise ValidationError(_('There is already an UoM category with this name ({}).').format(category_name))
+            # 2b. Else create a new category
+            else:
                 default_uom_category = self.env['uom.category'].create({'name': category_name, 'category_template_id': category_template.id})
                 reference_uom = self.env['uom.uom']
             # 3. Look for duplicates or non-existence of reference, default uom and default purchase uom in uom templates
@@ -107,6 +103,8 @@ class ProductTemplate(models.Model):
             default_uom = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_template.id), ('category_id', '=', default_uom_category.id), ('active', '=', True)])
             default_uom_po = self.env['uom.uom'].search([('uom_template_id', '=', default_uom_po_template.id), ('category_id', '=', default_uom_category.id), ('active', '=', True)])
             self.write({'uom_id': default_uom.id, 'uom_po_id': default_uom_po.id})
+            # 7. Post message
+            self.message_post(body=_("New UoMs have been generated"))
 
     def _prepare_uom_values(self, template, category):
         """

@@ -6,6 +6,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import float_compare, float_round
 
+LIMIT_OF_FILM_COMPONENTS = 2
 
 class MrpBom(models.Model):
     _name = 'mrp.bom'
@@ -39,33 +40,50 @@ class MrpBom(models.Model):
             uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
         return uom
 
-    # Changes to existing fields
+    #####################
+    # Changes to fields #
+    #####################
+    # -> recipe requirements
     product_tmpl_id = fields.Many2one('product.template', required=False)  # handle in view
     product_qty = fields.Float(required=False)  # handle in view
     product_uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=False)  # handle in view
     type = fields.Selection(selection_add=[('recipe', 'Recipe')], ondelete={'recipe': 'set default'})
-
-    # utility fields
+    ##################
+    # Utility fields #
+    ##################
+    # -> recipe requirement
     is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_is_recipe', help='Field used to display recipe fields')
-
-    # Char fields
+    # -> general requirement
+    film_type_bom = fields.Selection(string='Film Type', related='product_tmpl_id.categ_id.film_type', help='Field used to display information relative to film type')
+    #########
+    # Chars #
+    #########
+    # -> recipe requirement
     recipe_number = fields.Char(string='Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom'))
-
-    # Integer fields
+    ############
+    # Integers #
+    ############
+    # -> recipe requirement
     production_bom_count = fields.Integer(string='Production BoMs Count', compute='_compute_production_bom_count')
-
-    # O2m fields
+    ##############
+    # O2m fields #
+    ##############
+    # -> recipe requirements
     extruder_ids = fields.One2many('mrp.bom.extruder', 'bom_id', string='Extruders')
     production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')]) # only recipes have production BoMs
     alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines') # it is not possible to use bom_line_ids field for alternative components
-
-    # M2o fields
+    ##############
+    # M2o fields #
+    ##############
+    # -> recipe requirements
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code')
     color_code_id = fields.Many2one('product.color.code', string='Color Code')
     workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center')
-
-    # Float fields with units
+    ##########
+    # Floats #
+    ##########
+    # -> recipe requirements
     min_thickness = fields.Float(string='Min Thickness', digits='Product Double Precision')
     max_thickness = fields.Float(string='Max Thickness', digits='Product Double Precision')
     thickness_uom_id = fields.Many2one('uom.uom', string='Thickness UoM', readonly=True, default=_default_micrometers_uom_id)
@@ -87,26 +105,33 @@ class MrpBom(models.Model):
     @api.constrains('extruder_ids')
     def _check_extruders_concentration(self):
         """ Check if total concentration of extruders is 100% """
+        precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
         for bom in self:
             if bom.is_recipe and bom.extruder_ids:
-                precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.extruder_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
                     raise ValidationError(_('Total concentration of BoM\'s extruders is {}% (should be 100%).').format(total))
 
     @api.constrains('bom_line_ids')
+    def _check_bom_lines_film_limit(self):
+        """ Check if total of film components does not exceed limit """
+        for bom in self:
+            if bom.film_type_bom == 'glued' and len(bom.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_film)) > LIMIT_OF_FILM_COMPONENTS:
+                raise ValidationError(_('You reached limit of film components for this bill of materials (max: {}, found: {}).')
+                                      .format(LIMIT_OF_FILM_COMPONENTS, len(bom.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_film))))
+
+    @api.constrains('bom_line_ids')
     def _check_bom_lines_concentration(self):
         """ Check concentration of components of a recipe and components of a production BoM linked to a recipe """
+        precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
         for bom in self:
             # check production BoM lines concentration
             if bom.type == 'normal' and bom.recipe_bom_id:
-                precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.bom_line_ids.mapped('related_concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
                     raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
             # check recipe BoM lines concentration
             elif bom.is_recipe and bom.bom_line_ids:
-                precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.bom_line_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
                     raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
@@ -120,9 +145,9 @@ class MrpBom(models.Model):
     @api.constrains('alt_bom_line_ids')
     def _check_alt_bom_lines_concentration(self):
         """ Check concentration of alternative components of a recipe """
+        precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
         for bom in self:
             if bom.is_recipe and bom.alt_bom_line_ids:
-                precision = self.env['decimal.precision'].precision_get('BoM Concentration Precision')
                 total = float_round(sum(bom.alt_bom_line_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 100.0, precision_digits=precision) != 0:
                     raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format(total))
@@ -134,8 +159,13 @@ class MrpBom(models.Model):
     @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id')
     def _compute_raw_mat_weight(self):
         for bom in self:
-            product_uom_factor = bom.product_uom_id.factor
-            bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * (bom.product_qty * product_uom_factor)
+            if bom.product_uom_id.uom_type == "smaller":
+                product_uom_factor = bom.product_uom_id.factor
+            elif bom.product_uom_id.uom_type == "bigger":
+                product_uom_factor = bom.product_uom_id.factor_inv
+            else:
+                product_uom_factor = 1.0
+            bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * (bom.product_qty / product_uom_factor)
             if bom.recipe_bom_id:
                 for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):
                     bom_weight = bom.raw_mat_weight
@@ -159,9 +189,9 @@ class MrpBom(models.Model):
     @api.depends('bom_line_ids.density', 'bom_line_ids.concentration', 'bom_line_ids.product_id.density')
     def _compute_density(self):
         """ Compute bom density according to lines density """
+        precision = self.env['decimal.precision'].precision_get('Product Double Precision')
         for bom in self:
             recipe_bom_lines = bom.bom_line_ids.filtered(lambda line: line.density and line.concentration)
-            precision = self.env['decimal.precision'].precision_get('Product Double Precision')
             bom.density = float_round(sum([line.density*(line.concentration/100) for line in recipe_bom_lines]), precision_digits=precision)
 
     @api.depends('production_bom_ids')
@@ -223,6 +253,29 @@ class MrpBom(models.Model):
             'res_id': wiz.id,
             'context': self.env.context,
         }
+
+    def action_add_component(self):
+        """ Open a BoM line in a new form window in order to add a component """
+        self.ensure_one()
+        action = self.env.ref('ace_bom.bom_line_action_form_view')
+        result = action.read()[0]
+        form_view_ref = self.env.ref('ace_bom.mrp_bom_line_view_form')
+        film_components_count = len(self.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_film))
+        if self.env.context.get('default_allowed_category_type', '') == 'is_film':
+            if film_components_count >= LIMIT_OF_FILM_COMPONENTS:
+                raise UserError(_('You cannot add another film on this bill of materials (max: {}, found: {}). '
+                                  'Please remove some film type components before considering adding a new one.').format(LIMIT_OF_FILM_COMPONENTS, film_components_count))
+            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_film_view_form')
+        elif self.env.context.get('default_allowed_category_type', '') == 'is_glue':
+            if film_components_count <= 1:
+                raise UserError(_('You need at least two films to glue them together (found: {}).').format(film_components_count))
+            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_glue_view_form')
+        elif self.env.context.get('default_allowed_category_type', '') == 'is_coating':
+            if film_components_count < 1:
+                raise UserError(_('You need at least one film on which apply a coating.'))
+            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_glue_view_form')
+        result['views'] = [(form_view_ref.id, 'form')]
+        return result
 
     def action_compute_recipe_quantities(self):
         """

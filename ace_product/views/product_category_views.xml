@@ -8,29 +8,25 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='first']" position="inside">
                 <field name="is_mandrel"/>
+                <field name="is_raw_mat"/>
+                <field name="is_subcontracted_film"/>
+                <field name="is_ace_film"/>
+                <field name="film_type" class="oe_inline" attrs="{'invisible': [('is_ace_film', '=', False)]}"/>
+                <field name="is_coating"/>
+                <field name="is_glue"/>
             </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>
                     <page string="Fields Visibility">
-                        <group col="8">
+                        <group col="3">
+                        <group string="Description">
                             <field name="show_family_code"/>
                             <field name="show_technical_description"/>
                             <field name="show_formula_code"/>
                             <field name="show_color_code"/>
                             <field name="show_commercial_name"/>
-                            <field name="show_packing_norm"/>
-                            <field name="show_pallet_type"/>
-                            <field name="show_mandrel"/>
-                            <field name="show_is_sublot_jj"/>
-                            <field name="show_is_package_stored"/>
-                            <field name="show_surface_treatment"/>
-                            <field name="show_coil_position"/>
-                            <field name="show_embossing_pattern"/>
-                            <field name="show_substrate_position"/>
-                            <field name="show_perforation_grid"/>
-                            <field name="show_coil_by_pallet"/>
-                            <field name="show_coil_by_layer"/>
-                            <field name="show_layer_number"/>
+                        </group>
+                        <group string="Measures" col="4">
                             <field name="show_thickness"/>
                             <field name="show_total_grammage"/>
                             <field name="show_ace_film_grammage"/>
@@ -42,10 +38,42 @@
                             <field name="show_net_coil_weight"/>
                             <field name="show_gross_coil_weight"/>
                             <field name="show_density"/>
+                        </group>
+                        <group string="Packaging Information">
+                            <field name="show_packing_norm"/>
+                            <field name="show_pallet_type"/>
+                            <field name="show_is_package_stored"/>
+                            <field name="show_coil_position"/>
+                            <field name="show_coil_by_pallet"/>
+                            <field name="show_coil_by_layer"/>
+                            <field name="show_layer_number"/>
+                        </group>
+                        <group string="Mandrel Information">
+                            <field name="show_mandrel"/>
                             <field name="show_mandrel_diameter"/>
                             <field name="show_mandrel_width"/>
                             <field name="show_mandrel_weight"/>
+                        </group>
+                        <group string="Production Parameters">
+                            <field name="show_is_sublot_jj"/>
+                            <field name="show_surface_treatment"/>
+                            <field name="show_embossing_pattern"/>
+                            <field name="show_substrate_position"/>
+                            <field name="show_perforation_grid"/>
                             <field name="show_glue_grammage"/>
+                        </group>
+                        </group>
+                        <group class="o_row">
+                            <button name="action_show_fields"
+                                    string="Show All Fields"
+                                    type="object"
+                                    context="{'show_category_fields': True}"
+                            />
+                            <button name="action_show_fields"
+                                    string="Hide All Fields"
+                                    type="object"
+                                    context="{'show_category_fields': False}"
+                            />
                         </group>
                     </page>
                 </notebook>
