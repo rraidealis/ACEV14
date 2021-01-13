@@ -12,7 +12,9 @@
         'data/bom_data.xml',
         'views/mrp_bom_line_views.xml',
         'views/mrp_bom_views.xml',
-        'wizard/import_recipe_views.xml'
+        'wizard/import_recipe_views.xml',
+        'wizard/add_film_views.xml',
+        'wizard/add_treatment_views.xml'
 	],
     'auto_install': False,
     'installable': True,

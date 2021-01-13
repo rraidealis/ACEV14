@@ -12,6 +12,7 @@
                              <field name="name"/>
                              <field name="category_template_id"/>
                              <field name="uom_type"/>
+                             <field name="related_uom_id"/>
                              <label for="factor" attrs="{'invisible': [('uom_type', '=', 'reference')]}"/>
                              <div class="o_row" attrs="{'invisible': [('uom_type', '=', 'reference')]}">
                                  <field name="factor_from" attrs="{'invisible': [('user_defined_ratio', '=', True)], 'required': [('user_defined_ratio', '=', False), ('uom_type', '!=', 'reference')]}"/>
@@ -38,6 +39,8 @@
             <tree string="UoM Template">
                 <field name="name" string="Name"/>
                 <field name="category_template_id" string="Category"/>
+                <field name="uom_type"/>
+                <field name="related_uom_id"/>
                 <field name="active"/>
             </tree>
         </field>

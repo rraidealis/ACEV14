@@ -41,8 +41,6 @@ class MrpBomLine(models.Model):
     ####################
     # -> recipe requirement
     bom_id = fields.Many2one('mrp.bom', required=False)  # field required handled in constrains
-    # -> glued film requirement
-    # product_qty = fields.Float(compute='_compute_product_qty', readonly=False, store=True)
     ##################
     # Utility fields #
     ##################
@@ -68,7 +66,7 @@ class MrpBomLine(models.Model):
     recipe_bom_line_id = fields.Many2one('mrp.bom.line', string='BoM Recipe Line', readonly=True, ondelete='cascade') # if a production bom line is no longer linked to a recipe line, then it should be deleted
     alt_bom_id = fields.Many2one('mrp.bom', string='Parent Alternative BoM', ondelete='cascade', help='This is the BoM used for alternative components.')  # field required handled in constrains
     # -> glued film requirement
-    film_component_to_coat = fields.Many2one('mrp.bom.line', string='Film to Coat') # domain handled in view
+    film_component_to_treat = fields.Many2one('mrp.bom.line', string='Film to Treat')
     ###################
     # Floats with uom #
     ###################
@@ -77,20 +75,16 @@ class MrpBomLine(models.Model):
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', related='product_id.density_uom_id')
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
     # -> glued film requirements
-    grammage = fields.Float(string='Grammage', store=True, compute='_compute_grammage', digits='Product Single Precision')
-    manual_grammage = fields.Float(string='Manual Grammage', digits='Product Single Precision')
+    grammage = fields.Float(string='Grammage', digits='Product Single Precision')
     grammage_uom_id = fields.Many2one('uom.uom', string='Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     grammage_uom_name = fields.Char(string='Grammage UoM Label', related='grammage_uom_id.name')
     ##########
     # Floats #
     ##########
     # -> glued film requirements
-    coverage_factor = fields.Float(string='Coverage Factor', store=True, compute='_compute_coverage_factor', digits='Product Double Precision')
-    stretching_factor = fields.Float(string='Stretching Factor', digits='Product Double Precision')
-
-    border_factor = fields.Float(string='Border Factor', store=True, compute='_compute_border_factor', digits='Product Double Precision')
-    manual_border_factor = fields.Float(string='Manual Border Factor', digits='Product Double Precision')
-    is_manual_border_factor = fields.Boolean(string='User Defined Border Factor')
+    coverage_factor = fields.Float(string='Coverage Factor', default=0.0, digits='Product Double Precision')
+    stretching_factor = fields.Float(string='Stretching Factor', default=0.0, digits='Product Double Precision')
+    border_factor = fields.Float(string='Border Factor', default=0.0, digits='Product Double Precision')
     #################
     # Concentration #
     #################
@@ -116,35 +110,6 @@ class MrpBomLine(models.Model):
             if not line.bom_id and not line.alt_bom_id:
                 raise ValidationError(_('BoM Line should be related to a BoM.'))
 
-    # @api.depends('bom_id.film_type_bom', 'product_id.length', 'stretching_factor')
-    # def _compute_product_qty(self):
-    #     """
-    #     Compute quantity of a component according to product length and stretching factor
-    #     Note: this computation occurs only in case of glued film production. Since films use custom UoM, it is possible to convert length in other uom like kg.
-    #     """
-    #     # TODO: this computation should consider BOM quantity dynamically
-    #     for line in self:
-    #         if line.bom_id.film_type_bom == 'glued' and line.product_id and line.product_id.length and line.stretching_factor:
-    #             product_qty_in_meters = line.product_id.length / (line.stretching_factor / 100)
-    #             line.product_qty =UOM_LONGUEUR._compute_quantity(product_qty_in_meters, line.product_uom_id)
-
-    @api.depends('bom_id.total_production_width', 'product_id.width', 'product_id.categ_id', 'bom_id.bom_line_ids', 'film_component_to_coat')
-    def _compute_coverage_factor(self):
-        """
-        Compute coverage factor of a component according to production width set on parent BoM and product width
-        Note: production width and product with are in the same UOM
-        """
-        for line in self:
-            line.coverage_factor = 0.0
-            if line.product_id:
-                if line.product_id.categ_id.is_film and line.bom_id.total_production_width and line.product_id.width:
-                    line.coverage_factor = (line.product_id.width / line.bom_id.total_production_width) * 100
-                elif line.product_id.categ_id.is_glue:
-                    film_coverage_factors = line.bom_id.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_film).mapped('coverage_factor')
-                    line.coverage_factor = min(film_coverage_factors)
-                elif line.product_id.categ_id.is_coating and line.film_component_to_coat:
-                    line.coverage_factor = line.film_component_to_coat.coverage_factor
-
     @api.depends('allowed_category_type')
     def _compute_allowed_product_category_ids(self):
         for line in self:
@@ -155,36 +120,6 @@ class MrpBomLine(models.Model):
             elif category_type:
                 categories = categories.search([('film_type', '=', category_type)])
             line.update({'allowed_product_category_ids': [(6, 0, categories.ids)]})
-
-    @api.depends('bom_id.total_production_width', 'product_id.width', 'is_manual_border_factor', 'manual_border_factor')
-    def _compute_border_factor(self):
-        """
-        Compute border factor of a component according to production width set on parent BoM and product width
-        Note: production width and product with are in the same UOM
-        """
-        precision = self.env['decimal.precision'].precision_get('Product Double Precision')
-        for line in self:
-            line.border_factor = 0.0
-            if line.is_manual_border_factor:
-                line.border_factor = line.manual_border_factor
-            elif line.bom_id.total_production_width and line.product_id and line.product_id.width:
-                border_factor = ((line.product_id.width - line.bom_id.total_production_width) / line.bom_id.total_production_width) * 100
-                line.border_factor = border_factor if float_compare(border_factor, 0.0, precision_digits=precision) > 0 else 0.0
-
-    @api.depends('product_id.total_grammage', 'coverage_factor', 'border_factor', 'stretching_factor')
-    def _compute_grammage(self):
-        """
-        Compute grammage of a component according to product total grammage,
-        coverage factor, border factor and stretching factor
-        """
-        precision = self.env['decimal.precision'].precision_get('Product Single Precision')
-        for line in self:
-            line.grammage = 0.0
-            if line.manual_grammage:
-                line.grammage = line.manual_grammage
-            elif line.product_id and line.product_id.total_grammage and line.coverage_factor and line.border_factor and line.stretching_factor:
-                grammage = (line.product_id.total_grammage * ((line.coverage_factor - line.border_factor) / 100)) / (line.stretching_factor / 100)
-                line.grammage = grammage if float_compare(grammage, 0.0, precision_digits=precision) > 0 else 0.0
 
     def _compute_allowed_uom_ids(self):
         """ Components of a recipe should use UoMs from weight category """

@@ -6,7 +6,7 @@
     'summary': '',
     'author': 'dwa@idealisconsulting - Idealis Consulting',
     'website': 'http://www.idealisconsulting.com',
-    'depends': ['mrp'],
+    'depends': ['mrp', 'ace_data'],
     'data': [
 		'security/ir.model.access.csv',
         'views/product_views.xml',

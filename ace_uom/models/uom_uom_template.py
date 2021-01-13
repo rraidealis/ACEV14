@@ -29,6 +29,7 @@ class UoMTemplate(models.Model):
         default='reference', required=1)
     default_uom = fields.Boolean(string='Is Default UoM', default=True, help='This UoM will be used as default UoM on product.')
     default_purchase_uom = fields.Boolean(string='Is Default Purchase UoM', default=True, help='This UoM will be used as default purchase UoM on product.')
+    related_uom_id = fields.Many2one('uom.uom', string='Related UoM', domain=[('uom_template_id', '=', False)], help='This related UoM is used as basis for conversion betweens uoms.')
 
     _sql_constraints = [
         ('factor_gt_zero', 'CHECK (factor!=0 OR not user_defined_ratio)', 'The conversion ratio for a unit of measure template cannot be 0.'),

@@ -109,7 +109,7 @@
                         string="Add a Film"
                         type="object"
                         class="oe_highlight"
-                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_film'}"
+                        context="{'default_bom_id': id, 'default_allowed_category_type': 'is_film'}"
                         attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
                 />
                 <button name="action_add_component"
@@ -117,7 +117,7 @@
                         string="Add Glue"
                         type="object"
                         class="oe_highlight"
-                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_glue'}"
+                        context="{'default_bom_id': id, 'default_allowed_category_type': 'is_glue'}"
                         attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
                 />
                 <button name="action_add_component"
@@ -125,7 +125,7 @@
                         string="Add Coating"
                         type="object"
                         class="oe_highlight"
-                        context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': active_id, 'default_allowed_category_type': 'is_coating'}"
+                        context="{'default_bom_id': id, 'default_allowed_category_type': 'is_coating'}"
                         attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
                 />
             </xpath>

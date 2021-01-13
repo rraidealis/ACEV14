@@ -255,27 +255,24 @@ class MrpBom(models.Model):
         }
 
     def action_add_component(self):
-        """ Open a BoM line in a new form window in order to add a component """
+        """ Open a wizard in order to add film, glue and coating components """
         self.ensure_one()
         action = self.env.ref('ace_bom.bom_line_action_form_view')
-        result = action.read()[0]
-        form_view_ref = self.env.ref('ace_bom.mrp_bom_line_view_form')
         film_components_count = len(self.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_film))
         if self.env.context.get('default_allowed_category_type', '') == 'is_film':
             if film_components_count >= LIMIT_OF_FILM_COMPONENTS:
                 raise UserError(_('You cannot add another film on this bill of materials (max: {}, found: {}). '
                                   'Please remove some film type components before considering adding a new one.').format(LIMIT_OF_FILM_COMPONENTS, film_components_count))
-            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_film_view_form')
+            action = self.env.ref('ace_bom.add_film_action_form_view')
         elif self.env.context.get('default_allowed_category_type', '') == 'is_glue':
             if film_components_count <= 1:
                 raise UserError(_('You need at least two films to glue them together (found: {}).').format(film_components_count))
-            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_glue_view_form')
+            action = self.env.ref('ace_bom.add_treatment_action_form_view')
         elif self.env.context.get('default_allowed_category_type', '') == 'is_coating':
             if film_components_count < 1:
                 raise UserError(_('You need at least one film on which apply a coating.'))
-            form_view_ref = self.env.ref('ace_bom.mrp_bom_line_add_glue_view_form')
-        result['views'] = [(form_view_ref.id, 'form')]
-        return result
+            action = self.env.ref('ace_bom.add_treatment_action_form_view')
+        return action.read()[0]
 
     def action_compute_recipe_quantities(self):
         """
