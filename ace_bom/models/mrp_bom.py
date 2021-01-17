@@ -109,8 +109,8 @@ class MrpBom(models.Model):
         for bom in self:
             if bom.is_recipe and bom.extruder_ids:
                 total = float_round(sum(bom.extruder_ids.mapped('concentration')), precision_digits=precision)
-                if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of BoM\'s extruders is {}% (should be 100%).').format(total))
+                if float_compare(total, 1.0, precision_digits=precision) != 0:
+                    raise ValidationError(_('Total concentration of BoM\'s extruders is {}% (should be 100%).').format(total * 100))
 
     @api.constrains('bom_line_ids')
     def _check_bom_lines_film_limit(self):
@@ -128,19 +128,19 @@ class MrpBom(models.Model):
             # check production BoM lines concentration
             if bom.type == 'normal' and bom.recipe_bom_id:
                 total = float_round(sum(bom.bom_line_ids.mapped('related_concentration')), precision_digits=precision)
-                if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
+                if float_compare(total, 1.0, precision_digits=precision) != 0:
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total * 100))
             # check recipe BoM lines concentration
             elif bom.is_recipe and bom.bom_line_ids:
                 total = float_round(sum(bom.bom_line_ids.mapped('concentration')), precision_digits=precision)
-                if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total))
+                if float_compare(total, 1.0, precision_digits=precision) != 0:
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total * 100))
                 # since it is possible to set a concentration above 100% on a line in order to have a total of 100%,
                 # we should check if all layers have a total concentration of 100%
                 for line in bom.bom_line_ids:
-                    if float_compare(line.layer_total_concentration, 100.0, precision_digits=precision) != 0:
+                    if float_compare(line.layer_total_concentration, 1.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
-                                              .format(line.extruder_id.display_name, line.layer_total_concentration))
+                                              .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
 
     @api.constrains('alt_bom_line_ids')
     def _check_alt_bom_lines_concentration(self):
@@ -149,37 +149,40 @@ class MrpBom(models.Model):
         for bom in self:
             if bom.is_recipe and bom.alt_bom_line_ids:
                 total = float_round(sum(bom.alt_bom_line_ids.mapped('concentration')), precision_digits=precision)
-                if float_compare(total, 100.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format(total))
+                if float_compare(total, 1.0, precision_digits=precision) != 0:
+                    raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format(total * 100))
                 for line in bom.alt_bom_line_ids:
-                    if float_compare(line.layer_total_concentration, 100.0, precision_digits=precision) != 0:
+                    if float_compare(line.layer_total_concentration, 1.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
-                                              .format(line.extruder_id.display_name, line.layer_total_concentration))
+                                              .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
 
     @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id')
     def _compute_raw_mat_weight(self):
         for bom in self:
-            if bom.product_uom_id.uom_type == "smaller":
-                product_uom_factor = bom.product_uom_id.factor
-            elif bom.product_uom_id.uom_type == "bigger":
-                product_uom_factor = bom.product_uom_id.factor_inv
+            if bom.film_type_bom in ['extruded', 'laminated']:
+                # retrieve quantity to produce in units
+                units_uom = self.env.ref('uom.product_uom_unit')
+                custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
+                qty_to_produce_in_units = bom.product_uom_id._compute_quantity(bom.product_qty, custom_uom_related_to_units)
+                # mutiply raw mat by quantity to produce in units
+                bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * qty_to_produce_in_units
+
+                if bom.recipe_bom_id:
+                    for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):
+                        bom_weight = bom.raw_mat_weight
+                        bom_weight_uom = bom.raw_mat_weight_uom_id
+                        line_uom = line.product_uom_id
+                        concentration = line.related_concentration
+                        # convert uoms between line product and raw weight
+                        if bom_weight_uom.category_id == line_uom.category_id:
+                            bom_weight = bom_weight_uom._compute_quantity(bom_weight, line_uom)
+                        else:
+                            raise UserError(_(
+                                'Cannot convert UoMs while importing recipe. UoMs categories should be the same on the BoM ({}) and the component ({}).').format(
+                                bom_weight_uom.display_name, line_uom.display_name))
+                        line.product_qty = bom_weight * concentration
             else:
-                product_uom_factor = 1.0
-            bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * (bom.product_qty / product_uom_factor)
-            if bom.recipe_bom_id:
-                for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):
-                    bom_weight = bom.raw_mat_weight
-                    bom_weight_uom = bom.raw_mat_weight_uom_id
-                    line_uom = line.product_uom_id
-                    concentration = line.related_concentration
-                    # convert uoms between line product and raw weight
-                    if bom_weight_uom.category_id == line_uom.category_id:
-                        bom_weight = bom_weight_uom._compute_quantity(bom_weight, line_uom)
-                    else:
-                        raise UserError(_(
-                            'Cannot convert UoMs while importing recipe. UoMs categories should be the same on the BoM ({}) and the component ({}).').format(
-                            bom_weight_uom.display_name, line_uom.display_name))
-                    line.product_qty = bom_weight * (concentration / 100)
+                bom.raw_mat_weight = 0.0
 
     @api.depends('type')
     def _compute_is_recipe(self):
@@ -192,7 +195,7 @@ class MrpBom(models.Model):
         precision = self.env['decimal.precision'].precision_get('Product Double Precision')
         for bom in self:
             recipe_bom_lines = bom.bom_line_ids.filtered(lambda line: line.density and line.concentration)
-            bom.density = float_round(sum([line.density*(line.concentration/100) for line in recipe_bom_lines]), precision_digits=precision)
+            bom.density = float_round(sum([line.density*line.concentration for line in recipe_bom_lines]), precision_digits=precision)
 
     @api.depends('production_bom_ids')
     def _compute_production_bom_count(self):
@@ -299,7 +302,7 @@ class MrpBom(models.Model):
                         'product_id': line.product_id.id,
                         'product_tmpl_id': line.product_id.product_tmpl_id.id,
                         'extruder_id': line.extruder_id.id or False,
-                        'product_qty': bom_weight * (concentration / 100),
+                        'product_qty': bom_weight * concentration,
                         'recipe_bom_line_id': line.id})
 
     def unlink(self):

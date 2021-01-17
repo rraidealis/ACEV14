@@ -30,7 +30,7 @@ class ImportRecipe(models.TransientModel):
                     'product_id': line.product_id.id,
                     'product_tmpl_id': line.product_id.product_tmpl_id.id,
                     'extruder_id': line.extruder_id.id or False,
-                    'product_qty': bom_weight * (concentration / 100),
+                    'product_qty': bom_weight * concentration,
                     'recipe_bom_line_id': line.id})
             vals = {
                 'workcenter_id': self.recipe_bom_id.workcenter_id.id or False,

@@ -19,12 +19,12 @@
             </xpath>
             <xpath expr="//sheet" position="inside">
                 <group>
-                    <group string="Factors" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'glued'])]}">
-                        <field name="related_concentration" string="Concentration(%)" attrs="{'invisible': [('film_type_bom', '!=', 'extruded')]}"/>
+                    <group string="Factors" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'glued', 'laminated'])]}">
+                        <field name="related_concentration" string="Concentration(%)" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                         <field name="film_component_to_treat" attrs="{'invisible': [('is_coating_component', '=', False), ('is_glue_component', '=', False)]}" readonly="1"/>
-                        <field name="coverage_factor" string="Coverage(%)" attrs="{'invisible': [('film_type_bom', '!=', 'glued')]}"/>
-                        <field name="stretching_factor" string="Stretching(%)" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'glued'), ('is_film_component', '!=', True)]}"/>
-                        <field name="border_factor" string="Border(%)" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'glued'), ('is_film_component', '!=', True)]}"/>
+                        <field name="coverage_factor" string="Coverage(%)" widget="percentage" attrs="{'invisible': [('film_type_bom', 'not in', ['glued', 'laminated'])]}"/>
+                        <field name="stretching_factor" string="Stretching(%)" widget="percentage" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True)]}"/>
+                        <field name="border_factor" string="Border(%)" widget="percentage" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True)]}"/>
                     </group>
                 </group>
             </xpath>

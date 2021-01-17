@@ -163,9 +163,11 @@ class ProductTemplate(models.Model):
     gross_coil_weight_uom_id = fields.Many2one('uom.uom', string='Gross Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', related='gross_coil_weight_uom_id.name')
 
-    density = fields.Float(string='Density', compute='_compute_density', store=True)
+    density = fields.Float(string='Density', compute='_compute_density', store=True, digits='Product Triple Precision')
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
+    manual_density = fields.Float(string='Manual Density', digits='Product Triple Precision')
+    is_density_user_defined = fields.Boolean(string='User Defined Density')
 
     mandrel_diameter = fields.Float(string='Mandrel Diameter', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision')
     mandrel_diameter_uom_id = fields.Many2one('uom.uom', string='Mandrel Diameter UoM', readonly=True, default=_default_cms_uom_id)
@@ -175,7 +177,7 @@ class ProductTemplate(models.Model):
     mandrel_width_uom_id = fields.Many2one('uom.uom', string='Mandrel Width UoM', readonly=True, default=_default_cms_uom_id)
     mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', related='mandrel_width_uom_id.name')
 
-    mandrel_weight = fields.Float(string='Mandrel Weight', related='mandrel_id.weight', store=True, digits='Product Triple Precision')
+    mandrel_weight = fields.Float(string='Mandrel Weight', compute='_compute_mandrel_weight', store=True, digits='Product Triple Precision')
     mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', related='mandrel_weight_uom_id.name')
 
@@ -284,12 +286,17 @@ class ProductTemplate(models.Model):
                 product.total_grammage = product.manual_total_grammage
             elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded':
                 product.total_grammage = product.extruded_film_grammage
+            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'glued':
+                bom = product.bom_ids[0] if len(product.bom_ids) > 1 else product.bom_ids
+                product.total_grammage = sum(bom.bom_line_ids.mapped('grammage'))
 
-    @api.depends('color_code_id', 'formula_code_id')
+    @api.depends('color_code_id', 'formula_code_id', 'is_density_user_defined', 'manual_density')
     def _compute_density(self):
         for product in self:
             product.density = 0.0
-            if product.color_code_id and product.formula_code_id:
+            if product.is_density_used_defined:
+                product.density = product.manual_density
+            elif product.color_code_id and product.formula_code_id:
                 theoretical_density = self.env['product.theoretical.density'].search([('color_code_id', '=', product.color_code_id.id),
                                                                                       ('formula_code_id', '=', product.formula_code_id.id)], limit=1)
                 product.density = theoretical_density.density_uom_id._compute_quantity(theoretical_density.density, product.density_uom_id)
@@ -304,29 +311,41 @@ class ProductTemplate(models.Model):
             if bom_lines:
                 product.mandrel_id = bom_lines[0].product_id
 
-    @api.depends('width', 'ace_length')
-    def _compute_surface(self):
+    @api.depends('mandrel_id', 'mandrel_id.weight')
+    def _compute_mandrel_weight(self):
         for product in self:
-            width_factor = product.width_uom_id.factor
-            length_factor = product.length_uom_id.factor
-            product.surface = (product.width / width_factor) * (product.ace_length / length_factor)
+            product.mandrel_weight = product.mandrel_id.manual_weight if product.mandrel_id.is_weight_user_defined else product.mandrel_id.weight
+
+    @api.depends('width', 'ace_length', 'width_uom_id', 'length_uom_id')
+    def _compute_surface(self):
+        """
+        notes:
+        - Width and ace_length should use UoMs of the length category
+        - Surface should be in squared meters
+        """
+        for product in self:
+            meters_uom = self.env.ref('uom.product_uom_meter')
+            width_in_meters = product.width_uom_id._compute_quantity(product.width, meters_uom)
+            length_in_meters = product.length_uom_id._compute_quantity(product.ace_length, meters_uom)
+            product.surface = width_in_meters * length_in_meters
 
     @api.depends('coil_by_layer', 'layer_number')
     def _compute_coil_by_pallet(self):
         for product in self:
             product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
-    @api.depends('surface', 'manual_ace_film_grammage', 'ace_film_grammage', 'is_ace_film_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
+    @api.depends('surface', 'manual_total_grammage', 'total_grammage', 'is_total_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
     def _compute_coil_weight(self):
         for product in self:
             # Todo: Arbitrary divisor value, grams factor. Find a way to have a dynamic value since we didn't know that it is a conversion of g to kg
-            weight = (product.surface * product.ace_film_grammage) / 1000
-            if product.is_ace_film_grammage_user_defined:
-                weight = (product.surface * product.manual_ace_film_grammage) / 1000
+            weight = (product.surface * product.total_grammage) / 1000
+            if product.is_total_grammage_user_defined:
+                weight = (product.surface * product.manual_total_grammage) / 1000
             product.net_coil_weight = weight
             if product.mandrel_id:
-                weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1
-                weight += (product.mandrel_id.weight / weight_factor)
+                # TODO seems weird
+                weight_uom = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter()
+                weight += weight_uom._compute_quantity(product.mandrel_id.weight, self.env.ref('uom.product_uom_kgm'))
             product.gross_coil_weight = weight
 
     @api.depends('mandrel_id', 'mandrel_id.width', 'mandrel_id.diameter')
@@ -335,27 +354,5 @@ class ProductTemplate(models.Model):
             product.mandrel_width = 0.0
             product.mandrel_diameter = 0.0
             if product.mandrel_id:
-                width_factor = product.mandrel_id.width_uom_id.factor
-                mandrel_width_factor = product.mandrel_width_uom_id.factor
-                diameter_factor = product.mandrel_id.diameter_uom_id.factor
-                mandrel_diameter_factor = product.mandrel_diameter_uom_id.factor
-                product.mandrel_width = (product.mandrel_id.width / width_factor) * mandrel_width_factor
-                product.mandrel_diameter = (product.mandrel_id.diameter / diameter_factor) * mandrel_diameter_factor
-
-    @api.depends('product_variant_ids', 'product_variant_ids.weight', 'gross_coil_weight', 'manual_weight', 'is_weight_user_defined')
-    def _compute_weight(self):
-        unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
-        for template in unique_variants:
-            if template.is_weight_user_defined:
-                template.weight = template.manual_weight
-            elif template.gross_coil_weight > 0:
-                weight_factor = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter().factor or 1
-                gross_coil_weight_factor = template.gross_coil_weight_uom_id.factor
-                template.weight = (template.gross_coil_weight / gross_coil_weight_factor) * weight_factor
-            else:
-                template.weight = template.product_variant_ids.weight
-        for template in (self - unique_variants):
-            if template.is_weight_user_defined:
-                template.weight = template.manual_weight
-            else:
-                template.weight = 0.0
+                product.mandrel_width = product.mandrel_id.width_uom_id._compute_quantity(product.mandrel_id.width, product.mandrel_width_uom_id)
+                product.mandrel_diameter = product.mandrel_id.diameter_uom_id._compute_quantity(product.mandrel_id.diameter, product.mandrel_diameter_uom_id)

@@ -26,12 +26,12 @@
                             </div>
                         </group>
                         <group string="Factors">
-                            <field name="coverage_factor" string="Coverage(%)"/>
-                            <field name="stretching_factor" string="Stretching(%)"/>
+                            <field name="coverage_factor" string="Coverage(%)" widget="percentage"/>
+                            <field name="stretching_factor" string="Stretching(%)" widget="percentage"/>
                             <label for="border_factor" string="Border(%)"/>
                             <div class="o_row">
-                                <field name="border_factor" attrs="{'invisible': [('is_manual_border_factor', '=', True)]}"/>
-                                <field name="manual_border_factor" attrs="{'invisible': [('is_manual_border_factor', '=', False)]}"/>
+                                <field name="border_factor" widget="percentage" attrs="{'invisible': [('is_manual_border_factor', '=', True)]}"/>
+                                <field name="manual_border_factor" widget="percentage" attrs="{'invisible': [('is_manual_border_factor', '=', False)]}"/>
                                 <field name="is_manual_border_factor" style="margin-left: 20px;"/><span>User Defined</span>
                             </div>
                         </group>

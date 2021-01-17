@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
-from odoo.tools import float_round
 
 
 class AddTreatment(models.TransientModel):
@@ -77,25 +76,20 @@ class AddTreatment(models.TransientModel):
                 if films:
                     wiz.film_component_to_treat = films[0] if len(films) > 1 else films
 
-    @api.depends('grammage', 'film_component_to_treat', 'coverage_factor', 'bom_id')
+    @api.depends('grammage', 'film_component_to_treat', 'coverage_factor', 'bom_id', 'product_uom_id')
     def _compute_product_qty(self):
-        precision = self.env['decimal.precision'].precision_get('Product Double Precision')
         for wiz in self:
-            if wiz.grammage and wiz.film_component_to_treat and wiz.film_component_to_treat.product_id and wiz.film_component_to_treat.product_id.surface and wiz.coverage_factor:
-                wiz.product_qty = float_round(wiz.grammage * wiz.film_component_to_treat.product_id.surface * (wiz.coverage_factor/100), precision_digits=precision)
-                # Product quantity depends on quantity to produce.
-                # We have to multiply product quantity by quantity set on parent BoM.
-                if wiz.bom_id and wiz.bom_id.product_qty and wiz.bom_id.product_uom_id:
-                    # 1. get the reference UoM in the same category than the BoM Product UoM (reference SHOULD BE the number of coil)
-                    uom_category = wiz.bom_id.product_uom_id.category_id
-                    uom_reference = self.env['uom.uom'].search([('category_id', '=', uom_category.id), ('uom_type', '=', 'reference')])
-                    if uom_reference:
-                        # 2. convert BoM product quantity in its reference UoM
-                        reference_qty = wiz.bom_id.product_uom_id._compute_quantity(wiz.bom_id.product_qty,uom_reference)
-                        # 3. multiply product quantity by the reference quantity (e.g. 100m * 2 coils = 200m)
-                        component_qty = float_round(wiz.product_qty * reference_qty, precision_digits=precision)
-                        # 4. convert result in BoM product UoM (convert from reference UoM to BoM product UoM)
-                        wiz.product_qty = uom_reference._compute_quantity(component_qty, wiz.bom_id.product_uom_id)
+            if wiz.grammage and wiz.film_component_to_treat and wiz.coverage_factor:
+                # 1. get component quantity in square meters
+                surface_uom = self.env.ref('ace_data.product_uom_square_meter')
+                custom_uom_related_to_surface_uom = self.env['uom.uom'].search([('category_id', '=', wiz.film_component_to_treat.product_uom_id.category_id.id),
+                                                                               ('related_uom_id', '=', surface_uom.id)], limit=1)
+                component_qty_in_square_meters = wiz.film_component_to_treat.product_uom_id._compute_quantity(wiz.film_component_to_treat.product_qty, custom_uom_related_to_surface_uom)
+                # 2. compute glue quantity in kg (need component surface)
+                glue_qty_in_kg = (wiz.grammage * component_qty_in_square_meters * wiz.coverage_factor) / 1000
+                # 3. convert qty in component uom
+                kg_uom = self.env.ref('uom.product_uom_kgm')
+                wiz.product_qty = kg_uom._compute_quantity(glue_qty_in_kg, wiz.product_uom_id)
             else:
                 wiz.product_qty = 0.0
 

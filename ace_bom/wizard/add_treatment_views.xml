@@ -28,7 +28,7 @@
                         </group>
                         <group string="Factors">
                             <field name="film_component_to_coat" domain="[('is_film_component', '=', True), ('bom_id', '=', bom_id)]" attrs="{'invisible': [('is_coating_component', '!=', True)]}"/>
-                            <field name="coverage_factor" string="Coverage(%)"/>
+                            <field name="coverage_factor" string="Coverage(%)" widget="percentage"/>
                         </group>
                     </group>
                 </sheet>

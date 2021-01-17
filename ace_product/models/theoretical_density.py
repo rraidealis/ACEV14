@@ -17,7 +17,7 @@ class TheoreticalDensity(models.Model):
 
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code', required=True)
     color_code_id = fields.Many2one('product.color.code', string='Color Code', required=True)
-    density = fields.Float(string='Density', required=True)
+    density = fields.Float(string='Density', digits='Product Triple Precision', required=True)
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
 

@@ -16,6 +16,6 @@ class MrpBomExtruder(models.Model):
     def name_get(self):
         res = []
         for extruder in self:
-            name = '{}({}%)'.format(extruder.name, extruder.concentration)
+            name = '{}({}%)'.format(extruder.name, extruder.concentration * 100)
             res.append((extruder.id, name))
         return res

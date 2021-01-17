@@ -90,8 +90,8 @@
             <!-- add header -->
             <xpath expr="//sheet" position="before">
                 <header>
-                    <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': ['|', ('type', '!=', 'normal'), ('film_type_bom', '!=', 'extruded')]}"/>
-                    <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', '!=', 'extruded')]}"/>
+                    <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': ['|', ('type', '!=', 'normal'), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
+                    <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                 </header>
             </xpath>
 
@@ -135,7 +135,7 @@
                 <!-- Alternative components -->
                 <page string="Alternative Components" name="alt_components" attrs="{'invisible': ['|', ('id', '=', False), ('is_recipe', '!=', True)]}">
                     <field name="alt_bom_line_ids" widget="one2many" context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_alt_bom_id': active_id}">
-                        <tree string="Alternative Components" decoration-danger="layer_total_concentration and layer_total_concentration &gt; 100.00" decoration-warning="layer_total_concentration and layer_total_concentration &lt; 100.00" editable="bottom">
+                        <tree string="Alternative Components" decoration-danger="layer_total_concentration and layer_total_concentration &gt; 1.00" decoration-warning="layer_total_concentration and layer_total_concentration &lt; 1.00" editable="bottom">
                             <field name="company_id" invisible="1"/>
                             <field name="allowed_uom_ids" invisible="1"/>
                             <field name="sequence" widget="handle"/>
@@ -153,9 +153,9 @@
                             <field name="hopper" width="80px"/>
                             <field name="density" width="80px"/>
                             <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom"/>
-                            <field name="layer_concentration" string="Concentration(%)/Layer" width="160px"/>
-                            <field name="layer_total_concentration" invisible="1"/>
-                            <field name="concentration" string="Concentration(%)" width="160px" sum="Total"/>
+                            <field name="layer_concentration" string="Concentration(%)/Layer" widget="percentage" width="160px"/>
+                            <field name="layer_total_concentration" widget="percentage" invisible="1"/>
+                            <field name="concentration" string="Concentration(%)" widget="percentage" width="160px" sum="Total"/>
                         </tree>
                         <tree>
                             <field name="company_id" invisible="1"/>
@@ -172,7 +172,7 @@
                         <tree string="Extruders" editable="bottom">
                             <field name="bom_id" invisible="1"/>
                             <field name="name" width="50%"/>
-                            <field name="concentration" string="Concentration (%)" width="50%" sum="Total"/>
+                            <field name="concentration" string="Concentration (%)" widget="percentage" width="50%" sum="Total"/>
                         </tree>
                     </field>
                 </page>
@@ -202,23 +202,23 @@
             </xpath>
             <!-- add columns -->
             <xpath expr="//field[@name='bom_line_ids']/tree" position="attributes">
-                <attribute name="decoration-warning">layer_total_concentration and layer_total_concentration &lt; 100.00</attribute>
-                <attribute name="decoration-danger">layer_total_concentration and layer_total_concentration &gt; 100.00</attribute>
+                <attribute name="decoration-warning">layer_total_concentration and layer_total_concentration &lt; 1.00</attribute>
+                <attribute name="decoration-danger">layer_total_concentration and layer_total_concentration &gt; 1.00</attribute>
                 <attribute name="decoration-info">recipe_bom_line_id</attribute>
             </xpath>
             <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
                 <field name="recipe_bom_line_id" invisible="1"/>
                 <field name="allowed_uom_ids" invisible="1"/>
                 <field name="allowed_product_category_ids" invisible="1"/>
-                <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', '|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.recipe_bom_id', '=', False), ('parent.film_type_bom', '!=', 'extruded'), ('parent.is_recipe', '!=', True)],
+                <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', '|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.recipe_bom_id', '=', False), ('parent.film_type_bom', 'not in', ['extruded', 'laminated']), ('parent.is_recipe', '!=', True)],
                                                                                                                                     'required': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}"/>
                 <field name="hopper" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="density" width="80px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
                 <field name="density_uom_id" string="UoM" width="80px" groups="uom.group_uom" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="layer_concentration" string="Concentration(%)/Layer" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
-                <field name="layer_total_concentration" invisible="1"/>
-                <field name="related_concentration" string="Concentration (%)" width="160px" attrs="{'column_invisible': ['|', '|', ('parent.type', '!=', 'normal'), ('parent.film_type_bom', '!=', 'extruded'), ('parent.film_type_bom', '=', 'extruded'), ('parent.recipe_bom_id', '=', False)]}" sum="Total"/>
-                <field name="concentration" string="Concentration(%)" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}" sum="Total"/>
+                <field name="layer_concentration" string="Concentration(%)/Layer" widget="percentage" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}"/>
+                <field name="layer_total_concentration" widget="percentage" invisible="1"/>
+                <field name="related_concentration" string="Concentration (%)" widget="percentage" width="160px" attrs="{'column_invisible': ['|', ('parent.type', '!=', 'normal'), ('parent.film_type_bom', 'not in', ['extruded', 'laminated'])]}" sum="Total"/>
+                <field name="concentration" string="Concentration(%)" widget="percentage" width="160px" attrs="{'column_invisible': [('parent.is_recipe', '!=', True)]}" sum="Total"/>
             </xpath>
 
             <!-- add fields -->
@@ -233,8 +233,8 @@
                 <field name="recipe_number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
-                <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', '!=', 'extruded')]}"/>
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+                <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
                 <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
@@ -254,8 +254,8 @@
                     <field name="density"/>
                     <field name="density_uom_name"/>
                 </div>
-                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', '!=', 'extruded'), ('is_recipe', '=', True)]}">
+                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '=', True)]}">
                     <field name="raw_mat_weight"/>
                     <field name="raw_mat_weight_uom_name"/>
                 </div>

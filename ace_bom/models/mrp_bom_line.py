@@ -137,7 +137,7 @@ class MrpBomLine(models.Model):
         for line in self:
             line.concentration = 0.0
             if line.layer_concentration and line.extruder_id and line.extruder_id.concentration:
-                line.concentration = line.layer_concentration * (line.extruder_id.concentration / 100)
+                line.concentration = line.layer_concentration * line.extruder_id.concentration
 
     @api.depends('layer_concentration',
                  'extruder_id',
