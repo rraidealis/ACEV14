@@ -242,7 +242,10 @@ class ProductTemplate(models.Model):
     # Computed Methods #
     ####################
 
-    @api.depends('thickness', 'density', 'manual_extruded_film_grammage', 'is_extruded_film_grammage_user_defined')
+    @api.depends('thickness',
+                 'density',
+                 'manual_extruded_film_grammage',
+                 'is_extruded_film_grammage_user_defined')
     def _compute_extruded_film_grammage(self):
         """
         Extruded film grammage may be manually set or computed according to product thickness and density. This value
@@ -254,12 +257,19 @@ class ProductTemplate(models.Model):
             if product.is_extruded_film_grammage_user_defined:
                 product.extruded_film_grammage = product.manual_extruded_film_grammage
             # if product is an extruded film, compute grama
-            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded' and product.thickness and product.density:
+            elif product.categ_id.is_ace_film and product.categ_id.film_type in ['extruded', 'laminated'] and product.thickness and product.density:
                 # TODO arbitrary divisor -> conversion of micrometers to centimeters
                 # TODO arbitrary multiplicator -> conversion of cm2 to m2
                 product.extruded_film_grammage = ((product.thickness / 10000) * product.density) * 10000
 
-    @api.depends('extruded_film_grammage', 'is_ace_film_grammage_user_defined', 'manual_ace_film_grammage', 'bom_ids.bom_line_ids')
+    @api.depends('extruded_film_grammage',
+                 'is_ace_film_grammage_user_defined',
+                 'manual_ace_film_grammage',
+                 'bom_ids.bom_line_ids',
+                 'thickness',
+                 'density',
+                 'categ_id.is_ace_film',
+                 'categ_id.film_type')
     def _compute_ace_film_grammage(self):
         """
         Ace film grammage may be manually set or computed according to the first available bom values. In case of an extruded film,
@@ -272,13 +282,25 @@ class ProductTemplate(models.Model):
                 product.ace_film_grammage = product.manual_ace_film_grammage
             elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded':
                 product.ace_film_grammage = product.extruded_film_grammage
-            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'glued' and product.bom_ids:
+            elif product.categ_id.is_ace_film and product.bom_ids:
                 # retrieve first available bom and sum grammage of their ace film components
                 bom = product.bom_ids[0] if len(product.bom_ids) > 1 else product.bom_ids
                 bom_lines = bom.bom_line_ids.filtered(lambda line: line.product_id.categ_id.is_ace_film)
-                product.ace_film_grammage = sum(bom_lines.mapped('grammage'))
+                # glued film -> sum of ace film components grammage
+                if product.categ_id.film_type == 'glued':
+                    product.ace_film_grammage = sum(bom_lines.mapped('grammage'))
+                # laminated film -> sum of ace film components grammage + extruded film grammage
+                if product.categ_id.film_type == 'laminated' and product.thickness and product.density:
+                    product.ace_film_grammage = sum(bom_lines.mapped('grammage')) + ((product.thickness / 10000) * product.density) * 10000
 
-    @api.depends('extruded_film_grammage', 'manual_total_grammage', 'is_total_grammage_user_defined')
+    @api.depends('extruded_film_grammage',
+                 'manual_total_grammage',
+                 'is_total_grammage_user_defined',
+                 'bom_ids.bom_line_ids',
+                 'thickness',
+                 'density',
+                 'categ_id.is_ace_film',
+                 'categ_id.film_type')
     def _compute_total_grammage(self):
         for product in self:
             product.total_grammage = 0.0
@@ -286,9 +308,15 @@ class ProductTemplate(models.Model):
                 product.total_grammage = product.manual_total_grammage
             elif product.categ_id.is_ace_film and product.categ_id.film_type == 'extruded':
                 product.total_grammage = product.extruded_film_grammage
-            elif product.categ_id.is_ace_film and product.categ_id.film_type == 'glued':
+            elif product.categ_id.is_ace_film:
                 bom = product.bom_ids[0] if len(product.bom_ids) > 1 else product.bom_ids
-                product.total_grammage = sum(bom.bom_line_ids.mapped('grammage'))
+                # glued film -> sum of all film components grammage
+                if product.categ_id.film_type == 'glued':
+                    product.total_grammage = sum(bom.bom_line_ids.mapped('grammage'))
+                # laminated film -> sum of all film components grammage + extruded film grammage
+                if product.categ_id.film_type == 'laminated' and product.thickness and product.density:
+                    product.total_grammage = sum(bom.bom_line_ids.mapped('grammage')) + (
+                                (product.thickness / 10000) * product.density) * 10000
 
     @api.depends('color_code_id', 'formula_code_id', 'is_density_user_defined', 'manual_density')
     def _compute_density(self):

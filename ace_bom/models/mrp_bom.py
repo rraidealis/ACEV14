@@ -45,7 +45,7 @@ class MrpBom(models.Model):
     #####################
     # -> recipe requirements
     product_tmpl_id = fields.Many2one('product.template', required=False)  # handle in view
-    product_qty = fields.Float(required=False)  # handle in view
+    product_qty = fields.Float(required=False, digits='Product Triple Precision')  # handle in view
     product_uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=False)  # handle in view
     type = fields.Selection(selection_add=[('recipe', 'Recipe')], ondelete={'recipe': 'set default'})
     ##################
@@ -156,7 +156,7 @@ class MrpBom(models.Model):
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
                                               .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
 
-    @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id')
+    @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id', 'recipe_bom_id')
     def _compute_raw_mat_weight(self):
         for bom in self:
             if bom.film_type_bom in ['extruded', 'laminated']:
@@ -165,7 +165,8 @@ class MrpBom(models.Model):
                 custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
                 qty_to_produce_in_units = bom.product_uom_id._compute_quantity(bom.product_qty, custom_uom_related_to_units)
                 # mutiply raw mat by quantity to produce in units
-                bom.raw_mat_weight = bom.product_tmpl_id.net_coil_weight * qty_to_produce_in_units
+                weight = bom.product_tmpl_id.net_coil_weight if bom.film_type_bom == 'extruded' else (bom.product_tmpl_id.surface * bom.product_tmpl_id.extruded_film_grammage) / 1000
+                bom.raw_mat_weight = weight * qty_to_produce_in_units
 
                 if bom.recipe_bom_id:
                     for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):

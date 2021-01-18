@@ -118,7 +118,7 @@
                         type="object"
                         class="oe_highlight"
                         context="{'default_bom_id': id, 'default_allowed_category_type': 'is_glue'}"
-                        attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
+                        attrs="{'invisible': [('film_type_bom', '!=', 'glued')]}"
                 />
                 <button name="action_add_component"
                         style="margin-left: 10px;"
@@ -126,7 +126,7 @@
                         type="object"
                         class="oe_highlight"
                         context="{'default_bom_id': id, 'default_allowed_category_type': 'is_coating'}"
-                        attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"
+                        attrs="{'invisible': [('film_type_bom', '!=', 'glued')]}"
                 />
             </xpath>
 
