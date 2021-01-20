@@ -6,7 +6,7 @@
         -->
         <record forcecreate="True" id="concentration_precision" model="decimal.precision">
             <field name="name">BoM Concentration Precision</field>
-            <field name="digits">2</field>
+            <field name="digits">4</field>
         </record>
         <!--
             sequences

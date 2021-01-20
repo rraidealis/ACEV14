@@ -209,6 +209,7 @@
             <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
                 <field name="recipe_bom_line_id" invisible="1"/>
                 <field name="allowed_uom_ids" invisible="1"/>
+                <field name="allowed_category_type" invisible="1"/>
                 <field name="allowed_product_category_ids" invisible="1"/>
                 <field name="extruder_id" width="200px" options="{'no_create':True}" domain="[('bom_id', '=', parent.id)]" attrs="{'column_invisible': ['|', '|', ('parent.type', 'not in', ['normal', 'recipe']), ('parent.recipe_bom_id', '=', False), ('parent.film_type_bom', 'not in', ['extruded', 'laminated']), ('parent.is_recipe', '!=', True)],
                                                                                                                                     'required': [('parent.is_recipe', '=', True)], 'readonly': [('recipe_bom_line_id', '!=', False)]}"/>

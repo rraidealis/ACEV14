@@ -121,6 +121,7 @@ class MrpBomLine(models.Model):
                 categories = categories.search([('film_type', '=', category_type)])
             line.update({'allowed_product_category_ids': [(6, 0, categories.ids)]})
 
+    @api.depends('bom_id.type', 'alt_bom_id.type')
     def _compute_allowed_uom_ids(self):
         """ Components of a recipe should use UoMs from weight category """
         for line in self:
