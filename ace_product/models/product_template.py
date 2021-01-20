@@ -322,7 +322,7 @@ class ProductTemplate(models.Model):
     def _compute_density(self):
         for product in self:
             product.density = 0.0
-            if product.is_density_used_defined:
+            if product.is_density_user_defined:
                 product.density = product.manual_density
             elif product.color_code_id and product.formula_code_id:
                 theoretical_density = self.env['product.theoretical.density'].search([('color_code_id', '=', product.color_code_id.id),
