@@ -145,15 +145,6 @@
                         <field name="gross_coil_weight_uom_name"/>
                     </div>
 
-                    <label for="total_grammage" attrs="{'invisible': [('show_total_grammage', '=', False)]}"/>
-                    <div class="o_row" attrs="{'invisible': [('show_total_grammage', '=', False)]}">
-                        <span class="oe_edit_only">SO</span><field name="total_grammage_so_visibility"/>
-                        <field name="total_grammage" attrs="{'invisible': [('is_total_grammage_user_defined', '=', True)]}"/>
-                        <field name="manual_total_grammage" attrs="{'invisible': [('is_total_grammage_user_defined', '=', False)]}"/>
-                        <field name="total_grammage_uom_name"/>
-                        <field name="is_total_grammage_user_defined"/><span>User Defined</span>
-                    </div>
-
                     <label for="density" attrs="{'invisible': [('show_density', '=', False)]}"/>
                     <div class="o_row" attrs="{'invisible': [('show_density', '=', False)]}">
                         <span class="oe_edit_only">SO</span><field name="density_so_visibility"/>
