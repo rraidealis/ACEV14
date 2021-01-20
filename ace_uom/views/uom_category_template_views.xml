@@ -30,8 +30,15 @@
                                     <group>
                                          <group name="uom_details">
                                              <field name="name"/>
+                                             <field name="category_template_id"/>
                                              <field name="uom_type"/>
-                                             <field name="factor_from" attrs="{'invisible': [('uom_type', '=', 'reference')], 'required': [('uom_type', '!=', 'reference')]}"/>
+                                             <field name="related_uom_id"/>
+                                             <label for="factor" attrs="{'invisible': [('uom_type', '=', 'reference')]}"/>
+                                             <div class="o_row" attrs="{'invisible': [('uom_type', '=', 'reference')]}">
+                                                 <field name="factor_from" attrs="{'invisible': [('user_defined_ratio', '=', True)], 'required': [('user_defined_ratio', '=', False), ('uom_type', '!=', 'reference')]}"/>
+                                                 <field name="factor" attrs="{'invisible': [('user_defined_ratio', '=', False)], 'required': [('user_defined_ratio', '=', True), ('uom_type', '!=', 'reference')]}"/>
+                                                 <field name="user_defined_ratio"/> User Defined
+                                             </div>
                                          </group>
                                          <group name="active_rounding">
                                              <field name="active" widget="boolean_toggle"/>
