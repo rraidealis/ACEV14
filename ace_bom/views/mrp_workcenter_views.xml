@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_workcenter_view" model="ir.ui.view">
+        <field name="name">mrp.workcenter.form.views.inherited.startup.time</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='time_stop']/.." position="after">
+                <label for="startup_time"/>
+                <div>
+                    <field name="startup_time" widget="float_time" class="oe_inline"/> minutes
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='capacity']" position="inside">
+                <field name="waste_percentage" widget="percentage"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

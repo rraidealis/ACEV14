@@ -70,8 +70,8 @@ class MrpBom(models.Model):
     ##############
     # -> recipe requirements
     extruder_ids = fields.One2many('mrp.bom.extruder', 'bom_id', string='Extruders')
-    production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')]) # only recipes have production BoMs
-    alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines') # it is not possible to use bom_line_ids field for alternative components
+    production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')])  # only recipes have production BoMs
+    alt_bom_line_ids = fields.One2many('mrp.bom.line', 'alt_bom_id', string='Alternative BoM Lines', help='Alternative recipe lines')  # it is not possible to use bom_line_ids field for alternative components
     ##############
     # M2o fields #
     ##############
@@ -156,19 +156,61 @@ class MrpBom(models.Model):
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
                                               .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
 
-    @api.depends('product_tmpl_id', 'product_tmpl_id.net_coil_weight', 'product_qty', 'product_uom_id', 'recipe_bom_id')
+    @api.depends('product_tmpl_id',
+                 'product_tmpl_id.net_coil_weight',
+                 'product_qty',
+                 'product_uom_id',
+                 'recipe_bom_id',
+                 'workcenter_id.waste_percentage',
+                 'machine_speed',
+                 'workcenter_id.startup_time',
+                 'machine_time_number',
+                 'waste_percentage',
+                 'total_production_width')
     def _compute_raw_mat_weight(self):
         for bom in self:
             if bom.film_type_bom in ['extruded', 'laminated']:
+                # retrieve quantity to produce in kg
+                kg_uom = self.env.ref('uom.product_uom_kgm')
+                custom_uom_related_to_kgs = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', kg_uom.id)], limit=1)
+                qty_to_produce_in_kgs = bom.product_uom_id._compute_quantity(bom.product_qty, custom_uom_related_to_kgs) if custom_uom_related_to_kgs else 0.0
+                waste_qty_in_kgs = 0.0
+                # compute workcenter and bom waste quantity
+                if bom.workcenter_id and bom.workcenter_id.waste_percentage:
+                    waste_qty_in_kgs += qty_to_produce_in_kgs * (bom.workcenter_id.waste_percentage + bom.waste_percentage)
+                else:
+                    waste_qty_in_kgs += qty_to_produce_in_kgs * bom.waste_percentage
+                # compute startup waste quantity
+                if bom.machine_speed and bom.workcenter_id and bom.workcenter_id.startup_time and bom.machine_time_number and bom.total_production_width:
+                    # for full production width
+                    # m/minutes * minutes * mm * g/m²
+                    startup_waste_qty_in_kgs = bom.machine_speed * bom.workcenter_id.startup_time * (bom.total_production_width / 1000) * (bom.product_tmpl_id.extruded_film_grammage / 1000)
+                    # for current product / production width
+                    # (kg / mm) * mm * number
+                    waste_qty_in_kgs += (startup_waste_qty_in_kgs / (bom.total_production_width / 1000)) * (bom.product_tmpl_id.width / 1000) * bom.machine_time_number
+                qty_to_produce_in_kgs += waste_qty_in_kgs
                 # retrieve quantity to produce in units
                 units_uom = self.env.ref('uom.product_uom_unit')
                 custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
-                qty_to_produce_in_units = bom.product_uom_id._compute_quantity(bom.product_qty, custom_uom_related_to_units)
+                qty_to_produce_in_units = custom_uom_related_to_kgs._compute_quantity(qty_to_produce_in_kgs, custom_uom_related_to_units) if custom_uom_related_to_kgs and custom_uom_related_to_units else 0.0
+
                 # mutiply raw mat by quantity to produce in units
                 weight = bom.product_tmpl_id.net_coil_weight if bom.film_type_bom == 'extruded' else (bom.product_tmpl_id.surface * bom.product_tmpl_id.extruded_film_grammage) / 1000
                 bom.raw_mat_weight = weight * qty_to_produce_in_units
 
                 if bom.recipe_bom_id:
+                    # update by-product quantity to register waste quantity
+                    by_product = bom.byproduct_ids.filtered(lambda p: p.recipe_bom_id == bom.recipe_bom_id)
+                    if by_product:
+                        try:
+                            by_product.write({
+                                'product_qty': waste_qty_in_kgs,
+                                'product_uom_id': kg_uom.id,
+                            })
+                        except Exception:
+                            raise UserError(_(
+                                'It is not possible to input waste on by-product {} (maybe this product does not handle kilograms).').format(','.join(by_product.mapped('name'))))
+                    # compute product quantity for each line bound to recipe
                     for line in bom.bom_line_ids.filtered(lambda l: l.recipe_bom_line_id):
                         bom_weight = bom.raw_mat_weight
                         bom_weight_uom = bom.raw_mat_weight_uom_id

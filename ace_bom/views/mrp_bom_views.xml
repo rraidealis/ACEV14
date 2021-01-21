@@ -235,7 +235,7 @@
             </xpath>
             <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
                 <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '!=', True), ('recipe_bom_id', '=', False)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued']), ('is_recipe', '!=', True)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
                 <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>

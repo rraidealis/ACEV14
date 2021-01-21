@@ -53,3 +53,7 @@ class MrpBom(models.Model):
     machine_speed = fields.Float(string='Standard Machine Speed', digits='Product Double Precision')
     machine_speed_uom_id = fields.Many2one('uom.uom', string='Machine Speed UoM', readonly=True, default=_default_meters_per_minute_uom_id)
     machine_speed_uom_name = fields.Char(string='Machine Speed UoM Label', readonly=True, related='machine_speed_uom_id.name')
+
+    # Float
+    waste_percentage = fields.Float(string='Waste Percentage', digits='Percentage Quadruple Precision', help='Percentage of wasted quantity according quantity to produce. This percentage adds up with percentage of wasted quantity from workcenter')
+

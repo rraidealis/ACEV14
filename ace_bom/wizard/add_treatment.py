@@ -7,9 +7,6 @@ class AddTreatment(models.TransientModel):
     _name = 'mrp.bom.add.treatment'
     _description = 'Add Coating/Glue product to BoM components of a Glued Film'
 
-    def _get_default_product_uom_id(self):
-        return self.env['uom.uom'].search([], limit=1, order='id').id
-
     def _default_grammage_uom_id(self):
         uom = self.env.ref('ace_data.product_uom_grammage', raise_if_not_found=False)
         if not uom:

@@ -118,19 +118,19 @@ class ProductTemplate(models.Model):
     thickness_uom_id = fields.Many2one('uom.uom', string='Thickness UoM', readonly=True, default=_default_micrometers_uom_id)
     thickness_uom_name = fields.Char(string='Thickness UoM Label', related='thickness_uom_id.name')
 
-    extruded_film_grammage = fields.Float(string='Extruded Film Grammage', compute='_compute_extruded_film_grammage', store=True, digits='Product Single Precision')
+    extruded_film_grammage = fields.Float(string='Extruded Film Grammage', compute='_compute_extruded_film_grammage', store=True, digits='Product Single Precision', help='Extruded film grammage in g/m². May be user defined. This field is automatically computed only in case of extruded and laminated films.\nFormula: (product thickness in μm % 10000) * (product density in g/cm³ * 10000)')
     extruded_film_grammage_uom_id = fields.Many2one('uom.uom', string='Extruded Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     extruded_film_grammage_uom_name = fields.Char(string='Extruded Film Grammage UoM Label', related='extruded_film_grammage_uom_id.name')
     manual_extruded_film_grammage = fields.Float(string='Manual Extruded Film Grammage', digits='Product Single Precision')
     is_extruded_film_grammage_user_defined = fields.Boolean(string='User Defined Extruded Film Grammage')
 
-    total_grammage = fields.Float(string='Total Grammage', compute='_compute_total_grammage', store=True, digits='Product Single Precision')
+    total_grammage = fields.Float(string='Total Grammage', compute='_compute_total_grammage', store=True, digits='Product Single Precision', help='Total grammage in g/m². May be user defined. This field is automatically computed for all ace films.\nFormula:\n- Extruded Films -> same value as extruded film grammage\n- Glued Films -> sum of grammage of all components from the first BoM available\n- Laminated Films -> sum of all components grammage + ((product thickness in μm % 10000) * (product density in g/cm³ * 10000))')
     total_grammage_uom_id = fields.Many2one('uom.uom', string='Total Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     total_grammage_uom_name = fields.Char(string='Total Grammage UoM Label', related='total_grammage_uom_id.name')
     manual_total_grammage = fields.Float(string='Manual Total Grammage', digits='Product Single Precision')
     is_total_grammage_user_defined = fields.Boolean(string='User Defined Total Grammage')
 
-    ace_film_grammage = fields.Float(string='Ace Film Grammage', compute='_compute_ace_film_grammage', store=True, digits='Product Single Precision')
+    ace_film_grammage = fields.Float(string='Ace Film Grammage', compute='_compute_ace_film_grammage', store=True, digits='Product Single Precision', help='Ace film grammage in g/m². May be user defined. This field is automatically computed for all ace films.\nFormula:\n- Extruded Films -> same value as extruded film grammage\n- Glued Films -> sum of grammage of all Ace Film components from the first BoM available\n- Laminated Films -> sum of all Ace Film components grammage + ((product thickness in μm % 10000) * (product density in g/cm³ * 10000))')
     ace_film_grammage_uom_id = fields.Many2one('uom.uom', string='Ace Film Grammage UoM', readonly=True, default=_default_grammage_uom_id)
     ace_film_grammage_uom_name = fields.Char(string='Ace Film Grammage UoM Label', related='ace_film_grammage_uom_id.name')
     manual_ace_film_grammage = fields.Float(string='Manual Ace Film Grammage', digits='Product Single Precision')
@@ -147,7 +147,7 @@ class ProductTemplate(models.Model):
     manual_weight = fields.Float(string='Manual Weight', digits='Product Triple Precision')
     is_weight_user_defined = fields.Boolean(string='User Defined Weight')
 
-    surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product Triple Precision')
+    surface = fields.Float(string='Surface', compute='_compute_surface', store=True, digits='Product Triple Precision', help='Product surface in m².\nFormula: width * length')
     surface_uom_id = fields.Many2one('uom.uom', string='Surface UoM', readonly=True, default=_default_square_meters_uom_id)
     surface_uom_name = fields.Char(string='Surface Uom Label', related='surface_uom_id.name')
 
@@ -155,29 +155,29 @@ class ProductTemplate(models.Model):
     diameter_uom_id = fields.Many2one('uom.uom', string='Diameter UoM', readonly=True, default=_default_millimeters_uom_id)
     diameter_uom_name = fields.Char(string='Diameter UoM Label', related='diameter_uom_id.name')
 
-    net_coil_weight = fields.Float(string='Net Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision')
+    net_coil_weight = fields.Float(string='Net Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision', help='Net coil weight in kilograms.\nFormula: (surface in m² * total grammage in g/m²) % 1000')
     net_coil_weight_uom_id = fields.Many2one('uom.uom', string='Net Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     net_coil_weight_uom_name = fields.Char(string='Net Coil Weight UoM Label', related='net_coil_weight_uom_id.name')
 
-    gross_coil_weight = fields.Float(string='Gross Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision')
+    gross_coil_weight = fields.Float(string='Gross Coil Weight', compute='_compute_coil_weight', store=True, digits='Product Triple Precision', help='Gross coil weight in kilograms.\nFormula: net coil weight + mandrel weight')
     gross_coil_weight_uom_id = fields.Many2one('uom.uom', string='Gross Coil Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     gross_coil_weight_uom_name = fields.Char(string='Gross Coil Weight UoM Label', related='gross_coil_weight_uom_id.name')
 
-    density = fields.Float(string='Density', compute='_compute_density', store=True, digits='Product Triple Precision')
+    density = fields.Float(string='Density', compute='_compute_density', store=True, digits='Product Triple Precision', help='Product density in g/cm³. May be user defined.\nFormula: theorical density based on formula code and color code')
     density_uom_id = fields.Many2one('uom.uom', string='Density UoM', readonly=True, default=_default_density_uom_id)
     density_uom_name = fields.Char(string='Density UoM Label', related='density_uom_id.name')
     manual_density = fields.Float(string='Manual Density', digits='Product Triple Precision')
     is_density_user_defined = fields.Boolean(string='User Defined Density')
 
-    mandrel_diameter = fields.Float(string='Mandrel Diameter', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision')
+    mandrel_diameter = fields.Float(string='Mandrel Diameter', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision', help='Mandrel diameter in cm. This is the value set on the product general page.')
     mandrel_diameter_uom_id = fields.Many2one('uom.uom', string='Mandrel Diameter UoM', readonly=True, default=_default_cms_uom_id)
     mandrel_diameter_uom_name = fields.Char(string='Mandrel Diameter UoM Label', related='mandrel_diameter_uom_id.name')
 
-    mandrel_width = fields.Float(string='Mandrel Width', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision')
+    mandrel_width = fields.Float(string='Mandrel Width', compute='_compute_mandrel_dimensions', store=True, digits='Product Double Precision', help='Mandrel width in cm. This is the value set on the product general page.')
     mandrel_width_uom_id = fields.Many2one('uom.uom', string='Mandrel Width UoM', readonly=True, default=_default_cms_uom_id)
     mandrel_width_uom_name = fields.Char(string='Mandrel Width UoM Label', related='mandrel_width_uom_id.name')
 
-    mandrel_weight = fields.Float(string='Mandrel Weight', compute='_compute_mandrel_weight', store=True, digits='Product Triple Precision')
+    mandrel_weight = fields.Float(string='Mandrel Weight', compute='_compute_mandrel_weight', store=True, digits='Product Triple Precision', help='Mandrel weight coming from first available BoM. May be user defined. This is the weight set on the logistics page.')
     mandrel_weight_uom_id = fields.Many2one('uom.uom', string='Mandrel Weight UoM', readonly=True, default=_default_kilograms_uom_id)
     mandrel_weight_uom_name = fields.Char(string='Mandrel Weight UoM Label', related='mandrel_weight_uom_id.name')
 
@@ -248,18 +248,18 @@ class ProductTemplate(models.Model):
                  'is_extruded_film_grammage_user_defined')
     def _compute_extruded_film_grammage(self):
         """
-        Extruded film grammage may be manually set or computed according to product thickness and density. This value
-        is not computed for other films
+        Extruded film grammage may be manually set or computed according to product thickness and density.
+        This value is not computed for other films
         """
         for product in self:
             product.extruded_film_grammage = 0.0
             # Manually set
             if product.is_extruded_film_grammage_user_defined:
                 product.extruded_film_grammage = product.manual_extruded_film_grammage
-            # if product is an extruded film, compute grama
+            # if product is an extruded or laminated film, compute extruded grammage with thickness and density
             elif product.categ_id.is_ace_film and product.categ_id.film_type in ['extruded', 'laminated'] and product.thickness and product.density:
                 # TODO arbitrary divisor -> conversion of micrometers to centimeters
-                # TODO arbitrary multiplicator -> conversion of cm2 to m2
+                # TODO arbitrary multiplicator -> conversion of cm³ to m³
                 product.extruded_film_grammage = ((product.thickness / 10000) * product.density) * 10000
 
     @api.depends('extruded_film_grammage',
@@ -315,8 +315,7 @@ class ProductTemplate(models.Model):
                     product.total_grammage = sum(bom.bom_line_ids.mapped('grammage'))
                 # laminated film -> sum of all film components grammage + extruded film grammage
                 if product.categ_id.film_type == 'laminated' and product.thickness and product.density:
-                    product.total_grammage = sum(bom.bom_line_ids.mapped('grammage')) + (
-                                (product.thickness / 10000) * product.density) * 10000
+                    product.total_grammage = sum(bom.bom_line_ids.mapped('grammage')) + ((product.thickness / 10000) * product.density) * 10000
 
     @api.depends('color_code_id', 'formula_code_id', 'is_density_user_defined', 'manual_density')
     def _compute_density(self):

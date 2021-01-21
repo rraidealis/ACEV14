@@ -11,8 +11,8 @@
                 <field name="film_type_bom" invisible="1"/>
                 <field name="is_coating_component" invisible="1"/>
                 <field name="is_glue_component" invisible="1"/>
-                <label for="grammage" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True)]}">
+                <label for="grammage" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True), ('is_coating_component', '!=', True), ('is_glue_component', '!=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['glued', 'laminated']), ('is_film_component', '!=', True), ('is_coating_component', '!=', True), ('is_glue_component', '!=', True)]}">
                     <field name="grammage"/>
                     <field name="grammage_uom_name"/>
                 </div>

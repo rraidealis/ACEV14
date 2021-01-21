@@ -7,7 +7,7 @@ class AddFilm(models.TransientModel):
     _name = 'mrp.bom.add.film'
     _description = 'Add Film type product to BoM components of a Glued Film'
 
-    def _get_default_product_uom_id(self):
+    def _default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
 
     def _default_grammage_uom_id(self):
@@ -22,7 +22,7 @@ class AddFilm(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Component', required=True)
     product_qty = fields.Float(string='Quantity', compute='_compute_product_qty', digits='Product Unit of Measure')
     product_uom_id = fields.Many2one('uom.uom', string='Final Product Unit of Measure', compute='_compute_product_uom_id')
-    proxy_product_uom_id = fields.Many2one('uom.uom', string='Product Unit of Measure', default=_get_default_product_uom_id,
+    proxy_product_uom_id = fields.Many2one('uom.uom', string='Product Unit of Measure', default=_default_product_uom_id,
                                      required=True,
                                      help='Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control',
                                      domain="[('category_id', '=', product_uom_category_id)]")

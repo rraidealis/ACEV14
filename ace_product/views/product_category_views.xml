@@ -14,6 +14,7 @@
                 <field name="film_type" class="oe_inline" attrs="{'invisible': [('is_ace_film', '=', False)]}"/>
                 <field name="is_coating"/>
                 <field name="is_glue"/>
+                <field name="is_waste"/>
             </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>

@@ -18,6 +18,7 @@ class ProductCategory(models.Model):
     is_ace_film = fields.Boolean(string='Ace Film Category', help='Check this box if this is a specific category for ACE films')
     is_coating = fields.Boolean(string='Coating Category', help='Check this box if this is a specific category for coatings')
     is_glue = fields.Boolean(string='Glue Category', help='Check this box if this is a specific category for glues')
+    is_waste = fields.Boolean(string='Waste Category', help='Check this box if this is a specific category for waste coming from production')
     film_type = fields.Selection([('none', 'None'), ('laminated', 'Laminated'), ('glued', 'Glued'), ('extruded', 'Extruded')], default='none', string='Film Type')
 
     # Product custom fields visibility
