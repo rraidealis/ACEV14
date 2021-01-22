@@ -92,6 +92,7 @@
                 <header>
                     <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': ['|', ('type', '!=', 'normal'), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                     <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
+                    <button string="Add Waste Management" name="%(ace_bom.action_add_waste_management)d" type="action" context="{'default_bom_id': id}" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued', 'extruded'])]}"/>
                 </header>
             </xpath>
 
@@ -223,6 +224,12 @@
             </xpath>
 
             <!-- add fields -->
+            <xpath expr="//field[@name='byproduct_ids']/tree" position="inside">
+                <field name="waste_management" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='byproduct_ids']/tree" position="attributes">
+                <attribute name="decoration-warning">waste_management</attribute>
+            </xpath>
             <xpath expr="//field[@name='message_ids']" position="before">
                 <field name="activity_ids"/>
             </xpath>
@@ -259,6 +266,16 @@
                 <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '=', True)]}">
                     <field name="raw_mat_weight"/>
                     <field name="raw_mat_weight_uom_name"/>
+                </div>
+                <label for="waste_qty_in_kg" string="Waste Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}"/>
+                <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}">
+                    <field name="waste_qty_in_kg"/>
+                    <field name="waste_uom_name"/>
+                </div>
+                <label for="border_waste_qty_in_kg" string="Border Waste Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"/>
+                <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}">
+                    <field name="border_waste_qty_in_kg"/>
+                    <field name="waste_uom_name"/>
                 </div>
             </xpath>
         </field>

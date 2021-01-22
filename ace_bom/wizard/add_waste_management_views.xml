@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_bom_add_waste_management_view_form" model="ir.ui.view">
+        <field name="name">mrp.bom.add.waste.management.view.form</field>
+        <field name="model">mrp.bom.add.waste.management</field>
+        <field name="arch" type="xml">
+            <form string="Add Waste Management">
+                <separator string="Select a product to handle waste quantities"/>
+                <p>Pay attention that this action will erase any previously created by-product to handle waste quantities. Also, there is no synchronization of component quantities if waste quantities are updated. You have to reimport your components each time.</p>
+                <p>To have correct waste quantities you need to check set-ups of your workcenter and your machine parameters (see machine parameters tab).<br/>
+                Ensure that you have generated uoms for your product to produce (total grammage and net coil weight are required).</p>
+                <group>
+                    <field name="bom_id" invisible="1"/>
+                    <field name="allowed_waste_category_ids" invisible="1"/>
+                    <field name="allowed_waste_uom_ids" invisible="1"/>
+                    <field name="byproduct_id" domain="[('categ_id', 'in', allowed_waste_category_ids), ('uom_id', 'in', allowed_waste_uom_ids)]"/>
+                    <label for="waste_qty_in_kg"/>
+                    <div>
+                        <field name="waste_qty_in_kg" class="oe_inline"/> kg
+                    </div>
+                    <label for="border_waste_qty_in_kg"/>
+                    <div>
+                        <field name="border_waste_qty_in_kg" class="oe_inline"/> kg
+                    </div>
+                </group>
+                <footer>
+                    <button string="Add" name="button_add_byproduct" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_add_waste_management" model="ir.actions.act_window">
+        <field name="name">Add Waste Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mrp.bom.add.waste.management</field>
+        <field name="view_id" ref="ace_bom.mrp_bom_add_waste_management_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

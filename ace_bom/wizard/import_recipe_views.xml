@@ -7,13 +7,10 @@
         <field name="arch" type="xml">
             <form string="Import Recipe">
                 <separator string="Select a Recipe"/>
-                <p>Pay attention that this action will erase components and by-products of any previously imported recipe.</p>
+                <p>Pay attention that this action will erase components of any previously imported recipe.</p>
                 <group>
                     <field name="bom_id" invisible="1"/>
-                    <field name="allowed_waste_category_ids" invisible="1"/>
-                    <field name="allowed_waste_uom_ids" invisible="1"/>
                     <field name="recipe_bom_id"/>
-                    <field name="by_product_id" domain="[('categ_id', 'in', allowed_waste_category_ids), ('uom_id', 'in', allowed_waste_uom_ids)]"/>
                 </group>
                 <footer>
                     <button string="Import" name="button_import_recipe" type="object" class="btn-primary"/>

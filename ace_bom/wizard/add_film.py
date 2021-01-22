@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 class AddFilm(models.TransientModel):
     _name = 'mrp.bom.add.film'
-    _description = 'Add Film type product to BoM components of a Glued Film'
+    _description = 'Add Film type product to BoM components of a Glued or Gaminated Film'
 
     def _default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
@@ -101,7 +101,7 @@ class AddFilm(models.TransientModel):
     def _compute_product_qty(self):
         for wiz in self:
             if wiz.bom_id and wiz.bom_id.product_tmpl_id and wiz.product_id and wiz.proxy_product_uom_id:
-                # 1. Retrieving quantity to produce in meters
+                # 1a. Retrieving quantity to produce in meters
                 # retrieve uom related to meters
                 meters_uom = self.env.ref('uom.product_uom_meter')
                 custom_uom_related_to_meters = self.env['uom.uom'].search([('category_id', '=', wiz.bom_id.product_uom_id.category_id.id), ('related_uom_id', '=', meters_uom.id)], limit=1)
@@ -110,6 +110,14 @@ class AddFilm(models.TransientModel):
                     qty_to_produce_in_meters = wiz.bom_id.product_uom_id._compute_quantity(wiz.bom_id.product_qty, custom_uom_related_to_meters)
                 else:
                     qty_to_produce_in_meters = 0.0
+
+                # 1b. Retrieving waste quantity to produce in meters
+                # retrieve uom related to kilograms
+                kg_uom = self.env.ref('uom.product_uom_kgm')
+                custom_uom_related_to_kgs = self.env['uom.uom'].search([('category_id', '=', wiz.bom_id.product_uom_id.category_id.id), ('related_uom_id', '=', kg_uom.id)], limit=1)
+                # convert quantity to produce from kilograms to meters
+                if custom_uom_related_to_kgs:
+                    qty_to_produce_in_meters += custom_uom_related_to_kgs._compute_quantity(wiz.bom_id.waste_qty_in_kg, custom_uom_related_to_meters)
 
                 # 2. Applying stretching factor if any
                 if wiz.stretching_factor:

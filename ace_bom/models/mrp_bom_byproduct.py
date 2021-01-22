@@ -7,4 +7,4 @@ from odoo import fields, models
 class MrpByProduct(models.Model):
     _inherit = 'mrp.bom.byproduct'
 
-    recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
+    waste_management = fields.Boolean(string='Waste Management', help='This byproduct records production waste')

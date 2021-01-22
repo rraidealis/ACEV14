@@ -41,14 +41,16 @@ class MrpBomLine(models.Model):
     ####################
     # -> recipe requirement
     bom_id = fields.Many2one('mrp.bom', required=False)  # field required handled in constrains
+    # -> general requirement
+    product_qty = fields.Float(digits='Product Triple Precision')
     ##################
     # Utility fields #
     ##################
-    # -> general requirement
+    # -> general requirements
     film_type_bom = fields.Selection(string='Film Type', related='bom_id.film_type_bom', help='Field used to display information relative to film type')
     is_film_component = fields.Boolean(string='Is Film Component', related='product_id.categ_id.is_film')
     is_coating_component = fields.Boolean(string='Is Coating Component', related='product_id.categ_id.is_coating')
-    is_glue_component = fields.Boolean(string='Is Coating Component', related='product_id.categ_id.is_glue')
+    is_glue_component = fields.Boolean(string='Is Glue Component', related='product_id.categ_id.is_glue')
     allowed_category_type = fields.Selection(CATEGORY_SELECTION, string='Product Category Type')
     allowed_product_category_ids = fields.Many2many('product.category', string='Allowed Categories', compute='_compute_allowed_product_category_ids')
     # -> recipe requirement
