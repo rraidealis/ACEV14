@@ -55,6 +55,8 @@ class MrpBom(models.Model):
     is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_is_recipe', help='Field used to display recipe fields')
     # -> general requirement
     film_type_bom = fields.Selection(string='Film Type', related='product_tmpl_id.categ_id.film_type', help='Field used to display information relative to film type')
+    # -> waste management
+    waste_management_enabled = fields.Boolean(string='Waste Management', help='Field used to active waste management')
     #########
     # Chars #
     #########
@@ -188,7 +190,7 @@ class MrpBom(models.Model):
                 custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
                 qty_to_produce_in_units = custom_uom_related_to_kgs._compute_quantity(qty_to_produce_in_kgs, custom_uom_related_to_units) if custom_uom_related_to_kgs and custom_uom_related_to_units else 0.0
 
-                # mutiply raw mat by quantity to produce in units
+                # multiply raw mat by quantity to produce in units
                 weight = (bom.product_tmpl_id.surface * bom.product_tmpl_id.extruded_film_grammage) / 1000
                 bom.raw_mat_weight = weight * qty_to_produce_in_units
 
@@ -210,7 +212,8 @@ class MrpBom(models.Model):
             else:
                 bom.raw_mat_weight = 0.0
 
-    @api.depends('product_tmpl_id.total_grammage',
+    @api.depends('waste_management_enabled',
+                 'product_tmpl_id.total_grammage',
                  'product_qty',
                  'product_uom_id',
                  'recipe_bom_id',
@@ -224,7 +227,7 @@ class MrpBom(models.Model):
                  'bom_line_ids.product_qty')
     def _compute_waste_qty_in_kg(self):
         for bom in self:
-            if bom.film_type_bom in ['extruded', 'laminated', 'glued']:
+            if bom.waste_management_enabled and bom.film_type_bom in ['extruded', 'laminated', 'glued']:
                 # retrieve quantity to produce in kg
                 kg_uom = self.env.ref('uom.product_uom_kgm')
                 custom_uom_related_to_kgs = self.env['uom.uom'].search([('category_id', '=', bom.product_uom_id.category_id.id), ('related_uom_id', '=', kg_uom.id)], limit=1)
@@ -262,6 +265,7 @@ class MrpBom(models.Model):
                         raise UserError(_('It is not possible to input waste on by-product {} (maybe this product does not handle kilograms).').format(bom.byproduct_id.name))
             else:
                 bom.waste_qty_in_kg = 0.0
+                bom.border_waste_qty_in_kg = 0.0
 
     @api.depends('type')
     def _compute_is_recipe(self):

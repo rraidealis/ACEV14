@@ -99,7 +99,7 @@ class MrpBomLine(models.Model):
     # Chars #
     #########
     # -> recipe requirement
-    hopper = fields.Char('Hopper')
+    hopper = fields.Char(string='Hopper')
 
     @api.constrains('bom_id', 'alt_bom_id')
     def _check_exist_bom(self):

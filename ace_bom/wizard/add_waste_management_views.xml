@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form string="Add Waste Management">
                 <separator string="Select a product to handle waste quantities"/>
-                <p>Pay attention that this action will erase any previously created by-product to handle waste quantities. Also, there is no synchronization of component quantities if waste quantities are updated. You have to reimport your components each time.</p>
+                <p>Pay attention that this action will erase any previously created by-product to handle waste quantities. Also, there is no synchronization of component quantities if waste quantities are updated. You have to reimport your components each time or add waste management after changes to waste quantities.</p>
                 <p>To have correct waste quantities you need to check set-ups of your workcenter and your machine parameters (see machine parameters tab).<br/>
                 Ensure that you have generated uoms for your product to produce (total grammage and net coil weight are required).</p>
                 <group>

@@ -363,7 +363,7 @@ class ProductTemplate(models.Model):
         for product in self:
             product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
-    @api.depends('surface', 'manual_total_grammage', 'total_grammage', 'is_total_grammage_user_defined', 'mandrel_id', 'mandrel_id.weight')
+    @api.depends('surface', 'manual_total_grammage', 'total_grammage', 'is_total_grammage_user_defined', 'mandrel_id', 'mandrel_weight')
     def _compute_coil_weight(self):
         for product in self:
             # Todo: Arbitrary divisor value, grams factor. Find a way to have a dynamic value since we didn't know that it is a conversion of g to kg
@@ -374,7 +374,7 @@ class ProductTemplate(models.Model):
             if product.mandrel_id:
                 # TODO seems weird
                 weight_uom = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter()
-                weight += weight_uom._compute_quantity(product.mandrel_id.weight, self.env.ref('uom.product_uom_kgm'))
+                weight += weight_uom._compute_quantity(product.mandrel_weight, self.env.ref('uom.product_uom_kgm'))
             product.gross_coil_weight = weight
 
     @api.depends('mandrel_id', 'mandrel_id.width', 'mandrel_id.diameter')
