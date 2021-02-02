@@ -32,10 +32,11 @@
             <!-- add fields -->
             <xpath expr="//field[@name='active']" position="after">
                 <field name="is_recipe" invisible="1"/>
+                <field name="is_packaging" invisible="1"/>
             </xpath>
             <!-- hide unnecessary page in case of recipe type -->
             <xpath expr="//page[@name='machine_parameters']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
         </field>
     </record>
@@ -48,37 +49,37 @@
         <field name="arch" type="xml">
             <!-- hide unnecessary buttons in case of recipe type -->
             <xpath expr="//button[@name='%(mrp.action_mrp_routing_time)d']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//button[@name='%(mrp.action_report_mrp_bom)d']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <!-- hide unnecessary fields in case of recipe type -->
             <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)], 'required': [('is_recipe', '!=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)], 'required': [('is_recipe', '!=', True), ('is_packaging', '!=', True)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='product_id']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//label[@for='product_qty']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <!-- hide unnecessary tabs in case of recipe type -->
             <xpath expr="//page[@name='miscellaneous']" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//page[@name='components']" position="attributes">
                 <attribute name="attrs">{'invisible': [('is_recipe', '=', True), ('id', '=', False)]}</attribute>
             </xpath>
             <!-- required/readonly fields -->
             <xpath expr="//field[@name='code']" position="attributes">
-                <attribute name="attrs">{'required': [('is_recipe', '=', True)]}</attribute>
+                <attribute name="attrs">{'required': ['|', ('is_recipe', '=', True), ('is_packaging', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='type']" position="attributes">
-                <attribute name="attrs">{'readonly': [('production_bom_count', '&gt;', 0)]}</attribute>
+                <attribute name="attrs">{'readonly': [('production_packed_bom_count', '&gt;', 0)]}</attribute>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']" position="attributes">
                 <attribute name="attrs">{'required': [('is_recipe', '!=', True)]}</attribute>
@@ -91,6 +92,7 @@
             <xpath expr="//sheet" position="before">
                 <header>
                     <button string="Import Recipe" name="action_import_recipe_bom" type="object" attrs="{'invisible': ['|', ('type', '!=', 'normal'), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
+                    <button string="Import Pack Instructions" name="action_import_packaging_bom" type="object" attrs="{'invisible': ['|', '|', ('type', '!=', 'normal'), ('film_type_bom', 'not in', ['extruded', 'laminated', 'glued']), ('packaging_bom_id', '=', False)]}"/>
                     <button string="Recompute Recipe Quantities" name="action_compute_recipe_quantities" type="object" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                     <button string="Add Waste Management" name="%(ace_bom.action_add_waste_management)d" type="action" context="{'default_bom_id': id}" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued', 'extruded'])]}"/>
                 </header>
@@ -98,9 +100,9 @@
 
             <!-- add buttons -->
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button type="object" name="action_view_production_boms" class="oe_stat_button" icon="fa-flask" attrs="{'invisible': [('is_recipe', '!=', True)]}">
+                <button type="object" name="action_view_production_packed_boms" class="oe_stat_button" icon="fa-flask" attrs="{'invisible': [('is_recipe', '!=', True), ('is_packaging', '!=', True)]}">
                     <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_value"><field name="production_bom_count"/></span>
+                        <span class="o_stat_value"><field name="production_packed_bom_count"/></span>
                         <span class="o_stat_text">Used in</span>
                     </div>
                 </button>
@@ -235,16 +237,37 @@
             </xpath>
             <xpath expr="//field[@name='active']" position="after">
                 <field name="is_recipe" invisible="1"/>
+                <field name="is_packaging" invisible="1"/>
                 <field name="film_type_bom" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='code']" position="before">
-                <field name="recipe_number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
+                <field name="recipe_number" string="Number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
+                 <field name="packaging_number" string="Number" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
                 <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued']), ('is_recipe', '!=', True)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+                <field name="packaging_bom_id" string="Packaging" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
+                <!-- packaging fields -->
+                <field name="coil_position" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <label for="coil_by_layer" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
+                    <field name="coil_by_layer"/>
+                    <field name="coil_by_layer_uom_name"/>
+                </div>
+                <label for="layer_number" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
+                    <field name="layer_number"/>
+                    <field name="layer_number_uom_name"/>
+                </div>
+                <label for="coil_by_pallet" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
+                    <field name="coil_by_pallet"/>
+                    <field name="coil_by_pallet_uom_name"/>
+                </div>
+                <!-- recipe fields -->
                 <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
                 <field name="color_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
                 <label for="min_thickness" string="Thickness" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
@@ -262,8 +285,9 @@
                     <field name="density"/>
                     <field name="density_uom_name"/>
                 </div>
-                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': ['|', ('film_type_bom', 'not in', ['extruded', 'laminated']), ('is_recipe', '=', True)]}">
+
+                <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
+                <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated'])]}">
                     <field name="raw_mat_weight"/>
                     <field name="raw_mat_weight_uom_name"/>
                 </div>

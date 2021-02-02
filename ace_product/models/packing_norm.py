@@ -10,3 +10,5 @@ class PackingNorm(models.Model):
     _order = 'name'
 
     name = fields.Char(string='Packing Norm', required=True)
+    packaging_bom_id = fields.Many2one('mrp.bom', string='Packaging Instructions', required=True, domain=[('type', '=', 'packaging')])
+

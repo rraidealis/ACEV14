@@ -198,13 +198,8 @@
                         ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False), ('show_coil_by_layer', '=', False),
                         ('show_layer_number', '=', False), ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
                             <field name="packing_norm_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
-                            <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
-                            <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
-                                <field name="coil_by_pallet"/>
-                                <field name="coil_by_pallet_uom_name"/>
-                            </div>
-                            <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
                             <field name="pallet_type_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_pallet_type', '=', False)]}"/>
+                            <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
                             <label for="coil_by_layer" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}">
                                 <field name="coil_by_layer"/>
@@ -214,6 +209,11 @@
                             <div class="o_row" attrs="{'invisible': [('show_layer_number', '=', False)]}">
                                 <field name="layer_number"/>
                                 <field name="layer_number_uom_name"/>
+                            </div>
+                            <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
+                                <field name="coil_by_pallet"/>
+                                <field name="coil_by_pallet_uom_name"/>
                             </div>
                             <field name="is_package_stored" attrs="{'invisible': [('show_is_package_stored', '=', False)]}"/>
                         </group>
@@ -350,6 +350,7 @@
         <field name="arch" type="xml">
             <tree string="Packing Norm" editable="bottom">
                 <field name="name" string="Name"/>
+                <field name="packaging_bom_id" string="Packaging BoM"/>
             </tree>
         </field>
     </record>

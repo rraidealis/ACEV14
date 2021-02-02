@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 
 class ProductCategory(models.Model):
-    _inherit = "product.category"
+    _inherit = 'product.category'
 
     ##############
     # New Fields #
@@ -19,6 +19,7 @@ class ProductCategory(models.Model):
     is_coating = fields.Boolean(string='Coating Category', help='Check this box if this is a specific category for coatings')
     is_glue = fields.Boolean(string='Glue Category', help='Check this box if this is a specific category for glues')
     is_waste = fields.Boolean(string='Waste Category', help='Check this box if this is a specific category for waste coming from production')
+    is_packaging = fields.Boolean(string='Packaging Category', help='Check this box if this is a specific category for packaging products')
     film_type = fields.Selection([('none', 'None'), ('laminated', 'Laminated'), ('glued', 'Glued'), ('extruded', 'Extruded')], default='none', string='Film Type')
 
     # Product custom fields visibility

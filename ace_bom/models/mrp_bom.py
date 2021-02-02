@@ -12,6 +12,13 @@ class MrpBom(models.Model):
     _name = 'mrp.bom'
     _inherit = ['mrp.bom', 'mail.activity.mixin']
 
+    def _default_units_uom_id(self):
+        uom = self.env.ref('uom.product_uom_unit', raise_if_not_found=False)
+        if not uom:
+            categ = self.env.ref('uom.product_uom_categ_unit')
+            uom = self.env['uom.uom'].search([('category_id', '=', categ.id), ('uom_type', '=', 'reference')], limit=1)
+        return uom
+
     def _default_millimeters_uom_id(self):
         uom = self.env.ref('ace_data.product_uom_millimeter', raise_if_not_found=False)
         if not uom:
@@ -47,12 +54,14 @@ class MrpBom(models.Model):
     product_tmpl_id = fields.Many2one('product.template', required=False)  # handle in view
     product_qty = fields.Float(required=False, digits='Product Triple Precision')  # handle in view
     product_uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=False)  # handle in view
-    type = fields.Selection(selection_add=[('recipe', 'Recipe')], ondelete={'recipe': 'set default'})
+    type = fields.Selection(selection_add=[('recipe', 'Recipe'), ('packaging', 'Packaging Instructions')], ondelete={'recipe': 'cascade', 'packaging': 'cascade'})
     ##################
     # Utility fields #
     ##################
+    # -> packaging instructions requirement
+    is_packaging = fields.Boolean(string='Is Packaging Instructions', compute='_compute_bom_type', help='Field used to display packaging instructions fields')
     # -> recipe requirement
-    is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_is_recipe', help='Field used to display recipe fields')
+    is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_bom_type', help='Field used to display recipe fields')
     # -> general requirement
     film_type_bom = fields.Selection(string='Film Type', related='product_tmpl_id.categ_id.film_type', help='Field used to display information relative to film type')
     # -> waste management
@@ -61,15 +70,36 @@ class MrpBom(models.Model):
     # Chars #
     #########
     # -> recipe requirement
-    recipe_number = fields.Char(string='Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom'))
+    recipe_number = fields.Char(string='Recipe Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom.recipe'))
+    # -> packaging requirement
+    packaging_number = fields.Char(string='Packaging Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom.packaging'))
+    #############
+    # Selection #
+    #############
+    # -> packaging instructions requirement
+    coil_position = fields.Selection([('vertical', 'Vertical'), ('horizontal', 'Horizontal')], string='Coil Position')
     ############
     # Integers #
     ############
-    # -> recipe requirement
-    production_bom_count = fields.Integer(string='Production BoMs Count', compute='_compute_production_bom_count')
+    # -> recipe/packaging requirement
+    production_packed_bom_count = fields.Integer(string='Production/Packed BoMs Count', compute='_compute_production_packed_bom_count')
+    # -> packaging instructions requirements
+    coil_by_pallet = fields.Integer(string='Coil by Pallet', compute='_compute_coil_by_pallet', store=True)
+    coil_by_pallet_uom_id = fields.Many2one('uom.uom', string='Coil by Pallet UoM', readonly=True, default=_default_units_uom_id)
+    coil_by_pallet_uom_name = fields.Char(string='Coil by Pallet UoM Label', related='coil_by_pallet_uom_id.name')
+
+    coil_by_layer = fields.Integer(string='Coil by Layer')
+    coil_by_layer_uom_id = fields.Many2one('uom.uom', string='Coil by Layer UoM', readonly=True, default=_default_units_uom_id)
+    coil_by_layer_uom_name = fields.Char(string='Coil by Layer UoM Label', related='coil_by_layer_uom_id.name')
+
+    layer_number = fields.Integer(string='Number of Layers')
+    layer_number_uom_id = fields.Many2one('uom.uom', string='Number of Layers UoM', readonly=True, default=_default_units_uom_id)
+    layer_number_uom_name = fields.Char(string='Number of Layers UoM Label', related='layer_number_uom_id.name')
     ##############
     # O2m fields #
     ##############
+    # -> packaging requirement
+    packed_bom_ids = fields.One2many('mrp.bom', 'packaging_bom_id', string='Packed BoMs', readonly=True, domain=[('type', '=', 'normal')])  # only packaging instructions have packed BoMs
     # -> recipe requirements
     extruder_ids = fields.One2many('mrp.bom.extruder', 'bom_id', string='Extruders')
     production_bom_ids = fields.One2many('mrp.bom', 'recipe_bom_id', string='Production BoMs', readonly=True, domain=[('type', '=', 'normal')])  # only recipes have production BoMs
@@ -77,6 +107,8 @@ class MrpBom(models.Model):
     ##############
     # M2o fields #
     ##############
+    # -> packaging requirement
+    packaging_bom_id = fields.Many2one('mrp.bom', string='Packaging Instructions', related='product_tmpl_id.packing_norm_id.packaging_bom_id', store=True, readonly=False, domain=[('type', '=', 'packaging')])
     # -> recipe requirements
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code')
@@ -268,9 +300,15 @@ class MrpBom(models.Model):
                 bom.border_waste_qty_in_kg = 0.0
 
     @api.depends('type')
-    def _compute_is_recipe(self):
+    def _compute_bom_type(self):
         for bom in self:
             bom.is_recipe = True if bom.type == 'recipe' else False
+            bom.is_packaging = True if bom.type == 'packaging' else False
+
+    @api.depends('coil_by_layer', 'layer_number')
+    def _compute_coil_by_pallet(self):
+        for product in self:
+            product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
     @api.depends('bom_line_ids.density', 'bom_line_ids.concentration', 'bom_line_ids.product_id.density')
     def _compute_density(self):
@@ -280,16 +318,21 @@ class MrpBom(models.Model):
             recipe_bom_lines = bom.bom_line_ids.filtered(lambda line: line.density and line.concentration)
             bom.density = float_round(sum([line.density*line.concentration for line in recipe_bom_lines]), precision_digits=precision)
 
-    @api.depends('production_bom_ids')
-    def _compute_production_bom_count(self):
-        """ Count production BoMs """
+    @api.depends('production_bom_ids', 'packed_bom_ids')
+    def _compute_production_packed_bom_count(self):
+        """ Count production/packed BoMs """
         for bom in self:
-            bom.production_bom_count = len(bom.production_bom_ids)
+            if bom.is_recipe:
+                bom.production_packed_bom_count = len(bom.production_bom_ids)
+            elif bom.is_packaging:
+                bom.production_packed_bom_count = len(bom.packed_bom_ids)
+            else:
+                bom.production_packed_bom_count = 0
 
     @api.onchange('type')
     def _onchange_bom_type(self):
-        """ Clean product and quantity if BoM type is recipe """
-        if self.type == 'recipe':
+        """ Clean product and quantity if BoM type is recipe/packaging """
+        if self.type in ['recipe', 'packaging']:
             self.product_tmpl_id = False
             self.product_id = False
             self.product_qty = 1.0
@@ -310,17 +353,22 @@ class MrpBom(models.Model):
     def name_get(self):
         """
         Overwritten method
-        Use standard formatting if bom is not a recipe,
-        else display name should use recipe number instead of product template display name
+        Use standard formatting if bom is not a recipe or packaging instructions,
+        else display name should use recipe/packaging number instead of product template display name
         """
-        return [(bom.id, '%s%s' % (bom.code and '%s: ' % bom.code or '', bom.product_tmpl_id.display_name if not bom.is_recipe else bom.recipe_number)) for bom in self]
+        return [(bom.id, '%s%s' % (bom.code and '%s: ' % bom.code or '',
+                                   bom.product_tmpl_id.display_name if bom.type not in ['recipe', 'packaging']
+                                   else bom.recipe_number if bom.is_recipe else bom.packaging_number)) for bom in self]
 
-    def action_view_production_boms(self):
-        """ Action used on button box to open production boms related to current recipe bom """
+    def action_view_production_packed_boms(self):
+        """ Action used on button box to open production boms related to current recipe/packaging instructions bom"""
         self.ensure_one()
         action = self.env.ref('mrp.mrp_bom_form_action')
         result = action.read()[0]
-        result['domain'] = [('id', 'in', self.production_bom_ids.ids)]
+        if self.is_recipe:
+            result['domain'] = [('id', 'in', self.production_bom_ids.ids)]
+        elif self.is_packaging:
+            result['domain'] = [('id', 'in', self.packed_bom_ids.ids)]
         return result
 
     def action_import_recipe_bom(self):
@@ -339,6 +387,11 @@ class MrpBom(models.Model):
             'res_id': wiz.id,
             'context': self.env.context,
         }
+
+    def action_import_packaging_bom(self):
+        """ Open a wizard in order to import packaging instructions """
+        self.ensure_one()
+        # TODO: add logic
 
     def action_add_component(self):
         """ Open a wizard in order to add film, glue and coating components """

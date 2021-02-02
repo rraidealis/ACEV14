@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError, UserError
 from odoo.tools import float_round, float_compare
 
 CATEGORY_SELECTION = [
+    ('is_packaging', 'Packaging'),
     ('is_coating', 'Coating'),
     ('is_glue', 'Glue'),
     ('is_mandrel', 'Mandrel'),
@@ -112,15 +113,18 @@ class MrpBomLine(models.Model):
             if not line.bom_id and not line.alt_bom_id:
                 raise ValidationError(_('BoM Line should be related to a BoM.'))
 
-    @api.depends('allowed_category_type')
+    @api.depends('allowed_category_type', 'bom_id.is_packaging')
     def _compute_allowed_product_category_ids(self):
         for line in self:
             category_type = line.allowed_category_type
-            categories = self.env['product.category'].search([('is_film', '=', False), ('is_glue', '=', False), ('is_coating', '=', False)])
             if category_type and category_type not in ['laminated', 'glued', 'extruded']:
-                categories = categories.search([(category_type, '=', True)])
-            elif category_type:
-                categories = categories.search([('film_type', '=', category_type)])
+                categories = self.env['product.category'].search([(category_type, '=', True)])
+            elif category_type in ['laminated', 'glued', 'extruded']:
+                categories = self.env['product.category'].search([('film_type', '=', category_type)])
+            elif line.bom_id and line.bom_id.is_packaging:
+                categories = self.env['product.category'].search([('is_packaging', '=', True)])
+            else:
+                categories = self.env['product.category'].search([('is_film', '=', False), ('is_glue', '=', False), ('is_coating', '=', False)])
             line.update({'allowed_product_category_ids': [(6, 0, categories.ids)]})
 
     @api.depends('bom_id.type', 'alt_bom_id.type')

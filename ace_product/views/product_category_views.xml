@@ -15,6 +15,7 @@
                 <field name="is_coating"/>
                 <field name="is_glue"/>
                 <field name="is_waste"/>
+                <field name="is_packaging"/>
             </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>
