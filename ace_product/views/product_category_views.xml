@@ -45,6 +45,8 @@
                             <field name="show_packing_norm"/>
                             <field name="show_pallet_type"/>
                             <field name="show_is_package_stored"/>
+                            <field name="show_stretch_program"/>
+                            <field name="show_coil_by_layer"/>
                             <field name="show_coil_position"/>
                             <field name="show_coil_by_pallet"/>
                             <field name="show_coil_by_layer"/>

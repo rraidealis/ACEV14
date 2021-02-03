@@ -157,25 +157,15 @@
             </xpath>
             <xpath expr="//page[@name='inventory']" position="after">
                 <page string="Packaging" name="packaging_information"
-                      attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False),
-                      ('show_packing_norm', '=', False), ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False),
-                      ('show_mandrel_width', '=', False), ('show_coil_by_layer', '=', False), ('show_layer_number', '=', False),
-                      ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
+                      attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
                     <group>
 
                         <field name="show_mandrel" invisible="1"/>
                         <field name="show_mandrel_weight" invisible="1"/>
                         <field name="show_mandrel_diameter" invisible="1"/>
                         <field name="show_mandrel_width" invisible="1"/>
-                        <field name="show_packing_norm" invisible="1"/>
-                        <field name="show_coil_by_pallet" invisible="1"/>
-                        <field name="show_coil_position" invisible="1"/>
-                        <field name="show_coil_by_layer" invisible="1"/>
-                        <field name="show_layer_number" invisible="1"/>
-                        <field name="show_is_package_stored" invisible="1"/>
-                        <field name="show_pallet_type" invisible="1"/>
 
-                        <group string="Mandrel Information" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
+                        <group name="mandrel_info" string="Mandrel Information" attrs="{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False), ('show_mandrel_width', '=', False)]}">
                             <field name="mandrel_id" attrs="{'invisible': [('show_mandrel', '=', False)]}"/>
                             <label for="mandrel_diameter" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}"/>
                             <div class="o_row" attrs="{'invisible': [('show_mandrel_diameter', '=', False)]}">
@@ -192,30 +182,6 @@
                                 <field name="mandrel_weight"/>
                                 <field name="mandrel_weight_uom_name"/>
                             </div>
-                        </group>
-
-                        <group string="Packaging Information" attrs="{'invisible': [('show_packing_norm', '=', False),
-                        ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False), ('show_coil_by_layer', '=', False),
-                        ('show_layer_number', '=', False), ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
-                            <field name="packing_norm_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
-                            <field name="pallet_type_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_pallet_type', '=', False)]}"/>
-                            <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
-                            <label for="coil_by_layer" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}"/>
-                            <div class="o_row" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}">
-                                <field name="coil_by_layer"/>
-                                <field name="coil_by_layer_uom_name"/>
-                            </div>
-                            <label for="layer_number" attrs="{'invisible': [('show_layer_number', '=', False)]}"/>
-                            <div class="o_row" attrs="{'invisible': [('show_layer_number', '=', False)]}">
-                                <field name="layer_number"/>
-                                <field name="layer_number_uom_name"/>
-                            </div>
-                            <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
-                            <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
-                                <field name="coil_by_pallet"/>
-                                <field name="coil_by_pallet_uom_name"/>
-                            </div>
-                            <field name="is_package_stored" attrs="{'invisible': [('show_is_package_stored', '=', False)]}"/>
                         </group>
 
                     </group>
@@ -344,27 +310,6 @@
         </field>
     </record>
 
-    <record id="product_packing_norm_view_tree" model="ir.ui.view">
-        <field name="name">product.packing.norm.view.tree</field>
-        <field name="model">product.packing.norm</field>
-        <field name="arch" type="xml">
-            <tree string="Packing Norm" editable="bottom">
-                <field name="name" string="Name"/>
-                <field name="packaging_bom_id" string="Packaging BoM"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="product_pallet_type_view_tree" model="ir.ui.view">
-        <field name="name">product.pallet.type.view.tree</field>
-        <field name="model">product.pallet.type</field>
-        <field name="arch" type="xml">
-            <tree string="Pallet Type" editable="bottom">
-                <field name="name" string="Name"/>
-            </tree>
-        </field>
-    </record>
-
     <record id="product_technical_description_view_tree" model="ir.ui.view">
         <field name="name">product.technical.description.view.tree</field>
         <field name="model">product.technical.description</field>
@@ -471,20 +416,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.formula.code</field>
         <field name="view_id" ref="product_formula_code_view_tree"/>
-    </record>
-
-    <record id="product_packing_norm_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Packing Norm</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.packing.norm</field>
-        <field name="view_id" ref="product_packing_norm_view_tree"/>
-    </record>
-
-    <record id="product_pallet_type_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Pallet Type</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.pallet.type</field>
-        <field name="view_id" ref="product_pallet_type_view_tree"/>
     </record>
 
     <record id="product_technical_description_action_view_tree" model="ir.actions.act_window">

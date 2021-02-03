@@ -43,34 +43,40 @@ class AddWasteManagement(models.TransientModel):
                 raise UserError(_('It is not possible to input waste on by-product {} (maybe this product does not handle kilograms).').format(self.byproduct_id.name))
         # recompute components quantity
         for film in self.bom_id.bom_line_ids.filtered(lambda line: line.is_film_component):
-            film.product_qty += self.recompute_film_qty(film)
+            film.product_qty = self.recompute_film_qty(film)
         for component in self.bom_id.bom_line_ids.filtered(lambda line: line.is_glue_component or line.is_coating_component):
-            component.product_qty += self.recompute_component_qty(component)
+            component.product_qty = self.recompute_component_qty(component)
 
     def recompute_film_qty(self, film):
-        # 1. Retrieving waste quantity to produce in meters
+        # 1a. Retrieving quantity to produce in meters
         # retrieve uom related to meters
         meters_uom = self.env.ref('uom.product_uom_meter')
         custom_uom_related_to_meters = self.env['uom.uom'].search([('category_id', '=', self.bom_id.product_uom_id.category_id.id), ('related_uom_id', '=', meters_uom.id)], limit=1)
+        # convert quantity to produce in this uom
+        if custom_uom_related_to_meters:
+            qty_to_produce_in_meters = self.bom_id.product_uom_id._compute_quantity(self.bom_id.product_qty, custom_uom_related_to_meters)
+        else:
+            qty_to_produce_in_meters = 0.0
+
+        # 1b. Retrieving waste quantity to produce in meters
         # retrieve uom related to kilograms
         kg_uom = self.env.ref('uom.product_uom_kgm')
         custom_uom_related_to_kgs = self.env['uom.uom'].search([('category_id', '=', self.bom_id.product_uom_id.category_id.id), ('related_uom_id', '=', kg_uom.id)], limit=1)
         # convert quantity to produce from kilograms to meters
-        waste_qty_in_meters = 0.0
         if custom_uom_related_to_kgs:
-            waste_qty_in_meters = custom_uom_related_to_kgs._compute_quantity(self.bom_id.waste_qty_in_kg, custom_uom_related_to_meters)
+            qty_to_produce_in_meters += custom_uom_related_to_kgs._compute_quantity(self.bom_id.waste_qty_in_kg, custom_uom_related_to_meters)
 
         # 2. Applying stretching factor if any
         if film.stretching_factor:
-            stretched_waste_qty_in_meters = waste_qty_in_meters - (waste_qty_in_meters * film.stretching_factor)
+            stretched_qty_to_produce_in_meters = qty_to_produce_in_meters - (qty_to_produce_in_meters * film.stretching_factor)
         else:
-            stretched_waste_qty_in_meters = waste_qty_in_meters
+            stretched_qty_to_produce_in_meters = qty_to_produce_in_meters
 
         # 3. Converting stretched quantity in the same uom as the component one
         # retrieve an UoM linked to a length UoM and in the same category than the component UoM category
         custom_uom_related_to_meters = self.env['uom.uom'].search([('category_id', '=', film.product_id.uom_id.category_id.id), ('related_uom_id', '=', meters_uom.id)], limit=1)
         if custom_uom_related_to_meters:
-            return custom_uom_related_to_meters._compute_quantity(stretched_waste_qty_in_meters, film.product_uom_id)
+            return custom_uom_related_to_meters._compute_quantity(stretched_qty_to_produce_in_meters, film.product_uom_id)
         else:
             return 0.0
 

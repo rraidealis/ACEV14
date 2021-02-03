@@ -95,6 +95,10 @@ class MrpBom(models.Model):
     layer_number = fields.Integer(string='Number of Layers')
     layer_number_uom_id = fields.Many2one('uom.uom', string='Number of Layers UoM', readonly=True, default=_default_units_uom_id)
     layer_number_uom_name = fields.Char(string='Number of Layers UoM Label', related='layer_number_uom_id.name')
+
+    coil_by_package = fields.Integer(string='Coil by Package')
+    coil_by_package_uom_id = fields.Many2one('uom.uom', string='Coil by Package UoM', readonly=True, default=_default_units_uom_id)
+    coil_by_package_uom_name = fields.Char(string='Coil by Package UoM Label', related='coil_by_package_uom_id.name')
     ##############
     # O2m fields #
     ##############
@@ -108,7 +112,8 @@ class MrpBom(models.Model):
     # M2o fields #
     ##############
     # -> packaging requirement
-    packaging_bom_id = fields.Many2one('mrp.bom', string='Packaging Instructions', related='product_tmpl_id.packing_norm_id.packaging_bom_id', store=True, readonly=False, domain=[('type', '=', 'packaging')])
+    packaging_bom_id = fields.Many2one('mrp.bom', string='Packaging Instructions', related='product_tmpl_id.packaging_bom_id', store=True, readonly=False, domain=[('type', '=', 'packaging')])
+    stretch_program_id = fields.Many2one('product.stretch.program', string='Stretch Program')
     # -> recipe requirements
     recipe_bom_id = fields.Many2one('mrp.bom', string='Recipe', readonly=True, domain=[('type', '=', 'recipe')])
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code')
@@ -140,14 +145,17 @@ class MrpBom(models.Model):
 
     waste_uom_id = fields.Many2one('uom.uom', string='Waste UoM', readonly=True, default=_default_kilograms_uom_id)
     waste_uom_name = fields.Char(string='Weight Waste Label', related='waste_uom_id.name')
-    border_waste_qty_in_kg = fields.Float(string='Border Waste Quantity', digits='Product Triple Precision', compute='_compute_waste_qty_in_kg', store=True, tracking=True, help='Quantity of waste based on borders of ACE film components')
+    border_waste_qty_in_kg = fields.Float(string='Border Waste Quantity', digits='Product Triple Precision', compute='_compute_waste_qty_in_kg', store=True, tracking=True, help='Quantity of waste based on borders of ACE film components.\n'
+                                                                                                                'Formula for each film component:\n'
+                                                                                                                'A) quantity to produce in meters - (quantity to produce in meters * film stretching factor)\n'
+                                                                                                                'B) result A * ((component width % 1000) * component border factor)\n'
+                                                                                                                'C) result B * (component grammage % 1000)\n'
+                                                                                                                'Final result = sum of all result C')
     waste_qty_in_kg = fields.Float(string='Waste Quantity', digits='Product Triple Precision', compute='_compute_waste_qty_in_kg', store=True, tracking=True, help='Quantity of waste based on startup parameters, waste factors on BoM and workcenter, and film components borders.\n'
                                                                                                                  'Formula:\n'
                                                                                                                  'A) machine speed in m/minutes * startup time in minutes * (production width in millimeters % 1000) * (film grammage in g/m² % 1000)\n'
                                                                                                                  'B) (result A / (production width in millimeters % 1000)) * (product width in millimeters % 1000) * number of times product is present\n'
-                                                                                                                 'C) result B + quantity to produce in meters * (BoM waste percentage + workcenter waste percentage)\n'
-                                                                                                                 'D) result C + (components quantity in meters - result C) * border factor\n'
-                                                                                                                 'E) convert result D in kilograms')
+                                                                                                                 'C) result B + (quantity to produce in kg / (1 - (BoM + Workcenter waste percentage))) * (BoM + Workcenter waste percentage)')
 
     @api.constrains('extruder_ids')
     def _check_extruders_concentration(self):
@@ -256,6 +264,7 @@ class MrpBom(models.Model):
                  'machine_time_number',
                  'waste_percentage',
                  'total_production_width',
+                 'bom_line_ids',
                  'bom_line_ids.product_qty')
     def _compute_waste_qty_in_kg(self):
         for bom in self:
@@ -266,10 +275,8 @@ class MrpBom(models.Model):
                 qty_to_produce_in_kgs = bom.product_uom_id._compute_quantity(bom.product_qty, custom_uom_related_to_kgs) if custom_uom_related_to_kgs else 0.0
                 waste_qty_in_kgs = 0.0
                 # compute workcenter and bom waste quantity
-                if bom.workcenter_id and bom.workcenter_id.waste_percentage:
-                    waste_qty_in_kgs += qty_to_produce_in_kgs * (bom.workcenter_id.waste_percentage + bom.waste_percentage)
-                else:
-                    waste_qty_in_kgs += qty_to_produce_in_kgs * bom.waste_percentage
+                waste_percentage = (bom.workcenter_id.waste_percentage or 0) + bom.waste_percentage
+                waste_qty_in_kgs += (qty_to_produce_in_kgs / (1 - waste_percentage)) * waste_percentage
                 # compute startup waste quantity
                 if bom.machine_speed and bom.workcenter_id and bom.workcenter_id.startup_time and bom.machine_time_number and bom.total_production_width:
                     # for full production width
@@ -356,9 +363,10 @@ class MrpBom(models.Model):
         Use standard formatting if bom is not a recipe or packaging instructions,
         else display name should use recipe/packaging number instead of product template display name
         """
-        return [(bom.id, '%s%s' % (bom.code and '%s: ' % bom.code or '',
-                                   bom.product_tmpl_id.display_name if bom.type not in ['recipe', 'packaging']
-                                   else bom.recipe_number if bom.is_recipe else bom.packaging_number)) for bom in self]
+        return [(bom.id, '%s%s' % ((bom.code and '%s: ' % bom.code or '') if bom.type not in ['recipe', 'packaging']
+                                   else (bom.recipe_number and '[%s] ' % bom.recipe_number or '') if bom.is_recipe
+                                   else (bom.packaging_number and '[%s] ' % bom.packaging_number or ''),
+                                   bom.product_tmpl_id.display_name if bom.type not in ['recipe', 'packaging'] else bom.code)) for bom in self]
 
     def action_view_production_packed_boms(self):
         """ Action used on button box to open production boms related to current recipe/packaging instructions bom"""
@@ -389,9 +397,24 @@ class MrpBom(models.Model):
         }
 
     def action_import_packaging_bom(self):
-        """ Open a wizard in order to import packaging instructions """
+        """ Import packaging components and compute quantities according to quantity to produce and number of coil by pallet """
         self.ensure_one()
-        # TODO: add logic
+        if self.packaging_bom_id:
+            # unlink packaging components (according to product category)
+            self.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_packaging).unlink()
+            # retrieve quantity to produce in units
+            units_uom = self.env.ref('uom.product_uom_unit')
+            custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', self.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
+            qty_to_produce_in_units = self.product_uom_id._compute_quantity(self.product_qty, custom_uom_related_to_units) if custom_uom_related_to_units else 0.0
+            # compute packaging factor (number of coil to produce / number of coil by pallet)
+            packaging_factor = qty_to_produce_in_units / self.packaging_bom_id.coil_by_pallet if self.packaging_bom_id.coil_by_pallet else 0.0
+            # create packaging components
+            for line in self.packaging_bom_id.bom_line_ids:
+                self.env['mrp.bom.line'].create({
+                    'bom_id': self.id,
+                    'product_id': line.product_id.id,
+                    'product_tmpl_id': line.product_id.product_tmpl_id.id,
+                    'product_qty': line.product_qty * packaging_factor})
 
     def action_add_component(self):
         """ Open a wizard in order to add film, glue and coating components """

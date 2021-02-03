@@ -247,11 +247,17 @@
             <xpath expr="//form/sheet/group/group/label[@for='product_qty']" position="before">
                 <field name="recipe_bom_id" attrs="{'invisible': ['|', ('recipe_bom_id', '=', False), ('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                 <field name="packaging_bom_id" string="Packaging" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}"/>
-                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
+                <field name="workcenter_id" options="{'no_create':True}" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued']), ('is_recipe', '!=', True)], 'readonly': [('recipe_bom_id', '!=', False)]}"/>
             </xpath>
             <xpath expr="//form/sheet/group/group/div/field[@name='product_qty']/.." position="after">
                 <!-- packaging fields -->
+                <field name="stretch_program_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
                 <field name="coil_position" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <label for="coil_by_package" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
+                <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
+                    <field name="coil_by_package"/>
+                    <field name="coil_by_package_uom_name"/>
+                </div>
                 <label for="coil_by_layer" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
                 <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
                     <field name="coil_by_layer"/>

@@ -46,6 +46,8 @@ class ProductCategory(models.Model):
     show_coil_by_pallet = fields.Boolean(string='Show Coil by Pallet', default=True)
     show_coil_by_layer = fields.Boolean(string='Show Coil by Layer', default=True)
     show_layer_number = fields.Boolean(string='Show Number of Layers', default=True)
+    show_coil_by_package = fields.Boolean(string='Show Coil by Package', default=True)
+    show_stretch_program = fields.Boolean(string='Show Stretch Program', default=True)
 
     show_thickness = fields.Boolean(string='Show Thickness', default=True)
     show_total_grammage = fields.Boolean(string='Show Total Grammage', default=True)

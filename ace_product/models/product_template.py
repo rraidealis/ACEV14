@@ -78,8 +78,6 @@ class ProductTemplate(models.Model):
     formula_code_id = fields.Many2one('product.formula.code', string='Formula Code')
     color_code_id = fields.Many2one('product.color.code', string='Color Code')
     commercial_name_id = fields.Many2one('product.commercial.name', string='Commercial Name')
-    packing_norm_id = fields.Many2one('product.packing.norm', string='Packing Norm')
-    pallet_type_id = fields.Many2one('product.pallet.type', string='Pallet Type')
     embossing_pattern_id = fields.Many2one('product.embossing.pattern', string='Embossing Pattern')
     substrate_position_id = fields.Many2one('product.substrate.position', string='Substrate Position')
     mandrel_id = fields.Many2one('product.product', compute='_compute_mandrel_id', store=True, string='Mandrel', help='Provided by BoM lines if there is at least one BoM line with a mandrel product')
@@ -88,23 +86,6 @@ class ProductTemplate(models.Model):
 
     # Boolean fields
     is_sublot_jj = fields.Boolean(string='Sublot JJ')
-    is_package_stored = fields.Boolean(string='Storage by Package')
-
-    # Selection fields
-    coil_position = fields.Selection([('vertical', 'Vertical'), ('horizontal', 'Horizontal')], string='Coil Position', compute='_compute_packing_fields', store=True)
-
-    # Integer fields with units
-    coil_by_pallet = fields.Integer(string='Coil by Pallet', compute='_compute_packing_fields', store=True)
-    coil_by_pallet_uom_id = fields.Many2one('uom.uom', string='Coil by Pallet UoM', compute='_compute_packing_fields', store=True)
-    coil_by_pallet_uom_name = fields.Char(string='Coil by Pallet UoM Label', related='coil_by_pallet_uom_id.name')
-
-    coil_by_layer = fields.Integer(string='Coil by Layer', compute='_compute_packing_fields', store=True)
-    coil_by_layer_uom_id = fields.Many2one('uom.uom', string='Coil by Layer UoM', compute='_compute_packing_fields', store=True)
-    coil_by_layer_uom_name = fields.Char(string='Coil by Layer UoM Label', related='coil_by_layer_uom_id.name')
-
-    layer_number = fields.Integer(string='Number of Layers', compute='_compute_packing_fields', store=True)
-    layer_number_uom_id = fields.Many2one('uom.uom', string='Number of Layers UoM', compute='_compute_packing_fields', store=True)
-    layer_number_uom_name = fields.Char(string='Number of Layers UoM Label', related='layer_number_uom_id.name')
 
     # Float fields with units
     thickness = fields.Float(string='Thickness', digits='Product Double Precision')
@@ -184,19 +165,12 @@ class ProductTemplate(models.Model):
     show_formula_code = fields.Boolean(string='Show Formula Code', related='categ_id.show_formula_code')
     show_color_code = fields.Boolean(string='Show Color Code', related='categ_id.show_color_code')
     show_commercial_name = fields.Boolean(string='Show Commercial Name', related='categ_id.show_commercial_name')
-    show_packing_norm = fields.Boolean(string='Show Packing Norm', related='categ_id.show_packing_norm')
-    show_pallet_type = fields.Boolean(string='Show Pallet Type', related='categ_id.show_pallet_type')
     show_mandrel = fields.Boolean(string='Show Mandrel', related='categ_id.show_mandrel')
     show_is_sublot_jj = fields.Boolean(string='Show Sublot JJ', related='categ_id.show_is_sublot_jj')
-    show_is_package_stored = fields.Boolean(string='Show Storage by Package', related='categ_id.show_is_package_stored')
     show_surface_treatment = fields.Boolean(string='Show Surface Treatment', related='categ_id.show_surface_treatment')
-    show_coil_position = fields.Boolean(string='Show Coil Position', related='categ_id.show_coil_position')
     show_embossing_pattern = fields.Boolean(string='Show Embossing Pattern', related='categ_id.show_embossing_pattern')
     show_substrate_position = fields.Boolean(string='Show Substrate Position', related='categ_id.show_substrate_position')
     show_perforation_grid = fields.Boolean(string='Show Perforation Grid', related='categ_id.show_perforation_grid')
-    show_coil_by_pallet = fields.Boolean(string='Show Coil by Pallet', related='categ_id.show_coil_by_pallet')
-    show_coil_by_layer = fields.Boolean(string='Show Coil by Layer', related='categ_id.show_coil_by_layer')
-    show_layer_number = fields.Boolean(string='Show Number of Layers', related='categ_id.show_layer_number')
     show_thickness = fields.Boolean(string='Show Thickness', related='categ_id.show_thickness')
     show_total_grammage = fields.Boolean(string='Show Total Grammage', related='categ_id.show_total_grammage')
     show_ace_film_grammage = fields.Boolean(string='Show Ace Film Grammage', related='categ_id.show_ace_film_grammage')
@@ -234,18 +208,6 @@ class ProductTemplate(models.Model):
     ####################
     # Computed Methods #
     ####################
-    @api.depends('packing_norm_id.packaging_bom_id')
-    def _compute_packing_fields(self):
-        for product in self:
-            packaging_bom = product.packing_norm_id.packaging_bom_id if product.packing_norm_id and product.packing_norm_id.packaging_bom_id else False
-            product.coil_position = packaging_bom.coil_position if packaging_bom else False
-            product.coil_by_pallet = packaging_bom.coil_by_pallet if packaging_bom else 0
-            product.coil_by_pallet_uom_id = packaging_bom.coil_by_pallet_uom_id if packaging_bom else False
-            product.coil_by_layer = packaging_bom.coil_by_layer if packaging_bom else 0
-            product.coil_by_layer_uom_id = packaging_bom.coil_by_layer_uom_id if packaging_bom else False
-            product.layer_number = packaging_bom.layer_number if packaging_bom else 0
-            product.layer_number_uom_id = packaging_bom.layer_number_uom_id if packaging_bom else False
-
     @api.depends('thickness',
                  'density',
                  'manual_extruded_film_grammage',
@@ -361,11 +323,6 @@ class ProductTemplate(models.Model):
             width_in_meters = product.width_uom_id._compute_quantity(product.width, meters_uom)
             length_in_meters = product.length_uom_id._compute_quantity(product.ace_length, meters_uom)
             product.surface = width_in_meters * length_in_meters
-
-    @api.depends('coil_by_layer', 'layer_number')
-    def _compute_coil_by_pallet(self):
-        for product in self:
-            product.coil_by_pallet = product.coil_by_layer * product.layer_number
 
     @api.depends('surface', 'manual_total_grammage', 'total_grammage', 'is_total_grammage_user_defined', 'mandrel_id', 'mandrel_weight')
     def _compute_coil_weight(self):

@@ -14,8 +14,8 @@
         <record id="bom_recipe_number_seq" model="ir.sequence">
             <field name="name">BoM Recipe Sequence</field>
             <field name="code">mrp.bom.recipe</field>
-            <field name="prefix">RCP</field>
-            <field name="padding">5</field>
+<!--            <field name="prefix">RCP</field>-->
+            <field name="padding">4</field>
             <field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
             <field eval="False" name="company_id"/>
@@ -24,8 +24,8 @@
         <record id="bom_packaging_number_seq" model="ir.sequence">
             <field name="name">BoM Packaging Sequence</field>
             <field name="code">mrp.bom.packaging</field>
-            <field name="prefix">PAC</field>
-            <field name="padding">5</field>
+<!--            <field name="prefix">PAC</field>-->
+            <field name="padding">4</field>
             <field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
             <field eval="False" name="company_id"/>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form views -->
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit.description.fields</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='packaging_information']" position="attributes">
+                <attribute name="attrs">{'invisible': [('show_mandrel', '=', False), ('show_mandrel_weight', '=', False), ('show_mandrel_diameter', '=', False),
+                  ('show_packing_norm', '=', False), ('show_stretch_program', '=', False), ('show_coil_by_pallet', '=', False), ('show_coil_position', '=', False),
+                  ('show_mandrel_width', '=', False), ('show_coil_by_package', '=', False), ('show_coil_by_layer', '=', False), ('show_layer_number', '=', False),
+                    ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='packaging_information']/group" position="inside">
+                <field name="show_packing_norm" invisible="1"/>
+                <field name="show_stretch_program" invisible="1"/>
+                <field name="show_coil_by_pallet" invisible="1"/>
+                <field name="show_coil_position" invisible="1"/>
+                <field name="show_coil_by_layer" invisible="1"/>
+                <field name="show_coil_by_package" invisible="1"/>
+                <field name="show_layer_number" invisible="1"/>
+                <field name="show_is_package_stored" invisible="1"/>
+                <field name="show_pallet_type" invisible="1"/>
+
+                <group string="Packaging Information" attrs="{'invisible': [('show_packing_norm', '=', False),
+                ('show_coil_by_pallet', '=', False), ('show_stretch_program', '=', False), ('show_coil_by_package', '=', False), ('show_coil_position', '=', False), ('show_coil_by_layer', '=', False),
+                ('show_layer_number', '=', False), ('show_is_package_stored', '=', False), ('show_pallet_type', '=', False)]}">
+                    <field name="packaging_bom_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_packing_norm', '=', False)]}"/>
+                    <field name="pallet_type_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_pallet_type', '=', False)]}"/>
+                    <field name="coil_position" attrs="{'invisible': [('show_coil_position', '=', False)]}"/>
+                    <field name="stretch_program_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('show_stretch_program', '=', False)]}"/>
+                    <label for="coil_by_package" attrs="{'invisible': [('show_coil_by_package', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_coil_by_package', '=', False)]}">
+                        <field name="coil_by_package"/>
+                        <field name="coil_by_package_uom_name"/>
+                    </div>
+                    <label for="coil_by_layer" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_coil_by_layer', '=', False)]}">
+                        <field name="coil_by_layer"/>
+                        <field name="coil_by_layer_uom_name"/>
+                    </div>
+                    <label for="layer_number" attrs="{'invisible': [('show_layer_number', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_layer_number', '=', False)]}">
+                        <field name="layer_number"/>
+                        <field name="layer_number_uom_name"/>
+                    </div>
+                    <label for="coil_by_pallet" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('show_coil_by_pallet', '=', False)]}">
+                        <field name="coil_by_pallet"/>
+                        <field name="coil_by_pallet_uom_name"/>
+                    </div>
+                    <field name="is_package_stored" attrs="{'invisible': [('show_is_package_stored', '=', False)]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree views -->
+
+    <record id="product_stretch_program_view_tree" model="ir.ui.view">
+        <field name="name">product.stretch.program.view.tree</field>
+        <field name="model">product.stretch.program</field>
+        <field name="arch" type="xml">
+            <tree string="Stretch Program" editable="bottom">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_pallet_type_view_tree" model="ir.ui.view">
+        <field name="name">product.pallet.type.view.tree</field>
+        <field name="model">product.pallet.type</field>
+        <field name="arch" type="xml">
+            <tree string="Pallet Type" editable="bottom">
+                <field name="name" string="Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions -->
+
+    <record id="product_stretch_program_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Stretch Program</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.stretch.program</field>
+        <field name="view_id" ref="product_stretch_program_view_tree"/>
+    </record>
+
+    <record id="product_pallet_type_action_view_tree" model="ir.actions.act_window">
+        <field name="name">Pallet Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.pallet.type</field>
+        <field name="view_id" ref="product_pallet_type_view_tree"/>
+    </record>
+
+</odoo>

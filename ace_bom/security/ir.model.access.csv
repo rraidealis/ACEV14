@@ -4,3 +4,5 @@ all_access_mrp_bom_import_recipe,All access Mrp Bom Import Recipe,model_mrp_bom_
 all_access_mrp_bom_add_film,All access Mrp Bom Add Film,model_mrp_bom_add_film,base.group_user,1,1,1,1
 all_access_mrp_bom_add_treatment,All access Mrp Bom Add Treatment,model_mrp_bom_add_treatment,base.group_user,1,1,1,1
 all_access_mrp_bom_add_waste_management,All access Mrp Bom Add Waste Management,model_mrp_bom_add_waste_management,base.group_user,1,1,1,1
+all_access_product_stretch_program,All access Product Stretch Program,model_product_stretch_program,base.group_user,1,1,1,1
+all_access_product_pallet_type,All access Product Pallet Type,model_product_pallet_type,base.group_user,1,1,1,1
