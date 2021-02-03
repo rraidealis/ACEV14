@@ -239,6 +239,7 @@
                 <field name="is_recipe" invisible="1"/>
                 <field name="is_packaging" invisible="1"/>
                 <field name="film_type_bom" invisible="1"/>
+                <field name="waste_management_enabled" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='code']" position="before">
                 <field name="recipe_number" string="Number" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
@@ -297,15 +298,15 @@
                     <field name="raw_mat_weight"/>
                     <field name="raw_mat_weight_uom_name"/>
                 </div>
+                <field name="starting_waste_qty_in_kg" invisible="1"/>
+                <field name="bom_waste_qty_in_kg" invisible="1"/>
+                <field name="workcenter_waste_qty_in_kg" invisible="1"/>
+                <field name="border_waste_qty_in_kg" invisible="1"/>
                 <label for="waste_qty_in_kg" string="Waste Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}"/>
                 <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated', 'glued'])]}">
                     <field name="waste_qty_in_kg"/>
                     <field name="waste_uom_name"/>
-                </div>
-                <label for="border_waste_qty_in_kg" string="Border Waste Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}"/>
-                <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['laminated', 'glued'])]}">
-                    <field name="border_waste_qty_in_kg"/>
-                    <field name="waste_uom_name"/>
+                    <widget name="waste_details_widget"/>
                 </div>
             </xpath>
         </field>
@@ -318,5 +319,11 @@
         <field name="view_id" ref="ace_bom.mrp_bom_line_view_form"/>
         <field name="target">new</field>
     </record>
+
+    <template id="mrp_bom_waste_details" name="mrp.bom.waste.details" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/ace_bom/static/src/js/waste_details_widget.js"/>
+        </xpath>
+    </template>
 
 </odoo>

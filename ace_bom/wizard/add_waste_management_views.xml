@@ -19,10 +19,6 @@
                     <div>
                         <field name="waste_qty_in_kg" class="oe_inline"/> kg
                     </div>
-                    <label for="border_waste_qty_in_kg"/>
-                    <div>
-                        <field name="border_waste_qty_in_kg" class="oe_inline"/> kg
-                    </div>
                 </group>
                 <footer>
                     <button string="Add" name="button_add_byproduct" type="object" class="btn-primary"/>

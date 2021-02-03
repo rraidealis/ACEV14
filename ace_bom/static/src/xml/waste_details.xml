@@ -1,0 +1,36 @@
+<templates>
+    <div t-name="ace_bom.waste_info">
+        <div t-att-class="!widget.data.waste_management_enabled ? 'invisible' : ''">
+            <a tabindex="0" t-attf-class="fa fa-info-circle text-primary"/>
+        </div>
+    </div>
+
+    <div t-name="ace_bom.waste_details">
+        <table class="table table-borderless table-sm">
+            <tbody>
+                <tr>
+                    <td><strong>Starting Waste</strong></td>
+                    <td><t t-esc='data.starting_waste_qty_in_kg'/> <span>kg</span></td>
+                </tr>
+                <tr>
+                    <td><strong>BoM Waste</strong></td>
+                    <td><t t-esc='data.bom_waste_qty_in_kg'/> <span>kg</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Workcenter Waste</strong></td>
+                    <td><t t-esc='data.workcenter_waste_qty_in_kg'/> <span>kg</span></td>
+                </tr>
+                <t t-if="['laminated', 'glued'].includes(data.film_type_bom)">
+                    <tr>
+                        <td><strong>Border Waste</strong></td>
+                        <td><t t-esc='data.border_waste_qty_in_kg'/> <span>kg</span></td>
+                    </tr>
+                </t>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><t t-esc='data.waste_qty_in_kg'/> <span>kg</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</templates>

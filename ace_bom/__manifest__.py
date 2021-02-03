@@ -20,6 +20,7 @@
         'wizard/add_film_views.xml',
         'wizard/add_treatment_views.xml',
     ],
+    'qweb': ['static/src/xml/waste_details.xml'],
     'auto_install': False,
     'installable': True,
     'application': False,

@@ -20,7 +20,6 @@ class AddWasteManagement(models.TransientModel):
     allowed_waste_category_ids = fields.Many2many('product.category', 'wiz_allowed_waste_categories_rel', 'wiz_id', 'category_id', string='Waste Categories', default=_default_allowed_waste_category_ids)
     allowed_waste_uom_ids = fields.Many2many('uom.uom', 'wiz_allowed_waste_uoms_rel', 'wiz_id', 'category_id', string='Waste UoMs', default=_default_allowed_waste_uom_ids)
     waste_qty_in_kg = fields.Float(string='Waste Quantity', related='bom_id.waste_qty_in_kg')
-    border_waste_qty_in_kg = fields.Float(string='Border Waste Quantity', related='bom_id.border_waste_qty_in_kg')
 
     def button_add_byproduct(self):
         self.ensure_one()
