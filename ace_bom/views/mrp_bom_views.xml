@@ -17,10 +17,11 @@
         <field name="model">mrp.bom</field>
         <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
         <field name="arch" type="xml">
-            <xpath expr="//filter[@name='inactive']" position="before">
-                <filter string="Recipes" name="bom_recipe" domain="[('is_recipe', '=', True)]"/>
+            <xpath expr="//filter[@name='phantom']" position="after">
+                <filter string="Recipe" name="bom_recipe" domain="[('is_recipe', '=', True)]"/>
                 <filter string="Packaging Instructions" name="bom_pack_instruction" domain="[('is_packaging', '=', True)]"/>
-                <separator/>
+            </xpath>
+            <xpath expr="//filter[@name='inactive']" position="before">
                 <filter string="Warnings" name="activities_exception" domain="[('activity_exception_decoration', '!=', False)]"/>
                 <separator/>
             </xpath>
@@ -211,9 +212,11 @@
                 <attribute name="decoration-warning">layer_total_concentration and layer_total_concentration &lt; 1.00</attribute>
                 <attribute name="decoration-danger">layer_total_concentration and layer_total_concentration &gt; 1.00</attribute>
                 <attribute name="decoration-info">recipe_bom_line_id</attribute>
+                <attribute name="decoration-success">packaging_bom_line_id</attribute>
             </xpath>
             <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
                 <field name="recipe_bom_line_id" invisible="1"/>
+                <field name="packaging_bom_line_id" invisible="1"/>
                 <field name="allowed_uom_ids" invisible="1"/>
                 <field name="allowed_category_type" invisible="1"/>
                 <field name="allowed_product_category_ids" invisible="1"/>
@@ -264,12 +267,12 @@
                 </div>
                 <label for="coil_by_layer" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
                 <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
-                    <field name="coil_by_layer"/>
+                    <field name="coil_by_layer" attrs="{'required': [('is_packaging', '=', True)]}"/>
                     <field name="coil_by_layer_uom_name"/>
                 </div>
                 <label for="layer_number" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
                 <div class="o_row" attrs="{'invisible': [('is_packaging', '!=', True)]}">
-                    <field name="layer_number"/>
+                    <field name="layer_number" attrs="{'required': [('is_packaging', '=', True)]}"/>
                     <field name="layer_number_uom_name"/>
                 </div>
                 <label for="coil_by_pallet" attrs="{'invisible': [('is_packaging', '!=', True)]}"/>
@@ -278,23 +281,23 @@
                     <field name="coil_by_pallet_uom_name"/>
                 </div>
                 <!-- recipe fields -->
-                <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
-                <field name="color_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
-                <label for="min_thickness" string="Thickness" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">
-                    <span>from </span><field name="min_thickness"/>
-                    <span>to </span><field name="max_thickness"/><field name="thickness_uom_name"/>
-                </div>
-                <label for="min_width" string="Width" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">
-                    <span>from </span><field name="min_width"/>
-                    <span>to </span><field name="max_width"/><field name="width_uom_name"/>
-                </div>
-                <label for="density" string="Density" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>
-                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">
-                    <field name="density"/>
-                    <field name="density_uom_name"/>
-                </div>
+<!--                <field name="formula_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>-->
+<!--                <field name="color_code_id" options="{'no_create':True}" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>-->
+<!--                <label for="min_thickness" string="Thickness" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>-->
+<!--                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">-->
+<!--                    <span>from </span><field name="min_thickness"/>-->
+<!--                    <span>to </span><field name="max_thickness"/><field name="thickness_uom_name"/>-->
+<!--                </div>-->
+<!--                <label for="min_width" string="Width" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>-->
+<!--                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">-->
+<!--                    <span>from </span><field name="min_width"/>-->
+<!--                    <span>to </span><field name="max_width"/><field name="width_uom_name"/>-->
+<!--                </div>-->
+<!--                <label for="density" string="Density" attrs="{'invisible': [('is_recipe', '!=', True)]}"/>-->
+<!--                <div class="o_row" attrs="{'invisible': [('is_recipe', '!=', True)]}">-->
+<!--                    <field name="density"/>-->
+<!--                    <field name="density_uom_name"/>-->
+<!--                </div>-->
 
                 <label for="raw_mat_weight" string="Raw Mat Weight" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated'])]}"/>
                 <div class="o_row" attrs="{'invisible': [('film_type_bom', 'not in', ['extruded', 'laminated'])]}">

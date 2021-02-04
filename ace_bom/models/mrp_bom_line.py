@@ -64,6 +64,8 @@ class MrpBomLine(models.Model):
     ##############
     # M2o fields #
     ##############
+    # -> packaging requirements
+    packaging_bom_line_id = fields.Many2one('mrp.bom.line', string='BoM Packaging Line', readonly=True, ondelete='cascade')
     # -> recipe requirements
     extruder_id = fields.Many2one('mrp.bom.extruder', string='Extruder', ondelete='cascade')
     recipe_bom_line_id = fields.Many2one('mrp.bom.line', string='BoM Recipe Line', readonly=True, ondelete='cascade') # if a production bom line is no longer linked to a recipe line, then it should be deleted

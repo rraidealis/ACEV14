@@ -78,7 +78,7 @@ class ProductCategory(models.Model):
     def action_show_fields(self):
         self.ensure_one()
         show_all = self.env.context.get('show_category_fields')
-        self.write({'show_family_code': show_all, 'show_technical_description': show_all, 'show_formula_code': show_all,
+        self.write({'show_stretch_program': show_all, 'show_family_code': show_all, 'show_technical_description': show_all, 'show_formula_code': show_all,
                     'show_color_code': show_all, 'show_commercial_name': show_all, 'show_packing_norm': show_all,
                     'show_pallet_type': show_all, 'show_mandrel': show_all, 'show_is_sublot_jj': show_all, 'show_is_package_stored': show_all,
                     'show_surface_treatment': show_all, 'show_coil_position': show_all, 'show_embossing_pattern': show_all,

@@ -70,9 +70,9 @@ class MrpBom(models.Model):
     # Chars #
     #########
     # -> recipe requirement
-    recipe_number = fields.Char(string='Recipe Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom.recipe'))
+    recipe_number = fields.Char(string='Recipe Number', readonly=True)
     # -> packaging requirement
-    packaging_number = fields.Char(string='Packaging Number', readonly=True, default=lambda self: self.env['ir.sequence'].next_by_code('mrp.bom.packaging'))
+    packaging_number = fields.Char(string='Packaging Number', readonly=True)
     #############
     # Selection #
     #############
@@ -170,7 +170,7 @@ class MrpBom(models.Model):
             if bom.is_recipe and bom.extruder_ids:
                 total = float_round(sum(bom.extruder_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 1.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of BoM\'s extruders is {}% (should be 100%).').format(total * 100))
+                    raise ValidationError(_('Total concentration of BoM\'s extruders is {}% (should be 100%).').format('%.2f' % (total * 100)))
 
     @api.constrains('bom_line_ids')
     def _check_bom_lines_film_limit(self):
@@ -189,18 +189,18 @@ class MrpBom(models.Model):
             if bom.type == 'normal' and bom.recipe_bom_id:
                 total = float_round(sum(bom.bom_line_ids.mapped('related_concentration')), precision_digits=precision)
                 if float_compare(total, 1.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total * 100))
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format('%.2f' % (total * 100)))
             # check recipe BoM lines concentration
             elif bom.is_recipe and bom.bom_line_ids:
                 total = float_round(sum(bom.bom_line_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 1.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format(total * 100))
+                    raise ValidationError(_('Total concentration of recipe components is {}% (should be 100%).').format('%.2f' % (total * 100)))
                 # since it is possible to set a concentration above 100% on a line in order to have a total of 100%,
                 # we should check if all layers have a total concentration of 100%
                 for line in bom.bom_line_ids:
                     if float_compare(line.layer_total_concentration, 1.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
-                                              .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
+                                              .format(line.extruder_id.display_name, '%.2f' % (line.layer_total_concentration * 100)))
 
     @api.constrains('alt_bom_line_ids')
     def _check_alt_bom_lines_concentration(self):
@@ -210,11 +210,11 @@ class MrpBom(models.Model):
             if bom.is_recipe and bom.alt_bom_line_ids:
                 total = float_round(sum(bom.alt_bom_line_ids.mapped('concentration')), precision_digits=precision)
                 if float_compare(total, 1.0, precision_digits=precision) != 0:
-                    raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format(total * 100))
+                    raise ValidationError(_('Total concentration of alternative BoM lines is {}% (should be 100%).').format('%.2f' % (total * 100)))
                 for line in bom.alt_bom_line_ids:
                     if float_compare(line.layer_total_concentration, 1.0, precision_digits=precision) != 0:
                         raise ValidationError(_('All layers should have a total concentration of 100% (total concentration of layer {} is {}%).')
-                                              .format(line.extruder_id.display_name, line.layer_total_concentration * 100))
+                                              .format(line.extruder_id.display_name, '%.2f' % (line.layer_total_concentration * 100)))
 
     @api.depends('product_tmpl_id',
                  'product_tmpl_id.extruded_film_grammage',
@@ -413,8 +413,8 @@ class MrpBom(models.Model):
         """ Import packaging components and compute quantities according to quantity to produce and number of coil by pallet """
         self.ensure_one()
         if self.packaging_bom_id:
-            # unlink packaging components (according to product category)
-            self.bom_line_ids.filtered(lambda l: l.product_id.categ_id.is_packaging).unlink()
+            # unlink packaging components linked to a packaging instructions line
+            self.bom_line_ids.filtered(lambda l: l.packaging_bom_line_id).unlink()
             # retrieve quantity to produce in units
             units_uom = self.env.ref('uom.product_uom_unit')
             custom_uom_related_to_units = self.env['uom.uom'].search([('category_id', '=', self.product_uom_id.category_id.id), ('related_uom_id', '=', units_uom.id)], limit=1)
@@ -427,6 +427,7 @@ class MrpBom(models.Model):
                     'bom_id': self.id,
                     'product_id': line.product_id.id,
                     'product_tmpl_id': line.product_id.product_tmpl_id.id,
+                    'packaging_bom_line_id': line.id,
                     'product_qty': line.product_qty * packaging_factor})
 
     def action_add_component(self):
@@ -490,3 +491,11 @@ class MrpBom(models.Model):
             raise UserError(msg.format(' ,'.join(recipes.mapped('display_name'))))
         else:
             return super(MrpBom, self).unlink()
+
+    @api.model
+    def create(self, values):
+        if values.get('type') == 'recipe':
+            values['recipe_number'] = self.env['ir.sequence'].next_by_code('mrp.bom.recipe')
+        if values.get('type') == 'packaging':
+            values['packaging_number'] = self.env['ir.sequence'].next_by_code('mrp.bom.packaging')
+        return super(MrpBom, self).create(values)
