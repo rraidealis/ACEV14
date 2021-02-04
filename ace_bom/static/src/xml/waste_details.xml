@@ -9,7 +9,7 @@
         <table class="table table-borderless table-sm">
             <tbody>
                 <tr>
-                    <td><strong>Starting Waste</strong></td>
+                    <td><strong>Startup Waste</strong></td>
                     <td><t t-esc='data.starting_waste_qty_in_kg'/> <span>kg</span></td>
                 </tr>
                 <tr>

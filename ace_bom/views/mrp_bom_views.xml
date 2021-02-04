@@ -18,6 +18,9 @@
         <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='inactive']" position="before">
+                <filter string="Recipes" name="bom_recipe" domain="[('is_recipe', '=', True)]"/>
+                <filter string="Packaging Instructions" name="bom_pack_instruction" domain="[('is_packaging', '=', True)]"/>
+                <separator/>
                 <filter string="Warnings" name="activities_exception" domain="[('activity_exception_decoration', '!=', False)]"/>
                 <separator/>
             </xpath>

@@ -64,7 +64,7 @@ var WasteDetailsWidget = Widget.extend({
         const options = {
             content: $content,
             html: true,
-            placement: 'left',
+            placement: 'right',
             title: _t('Waste Details'),
             trigger: 'focus',
             delay: {'show': 0, 'hide': 100 },

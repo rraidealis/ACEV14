@@ -59,9 +59,9 @@ class MrpBom(models.Model):
     # Utility fields #
     ##################
     # -> packaging instructions requirement
-    is_packaging = fields.Boolean(string='Is Packaging Instructions', compute='_compute_bom_type', help='Field used to display packaging instructions fields')
+    is_packaging = fields.Boolean(string='Is Packaging Instructions', compute='_compute_bom_type', help='Field used to display packaging instructions fields', store=True)
     # -> recipe requirement
-    is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_bom_type', help='Field used to display recipe fields')
+    is_recipe = fields.Boolean(string='Is Recipe', compute='_compute_bom_type', help='Field used to display recipe fields', store=True)
     # -> general requirement
     film_type_bom = fields.Selection(string='Film Type', related='product_tmpl_id.categ_id.film_type', help='Field used to display information relative to film type')
     # -> waste management requirement
@@ -281,8 +281,8 @@ class MrpBom(models.Model):
                 waste_qty_in_kgs = 0.0
                 # compute workcenter and bom waste quantity
                 workcenter_percentage = bom.workcenter_id.waste_percentage or 0
-                bom.workcenter_waste_qty_in_kg = ((qty_to_produce_in_kgs / (1 - workcenter_percentage)) or qty_to_produce_in_kgs) * workcenter_percentage
-                bom.bom_waste_qty_in_kg = ((qty_to_produce_in_kgs / (1 - bom.waste_percentage)) or qty_to_produce_in_kgs) * bom.waste_percentage
+                bom.workcenter_waste_qty_in_kg = ((qty_to_produce_in_kgs / (1 - workcenter_percentage)) or 0.0) * workcenter_percentage
+                bom.bom_waste_qty_in_kg = ((qty_to_produce_in_kgs / (1 - bom.waste_percentage)) or 0.0) * bom.waste_percentage
                 waste_qty_in_kgs += bom.bom_waste_qty_in_kg + bom.workcenter_waste_qty_in_kg
                 # compute startup waste quantity
                 startup_waste_qty_in_kgs = 0.0
