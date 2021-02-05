@@ -15,6 +15,7 @@ class SubstratePosition(models.Model):
     def name_get(self):
         res = []
         for substrate_pos in self:
+            # TODO : passer par name?
             name = substrate_pos.position
             res.append((substrate_pos.id, name))
         return res
