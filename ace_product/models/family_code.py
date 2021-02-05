@@ -15,6 +15,7 @@ class FamilyCode(models.Model):
     def name_get(self):
         res = []
         for family_code in self:
+            # TODO : pourquoi passer par la variable intermédiaire name? res.append((family_code.id, family_code.code)) suffirait
             name = family_code.code
             res.append((family_code.id, name))
         return res
