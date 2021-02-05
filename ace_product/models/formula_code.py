@@ -15,6 +15,7 @@ class FormulaCode(models.Model):
     def name_get(self):
         res = []
         for formula_code in self:
+            # TODO : même remarque que sur family_code. Pourquoi passer par la var intermédiaire "name"?
             name = formula_code.code
             res.append((formula_code.id, name))
         return res
