@@ -15,6 +15,7 @@ class TechnicalDesc(models.Model):
     def name_get(self):
         res = []
         for tech_description in self:
+            # Pourquoi passer par var intermédiaire name?
             name = tech_description.desc
             res.append((tech_description.id, name))
         return res
